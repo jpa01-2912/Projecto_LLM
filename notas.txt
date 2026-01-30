@@ -1,0 +1,9 @@
+https://fontawesome.com/search?q=user
+
+navbar
+ - lupa:
+<i class="fa-solid fa-magnifying-glass"></i>
+ - corazon:
+ <i class="fa-regular fa-heart"></i>
+ - user
+ <i class="fa-solid fa-user"></i>
