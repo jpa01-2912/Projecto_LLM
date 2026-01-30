@@ -7,3 +7,4 @@ navbar
  <i class="fa-regular fa-heart"></i>
  - user
  <i class="fa-solid fa-user"></i>
+ - estrella
