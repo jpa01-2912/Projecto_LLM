@@ -1,0 +1,26 @@
+[
+  {
+    "url": "/projecto_llm/fotos/Tomodachi.jpg",
+    "alt": "Tomodachi Life Direct"
+  },
+  {
+    "url": "./fotos/TomodachiLife.jpg",
+    "alt": "Siguiente juego"
+  },
+  {
+    "url": "./fotos/mariogalaxy.jpg",
+    "alt": "Tercer juego"
+  },
+  {
+    "url": "./fotos/animalcrossing.jpg",
+    "alt": "Cuarto juego"
+  },
+  {
+    "url": "./fotos/FinalFantasyVII.jpg",
+    "alt": "Final Fantasy VII"
+  },
+  {
+    "url": "./fotos/MarioTennis.jpg",
+    "alt": "Mario Tennis Aces"
+  }
+]

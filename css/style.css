@@ -27,27 +27,43 @@ body {
 }
 
 .logo {
-  border: 2px solid white;
-  border-radius: 25px;
-  padding: 6px 14px;
-  font-weight: bold;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.logo img {
+  height: 23px;
+  width: auto;
+  object-fit: contain;
 }
 
 .top-actions {
   display: flex;
-  gap: 30px;
+  gap: 18px;
   align-items: center;
 }
 
 .action {
-  text-align: center;
-  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   cursor: pointer;
 }
 
-.action .icon {
-  font-size: 22px;
+.action a {
+  font-size: 10px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.action a:hover {
+  text-decoration: underline;
+}
+
+.action i {
+  font-size: 28px;
   display: block;
+  margin-bottom: 8px;
 }
 
 /* ====== SIDEBAR ====== */
@@ -55,7 +71,7 @@ body {
   position: fixed;
   top: 70px;
   left: 0;
-  width: 110px;
+  width: 88px;
   height: calc(100% - 70px);
   background: #e60012;
   color: white;
@@ -63,11 +79,35 @@ body {
   flex-direction: column;
 }
 
+.sidebar i {
+  font-size: 25px;
+  display: block;
+  margin: 0 auto;
+}
+
+#N_S {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+#M_N_S {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
 .side-item {
-  padding: 18px 10px;
+  height: 80px; /* ALTURA FIJA */
+  padding: 0; /* quitamos padding variable */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .side-item:hover {
@@ -75,59 +115,140 @@ body {
 }
 
 .side-item span {
-  display: block;
   font-size: 13px;
   margin-top: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ====== MAIN CONTENT ====== */
 .main {
   margin-top: 70px;
-  margin-left: 110px;
-  padding: 20px;
+  margin-left: 88px;
+  display: flex;
+  display: block;
+  padding: 0;
+  width: calc(100% - 88px);
 }
 
-/* Carrusel */
+/* ====== carrusel ====== */
 .carousel {
-  background: black;
-  height: 380px;
-  border-radius: 10px;
   position: relative;
+  width: 100%;
+  height: 580px;
+  min-height: 580px;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
+  margin-bottom: 0px;
+}
+
+#carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 5;
+  transform: transform 0.5s ease;
 }
 
 .slide {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  height: 90%;
+  gap: 20px;
+}
+
+.img-main {
+  object-fit: cover;
+  z-index: 5;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.img-side {
+  object-fit: cover;
+  opacity: 0.5; 
+  filter: blur(5px); 
+  flex-shrink: 0;
+}
+
+.carousel::before,
+.carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 16%;
   height: 100%;
-  /*foto*/
+  z-index: 8;
+  pointer-events: none; 
+  backdrop-filter: blur(8px) brightness(0.5); 
+}
+
+.carousel::before {
+  left: 0;
+}
+.carousel::after {
+  right: 0;
 }
 
 .arrow {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 40px;
+  top: 0;
+  height: 100%;
+  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
-  background: rgba(0,0,0,0.4);
-  padding: 5px 12px;
+  font-size: 3rem;
   cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s;
 }
 
-.arrow.left  { left: 10px; }
-.arrow.right { right: 10px; }
+.left {
+  left: 0;
+}
+.right {
+  right: 0;
+}
 
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.bar {
+  width: 30px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.bar.active {
+  background: white;
+}
 /* ====== Novedades ====== */
 .section {
-  margin-top: 25px;
+  width: 100%;
+  padding: 40px 20px;
   background: white;
-  border-radius: 10px;
-  padding: 20px;
+  display: block;
+  position: relative;
 }
 
 .section h2 {
-  border-left: 5px solid #e60012;
-  padding-left: 10px;
-  margin-bottom: 15px;
+  font-size: 24px;
+  border-left: 4px solid #e60012;
+  padding-left: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .tabs {
