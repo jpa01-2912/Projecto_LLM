@@ -86,28 +86,26 @@ body {
 }
 
 #N_S {
-  width: 20px;
-  height: 20px;
+  width: 289px;
+  height: 29px;
   object-fit: contain;
 }
 
 #M_N_S {
-  width: 45px;
-  height: 45px;
+  width: 42.3px;
+  height: 42.3px;
   object-fit: contain;
 }
 
 .side-item {
-  height: 80px; /* ALTURA FIJA */
-  padding: 0; /* quitamos padding variable */
+  height: 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  transition: background 0.2s ease;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 .side-item:hover {
@@ -115,10 +113,16 @@ body {
 }
 
 .side-item span {
-  font-size: 13px;
+  font-size: 12.5px;
   margin-top: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.sidebar .side-item:last-child {
+  height: 55px;          /* más pequeño que los demás */
+  font-size: 26px;       /* tamaño de los puntos */
+  border-bottom: none;   /* opcional */
 }
 
 /* ====== MAIN CONTENT ====== */
