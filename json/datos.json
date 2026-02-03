@@ -1,7 +1,10 @@
 [
   {
     "url": "/projecto_llm/fotos/Tomodachi.jpg",
-    "alt": "Tomodachi Life Direct"
+    "alt": "Videojuego Tomodachi Life",
+    "titulo": "¡Más de 20 minutos de detalles!",
+    "boton_texto": "¡Síguelo aquí!",
+    "link": "https://www.youtube.com/watch?v=example1"
   },
   {
     "url": "./fotos/TomodachiLife.jpg",
@@ -9,18 +12,30 @@
   },
   {
     "url": "./fotos/mariogalaxy.jpg",
-    "alt": "Tercer juego"
+    "alt": "Tercer juego",
+    "titulo": "¡Enterate de las novedades!",
+    "boton_texto": "Mira la presentación",
+    "link": "https://www.youtube.com/watch?v=example3"
   },
   {
     "url": "./fotos/animalcrossing.jpg",
-    "alt": "Cuarto juego"
+    "alt": "Cuarto juego",
+    "titulo": "Disfruta como nunca la vida insular",
+    "boton_texto": "¡Ya disponible!",
+    "link": "https://www.youtube.com/watch?v=example4"
   },
   {
     "url": "./fotos/FinalFantasyVII.jpg",
-    "alt": "Final Fantasy VII"
+    "alt": "Final Fantasy VII",
+    "titulo": "Ya disponible",
+    "boton_texto": "Prueba gratuita",
+    "link": "https://www.youtube.com/watch?v=example2"
   },
   {
     "url": "./fotos/MarioTennis.jpg",
-    "alt": "Mario Tennis Aces"
+    "alt": "Mario Tennis Aces",
+    "titulo": "Disponible 12-02",
+    "boton_texto": "Nuevo tráiler",
+    "link": "https://www.youtube.com/watch?v=example5"
   }
 ]
