@@ -1,21 +1,28 @@
 [
   {
-    "url": "./fotos/Tomodachi.jpg",
-    "alt": "Videojuego Tomodachi Life",
-    "titulo": "¡Más de 20 minutos de detalles!",
-    "boton_texto": "¡Síguelo aquí!",
-    "link": "https://www.youtube.com/watch?v=example1"
+    "url": "./fotos/MarioTennis.jpg",
+    "alt": "Mario Tennis Aces",
+    "titulo": "Disponible 12-02",
+    "boton_texto": "Nuevo tráiler",
+    "link": "https://www.youtube.com/watch?v=example5"
   },
   {
-    "url": "./fotos/TomodachiLife.jpg",
-    "alt": "Siguiente juego"
+    "url": "./fotos/NDirect.jpg",
+    "alt": "Nintendo Direct",
+    "titulo": "¡Ya lo podéis ver!",
+    "boton_texto": "Seguidlo aquí",
+    "link": "https://www.youtube.com/watch?v=example5"
   },
   {
-    "url": "./fotos/mariogalaxy.jpg",
-    "alt": "Tercer juego",
-    "titulo": "¡Enterate de las novedades!",
-    "boton_texto": "Mira la presentación",
-    "link": "https://www.youtube.com/watch?v=example3"
+    "url": "./fotos/TomodachiLive.jpg",
+    "alt": "Tomodachi Life"
+  },
+  {
+    "url": "./fotos/Pokopia.jpg",
+    "alt": "Pokopia",
+    "titulo": "¡Se lanza el 05-03!",
+    "boton_texto": "Reservas disponibles",
+    "link": "https://www.youtube.com/watch?v=example5"
   },
   {
     "url": "./fotos/animalcrossing.jpg",
@@ -23,19 +30,5 @@
     "titulo": "Disfruta como nunca la vida insular",
     "boton_texto": "¡Ya disponible!",
     "link": "https://www.youtube.com/watch?v=example4"
-  },
-  {
-    "url": "./fotos/FinalFantasyVII.jpg",
-    "alt": "Final Fantasy VII",
-    "titulo": "Ya disponible",
-    "boton_texto": "Prueba gratuita",
-    "link": "https://www.youtube.com/watch?v=example2"
-  },
-  {
-    "url": "./fotos/MarioTennis.jpg",
-    "alt": "Mario Tennis Aces",
-    "titulo": "Disponible 12-02",
-    "boton_texto": "Nuevo tráiler",
-    "link": "https://www.youtube.com/watch?v=example5"
   }
 ]
