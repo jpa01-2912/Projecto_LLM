@@ -28,99 +28,138 @@
       </div>
     </div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="side-item">
-        <i class="fa-solid fa-star"></i><span>Juegos</span>
+    <!-- CONTENEDOR FLEX PARA SIDEBAR + MAIN -->
+    <div class="contenedor-flex">
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="side-item">
+          <i class="fa-solid fa-star"></i><span>Juegos</span>
+        </div>
+        <div class="side-item">
+          <i class="fa-solid fa-gamepad"></i><span>Hardware</span>
+        </div>
+        <div class="side-item">
+          <img
+            src="./fotos/Nintendo_switch.png"
+            alt="Switch Online"
+            id="N_S"
+          /><span>Nintendo Switch Online</span>
+        </div>
+        <div class="side-item">
+          <i class="fa-solid fa-shopping-cart"></i><span>Nintendo eShop</span>
+        </div>
+        <div class="side-item">
+          <img
+            src="./fotos/nintendo_store.png"
+            alt="My Nintendo Store"
+            id="M_N_S"
+          /><span>My Nintendo Store</span>
+        </div>
+        <div class="side-item">
+          <i class="fa-solid fa-headset" id="ayuda"></i><span>Ayuda</span>
+        </div>
+        <div class="side-item">
+          <i class="fa-regular fa-newspaper"></i><span>Ayuda</span>
+        </div>
+        <div class="side-item">
+          <i class="fa-solid fa-users"></i><span>Síguenos</span>
+        </div>
+        <div class="side-item">⋯</div>
       </div>
-      <div class="side-item">
-        <i class="fa-solid fa-gamepad"></i><span>Hardware</span>
-      </div>
-      <div class="side-item">
-        <img src="./fotos/Nintendo_switch.png" alt="Switch Online" id="N_S" /><span
-          >Nintendo Switch Online</span
-        >
-      </div>
-      <div class="side-item">
-        <i class="fa-solid fa-shopping-cart"></i><span>Nintendo eShop</span>
-      </div>
-      <div class="side-item">
-        <img src="./fotos/nintendo_store.png" alt="My Nintendo Store" id="M_N_S"/><span>My Nintendo Store</span>
-      </div>
-      <div class="side-item">
-        <i class="fa-solid fa-headset" id="ayuda"></i><span>Ayuda</span>
-      </div>
-      <div class="side-item">
-        <i class="fa-regular fa-newspaper"></i><span>Ayuda</span>
-      </div>
-      <div class="side-item">
-        <i class="fa-solid fa-users"></i><span>Síguenos</span>
-      </div>
-      <div class="side-item">⋯</div>
-      
-    </div>
-    <!-- MAIN -->
-    <div class="main">
-      <!-- Carrusel -->
-      <div class="carousel">
-        <div class="slide">
-          <div class="carousel-container">
-          <img src="" alt="" id="carousel-img" />
-          <div class="carousel-caption">
-            <h2 id="carousel-text"></h2>
-            <a href="#" class="caption-button">¡Siguelo aquí!</a>
+      <!-- MAIN -->
+      <div class="main">
+        <!-- Carrusel -->
+        <div class="carousel">
+          <div class="slide">
+            <div class="carousel-container">
+              <img src="" alt="" id="carousel-img" />
+              <div class="carousel-caption">
+                <h2 id="carousel-text"></h2>
+                <a href="#" class="caption-button">¡Siguelo aquí!</a>
+              </div>
+            </div>
           </div>
+          <div class="arrow left">‹</div>
+          <div class="arrow right">›</div>
+          <div class="indicators" id="indicators-container"></div>
+        </div>
+
+        <!-- Novedades -->
+        <div class="section">
+          <h2>Novedades</h2>
+          <div class="tabs">
+            <div class="tab active">Destacadas</div>
+            <div class="tab">Noticias</div>
           </div>
-        </div>
 
-        <div class="arrow left">‹</div>
-        <div class="arrow right">›</div>
+          <!--Noticia principal-->
+          <article class="noticia-principal">
+            <div class="noticia-imagen">
+              <img src="./fotos/yakuza.jpg" alt="Yakuza Kiwami 3" />
+            </div>
+            <div class="noticia-contenido">
+              <span class="noticia-etiqueta">Creador's voice</span>
+              <h3>Yakuza Kiwami 3 & Dark Ties - Creator's Voice</h3>
+              <p>
+                Descubre todo tipo de detalles sobre juegos desarrollados por
+                nuestros colaboradores para Nintendo Switch 2, de mano de sus
+                creadores.
+              </p>
+              <span class="noticia-fuente">Nintendo</span>
+            </div>
+          </article>
 
-        <div class="indicators" id="indicators-container">
-        </div>
-      
-      </div>
+          <!--Mini noticias grid-->
+          <div class="mini-noticias-grid">
+            <article class="mini-noticia">
+              <div class="mini-noticia-img">
+                <img src="./fotos/splatoon3.jpg" alt="Splatoon 3" />
+              </div>
+              <div class="mini-noticia-info">
+                <span class="noticia-etiqueta">Noticias</span>
+                <h4>
+                  ¿Qué incluye la actualización a la versión 11.0.0 de Splatoon
+                  3?
+                </h4>
+              </div>
+            </article>
 
-      <!-- Novedades -->
-      <div class="section">
-        <h2>Novedades</h2>
-        <div class="tabs">
-          <div class="tab active">Destacadas</div>
-          <div class="tab">Noticias</div>
+            <article class="mini-noticia">
+              <div class="mini-noticia-img">
+                <img src="./fotos/kirbi.jpg" alt="Kirby Air Riders" />
+              </div>
+              <div class="mini-noticia-info">
+                <span class="noticia-etiqueta">Noticias</span>
+                <h4>
+                  ¡Nuevas funciones multijugador han llegado a Kirby Air Riders!
+                </h4>
+              </div>
+            </article>
+
+            <article class="mini-noticia">
+              <div class="mini-noticia-img">
+                <img src="./fotos/stardew.jpg" alt="Stardew Valley" />
+              </div>
+              <div class="mini-noticia-info">
+                <span class="noticia-etiqueta">Juegos</span>
+                <h4>¡Prueba Stardew Valley con los juego de muestra!</h4>
+              </div>
+            </article>
+
+            <article class="mini-noticia">
+              <div class="mini-noticia-img">
+                <img src="./fotos/mario-wonder.jpg" alt="Mario Wonder" />
+              </div>
+              <div class="mini-noticia-info">
+                <span class="noticia-etiqueta">Juegos</span>
+                <h4>¡Llegan nuevas formas de divertirse en el Reino Flor!</h4>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </div>
-    <!--cuadros noticias-->
-    <section>
-      <article class="yakuza">
-        <img src="./fotos/yakuza.jpg" alt="">
-        <h6>Noticias</h6>
-        <h3>Yakuza Kiwami 3 & Dark Ties - Creator's Voice</h3>
-        <p>Descubre todo tipo de detalles sobre juegos desarrollados por nuestros colaboradores para Nintendo Switch 2, de mano de sus creadores.</p>
-      </article>
-    </section>
-    <section class="mini_noticias">
-      <article class="splatoon">
-        <img src="" alt="splatoon 3">
-        <h6>Noticias</h6>
-        <h3>¿Qué incluye la actualización a la versión 11.0.0 de Splatoon 3</h3>
-      </article>
-      <article>
-        <img src="" alt="kirbi">
-        <h6>Noticias</h6>
-        <h3>¡Nuevas funciones multijugador han llegado a Kirby Air Riders!</h3>
-      </article>
-      <article>
-        <img src="" alt="stardew valley">
-        <h6>Noticias</h6>
-        <h3>¡Prueba Stardew Valley con los juegos de muestra!</h3>
-      </article>
-      <article>
-        <img src="" alt="mario wonder">
-        <h6>Noticias</h6>
-        <h3>¡Llegan nuevas formas de divertirse en el Reino Flor!</h3>
-      </article>
-    </section>
+
     <script src="./js/app.js"></script>
   </body>
 </html>

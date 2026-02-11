@@ -30,18 +30,28 @@ function actualizarCarrusel() {
 
     const indiceAnterior = (indiceActual - 1 + imagenes.length) % imagenes.length;
     const indiceSiguiente = (indiceActual + 1) % imagenes.length;
-    const itemActual = imagenes[indiceActual]; // Referencia al objeto actual del JSON
+    const itemActual = imagenes[indiceActual];
 
-    // Añadimos el contenedor 'caption' solo a la imagen principal
+    // Normalizar rutas de imágenes
+    let urlAnterior = imagenes[indiceAnterior].url;
+    let urlActual = itemActual.url;
+    let urlSiguiente = imagenes[indiceSiguiente].url;
+    
+    // Asegurar rutas correctas
+    if (urlAnterior.includes('/projecto_llm/')) {
+        urlAnterior = urlAnterior.replace('/projecto_llm/', './');
+    }
+
     let botonHTML = '';
     if (itemActual.boton_texto && itemActual.link) {
         botonHTML = `<a href="${itemActual.link}" class="caption-button">${itemActual.boton_texto}</a>`;
     }
+    
     slideContainer.innerHTML = `
-        <img src="${imagenes[indiceAnterior].url}" class="img-side" alt="anterior">
+        <img src="${urlAnterior}" class="img-side" alt="anterior">
         
         <div class="main-wrapper"> 
-            <img src="${itemActual.url}" id="carousel-img" class="img-main" alt="${itemActual.alt}">
+            <img src="${urlActual}" id="carousel-img" class="img-main" alt="${itemActual.alt}">
             
             <div class="carousel-caption">
                 <h2 class="caption-text">${itemActual.titulo || ''}</h2>
@@ -49,7 +59,7 @@ function actualizarCarrusel() {
             </div>
         </div>
 
-        <img src="${imagenes[indiceSiguiente].url}" class="img-side" alt="siguiente">
+        <img src="${urlSiguiente}" class="img-side" alt="siguiente">
     `;
 
     bars.forEach((bar, i) => {
