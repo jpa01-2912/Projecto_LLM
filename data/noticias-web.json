@@ -1,0 +1,53 @@
+{
+  "principal": {
+    "etiqueta": "Creador's voice",
+    "titulo": "Yakuza Kiwami 3 & Dark Ties - Creator's Voice",
+    "descripcion": "Descubre todo tipo de detalles sobre juegos desarrollados por nuestros colaboradores para Nintendo Switch 2, de mano de sus creadores.",
+    "imagen": "./fotos/myMario.jpg",
+    "fuente": "Nintendo"
+  },
+  "secundarias": [
+    {
+      "etiqueta": "Noticias",
+      "titulo": "¿Qué incluye la actualización a la versión 11.0.0 de Splatoon 3?",
+      "imagen": "./fotos/splatoon3.jpg"
+    },
+    {
+      "etiqueta": "Noticias",
+      "titulo": "¡Nuevas funciones multijugador han llegado a Kirby Air Riders!",
+      "imagen": "./fotos/kirbi.jpg"
+    },
+    {
+      "etiqueta": "Juegos",
+      "titulo": "¡Prueba Stardew Valley con los juego de muestra!",
+      "imagen": "./fotos/stardew.jpg"
+    },
+    {
+      "etiqueta": "Juegos",
+      "titulo": "¡Llegan nuevas formas de divertirse en el Reino Flor!",
+      "imagen": "./fotos/mario-wonder.jpg"
+    }
+  ],
+  "otrasNoticias": [
+    {
+      "etiqueta": "Eventos",
+      "titulo": "Nintendo Direct: ¡Anunciado para el próximo jueves!",
+      "imagen": "./fotos/nintendo-direct.jpg"
+    },
+    {
+      "etiqueta": "Actualización",
+      "titulo": "Nuevo firmware de Nintendo Switch mejora la estabilidad",
+      "imagen": "./fotos/switch-firmware.jpg"
+    },
+    {
+      "etiqueta": "Ofertas",
+      "titulo": "Descuentos de hasta el 50% en la eShop",
+      "imagen": "./fotos/eshop-sale.jpg"
+    },
+    {
+      "etiqueta": "Lanzamientos",
+      "titulo": "Esta semana en Nintendo Switch: 5 juegos que no te puedes perder",
+      "imagen": "./fotos/new-releases.jpg"
+    }
+  ]
+}
