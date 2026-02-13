@@ -1,45 +1,79 @@
 <!doctype html>
+<!-- Documento HTML5 -->
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <!-- Título de la pestaña -->
     <title>Clon Nintendo</title>
-    <!-- icono de la pagina -->
+
+    <!-- Favicon principal -->
     <link rel="icon" href="./fotos/luigi.png" />    
+
+    <!-- Hoja de estilos principal -->
     <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- Segundo favicon (formato explícito PNG) -->
+    <link rel="icon" type="image/png" href="./fotos/icono.jpg" />
   </head>
+
   <body>
-    <!-- TOP BAR -->
+
+    <!-- ============================= -->
+    <!-- BARRA SUPERIOR (TOPBAR) -->
+    <!-- ============================= -->
     <div class="topbar">
-      <!-- LOGO -->
+
+      <!-- Logo de Nintendo -->
       <div class="logo">
         <img src="./fotos/nintendo-logo.png" alt="Nintendo Switch Logo" />
       </div>
+
+      <!-- Acciones de la parte derecha -->
       <div class="top-actions">
+
+        <!-- Buscador -->
         <div class="action">
           <i class="fa-solid fa-magnifying-glass"></i>
           <a>Buscar</a>
         </div>
+
+        <!-- Lista de deseos -->
         <div class="action">
           <i class="fa-regular fa-heart"></i>
           <a>Lista deseos</a>
         </div>
+
+        <!-- Inicio de sesión -->
         <div class="action">
           <i class="fa-solid fa-user"></i>
           <a>Iniciar sesión</a>
         </div>
+
       </div>
     </div>
 
-    <!-- CONTENEDOR FLEX PARA SIDEBAR + MAIN -->
+    <!-- ============================= -->
+    <!-- CONTENEDOR FLEX PRINCIPAL -->
+    <!-- Sidebar + Main -->
+    <!-- ============================= -->
     <div class="contenedor-flex">
-      <!-- SIDEBAR -->
+      
+      <!-- ============================= -->
+      <!-- BARRA LATERAL (SIDEBAR) -->
+      <!-- ============================= -->
       <div class="sidebar">
+
+        <!-- Sección Juegos -->
         <div class="side-item">
           <i class="fa-solid fa-star"></i><span>Juegos</span>
         </div>
+
+        <!-- Sección Hardware -->
         <div class="side-item">
           <i class="fa-solid fa-gamepad"></i><span>Hardware</span>
         </div>
+
+        <!-- Nintendo Switch Online -->
         <div class="side-item">
           <img
             src="./fotos/Nintendo_switch.png"
@@ -47,9 +81,13 @@
             id="N_S"
           /><span>Nintendo Switch Online</span>
         </div>
+
+        <!-- Nintendo eShop -->
         <div class="side-item">
           <i class="fa-solid fa-shopping-cart"></i><span>Nintendo eShop</span>
         </div>
+
+        <!-- My Nintendo Store -->
         <div class="side-item">
           <img
             src="./fotos/nintendo_store.png"
@@ -57,55 +95,92 @@
             id="M_N_S"
           /><span>My Nintendo Store</span>
         </div>
+
+        <!-- Ayuda (soporte técnico) -->
         <div class="side-item">
           <i class="fa-solid fa-headset" id="ayuda"></i><span>Ayuda</span>
         </div>
+
+        <!-- Noticias (aquí pone Ayuda otra vez, posible duplicado) -->
         <div class="side-item">
           <i class="fa-regular fa-newspaper"></i><span>Ayuda</span>
         </div>
+
+        <!-- Redes sociales -->
         <div class="side-item">
           <i class="fa-solid fa-users"></i><span>Síguenos</span>
         </div>
+
+        <!-- Botón más opciones -->
         <div class="side-item">⋯</div>
+
       </div>
-      <!-- MAIN -->
+
+      <!-- ============================= -->
+      <!-- CONTENIDO PRINCIPAL -->
+      <!-- ============================= -->
       <div class="main">
-        <!-- Carrusel -->
+        
+        <!-- ============================= -->
+        <!-- CARRUSEL PRINCIPAL -->
+        <!-- ============================= -->
         <div class="carousel">
+
+          <!-- Slide activo -->
           <div class="slide">
             <div class="carousel-container">
+
+              <!-- Imagen dinámica del carrusel -->
               <img src="" alt="" id="carousel-img" />
+
+              <!-- Texto y botón superpuestos -->
               <div class="carousel-caption">
                 <h2 id="carousel-text"></h2>
                 <a href="#" class="caption-button">¡Siguelo aquí!</a>
               </div>
+
             </div>
           </div>
+
+          <!-- Flecha izquierda -->
           <div class="arrow left">‹</div>
+
+          <!-- Flecha derecha -->
           <div class="arrow right">›</div>
+
+          <!-- Indicadores dinámicos del carrusel -->
           <div class="indicators" id="indicators-container"></div>
+
         </div>
-        <!-- Novedades -->
+
+        <!-- ============================= -->
+        <!-- SECCIÓN NOVEDADES -->
+        <!-- ============================= -->
         <div class="section">
+
+          <!-- Título de la sección -->
           <h2>Novedades</h2>
+
+          <!-- Pestañas de filtrado -->
           <div class="tabs">
             <div class="tab active">Destacadas</div>
             <div class="tab">Noticias</div>
           </div>
 
-          <!--Noticia principal-->
+          <!-- Noticia principal (se rellena dinámicamente) -->
           <article class="noticia-principal">
-            
-          </article>
+            </article>
 
-          <!--Mini noticias grid-->
+          <!-- Grid de mini noticias (se rellena dinámicamente) -->
           <div class="mini-noticias-grid">
-            
-          </div>
+            </div>
+
         </div>
       </div>
     </div>
 
+    <!-- Script principal JS -->
     <script src="./js/app.js"></script>
+
   </body>
 </html>
