@@ -285,18 +285,9 @@ body {
   bottom: 20px;
   display: flex;
   gap: 10px;
+  z-index: 25;
 }
 
-.bar {
-  width: 30px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-}
-
-.bar.active {
-  background: white;
-}
 /* ====== Noticias y Novedades ====== */
 .section {
   width: 100%;
@@ -480,6 +471,205 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ====== ANIMACIONES DEL CARRUSEL ====== */
+.slide {
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+  position: relative;
+}
+
+.slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+}
+
+.img-main {
+  animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Animación de salida para la imagen anterior (izquierda) */
+.img-side:first-child {
+  animation: slideOutToLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Animación de entrada para la imagen siguiente (derecha) */
+.img-side:last-child {
+  animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
+  will-change: transform, opacity;
+}
+
+/* Animación de entrada para las imágenes */
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    opacity: 0.5;
+    transform: translateX(0) scale(1);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.9);
+    filter: blur(8px);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.95);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 0.5;
+    transform: translateX(0) scale(1);
+    filter: blur(5px);
+  }
+}
+
+/* ====== BARRA DE PROGRESO ANIMADA ====== */
+.progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 20;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #ffffff;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+}
+
+/* Mejora de los indicadores existentes */
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 25;
+}
+
+.bar {
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3); /* BARRA GRIS FIJA */
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.bar {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bar.active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.bar.active.cargando::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #e60012;
+  animation: carga 1.5s linear forwards;
+}
+
+.bar.active.descargando::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #e60012;
+  animation: descarga 1.5s linear forwards;
+}
+/*
+.bar.active::after {
+  animation: progress 3s linear forwards;
+  will-change: width;
+}*/
+
+@keyframes carga {
+  0% {
+    width: 0%;
+    left: 0;
+  }
+  100% {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@keyframes descarga {
+  0% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0%;
+    left: 100%; /* Se encoge hacia la izquierda */
+  }
+}
+
+/* Efecto hover suave */
+.main-wrapper {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.main-wrapper:hover {
+  transform: scale(1.02) translateY(-5px);
+}
+
+.caption-button {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.caption-button:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Hover effects */
+.bar:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scaleY(1.5);
+}
+
+.bar.active:hover::after {
+  animation-play-state: paused;
+}
+
 
 /* Responsive */
 /*

@@ -1,6 +1,12 @@
+
 let indiceActual = 0;
 let imagenes = [];
 let intervaloAutoplay;
+let progresoIntervalo;
+let tiempoRestante = 3000;
+let ultimoTiempo;
+let estadoAnimacion = "cargado";
+let cicloCompleto = false;
 
 const imagenSlide = document.getElementById("carousel-img");
 const indicadoresContainer = document.getElementById("indicators-container");
@@ -15,10 +21,30 @@ fetch("./data/noticias.json")
   .catch((error) => console.error("Error cargando el JSON:", error));
 
 function inicializarCarrusel() {
+  indicadoresContainer.innerHTML = "";
+
   imagenes.forEach((_, i) => {
     const bar = document.createElement("span");
     bar.classList.add("bar");
     if (i === 0) bar.classList.add("active");
+
+    bar.addEventListener("click", () => {
+      detenerAutoplay();
+      indiceActual = i;
+      actualizarCarrusel();
+      //iniciarAutoplay();
+
+      setTimeout(() => {
+        const activeBar = document.querySelector(".bar.active");
+        if (activeBar) {
+          activeBar.classList.remove("cargando", "descargando");
+          void activeBar.offsetWidth;
+          activeBar.classList.add("cargando");
+          activeBar.style.animationPlayState = "running";
+        }
+        iniciarAutoplay();
+      }, 100);
+    });
     indicadoresContainer.appendChild(bar);
   });
 
@@ -28,44 +54,92 @@ function inicializarCarrusel() {
 function actualizarCarrusel() {
   const bars = document.querySelectorAll(".bar");
   const slideContainer = document.querySelector(".slide");
+  //const carousel = document.querySelector(".carousel");
 
   const indiceAnterior = (indiceActual - 1 + imagenes.length) % imagenes.length;
   const indiceSiguiente = (indiceActual + 1) % imagenes.length;
   const itemActual = imagenes[indiceActual];
 
-  // Normalizar rutas de imagenes
-  let urlAnterior = imagenes[indiceAnterior].url;
-  let urlActual = itemActual.url;
-  let urlSiguiente = imagenes[indiceSiguiente].url;
+  //slideContainer.style.opacity = "0.7";
 
-  // Asegurar rutas correctas
-  if (urlAnterior.includes("/projecto_llm/")) {
-    urlAnterior = urlAnterior.replace("/projecto_llm/", "./");
-  }
+  setTimeout(() => {
+    // Normalizar rutas de imagenes
+    let urlAnterior = imagenes[indiceAnterior].url;
+    let urlActual = itemActual.url;
+    let urlSiguiente = imagenes[indiceSiguiente].url;
 
-  let botonHTML = "";
-  if (itemActual.boton_texto && itemActual.link) {
-    botonHTML = `<a href="${itemActual.link}" class="caption-button">${itemActual.boton_texto}</a>`;
-  }
+    // Asegurar rutas correctas
+    if (urlAnterior.includes("/projecto_llm/")) {
+      urlAnterior = urlAnterior.replace("/projecto_llm/", "./");
+    }
 
-  slideContainer.innerHTML = `
-        <img src="${urlAnterior}" class="img-side" alt="anterior">
+    let botonHTML = "";
+    if (itemActual.boton_texto && itemActual.link) {
+      botonHTML = `<a href="${itemActual.link}" class="caption-button">${itemActual.boton_texto}</a>`;
+    }
+
+    // PRIMERO: Quitar todas las animaciones
+    const allImages = slideContainer.querySelectorAll("img");
+    allImages.forEach((img) => {
+      img.style.animation = "none";
+    });
+
+    // SEGUNDO: Actualizar el contenido
+    slideContainer.innerHTML = `
+      <img src="${urlAnterior}" class="img-side" alt="anterior">
+      
+      <div class="main-wrapper"> 
+        <img src="${urlActual}" id="carousel-img" class="img-main" alt="${itemActual.alt}">
         
-        <div class="main-wrapper"> 
-            <img src="${urlActual}" id="carousel-img" class="img-main" alt="${itemActual.alt}">
-            
-            <div class="carousel-caption">
-                <h2 class="caption-text">${itemActual.titulo || ""}</h2>
-                ${botonHTML}
-            </div>
+        <div class="carousel-caption">
+          <h2 class="caption-text">${itemActual.titulo || ""}</h2>
+          ${botonHTML}
         </div>
+      </div>
 
-        <img src="${urlSiguiente}" class="img-side" alt="siguiente">
+      <img src="${urlSiguiente}" class="img-side" alt="siguiente">
     `;
 
-  bars.forEach((bar, i) => {
-    bar.classList.toggle("active", i === indiceActual);
-  });
+    // TERCERO: Forzar reflow para reiniciar animaciones
+    void slideContainer.offsetWidth;
+
+    // CUARTO: Aplicar las animaciones manualmente
+    const imgMain = slideContainer.querySelector(".img-main");
+    const imgSideFirst = slideContainer.querySelector(".img-side:first-child");
+    const imgSideLast = slideContainer.querySelector(".img-side:last-child");
+    const caption = slideContainer.querySelector(".carousel-caption");
+
+    if (imgMain) {
+      imgMain.style.animation =
+        "slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards";
+    }
+    if (imgSideFirst) {
+      imgSideFirst.style.animation =
+        "slideOutToLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards";
+    }
+    if (imgSideLast) {
+      imgSideLast.style.animation =
+        "slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards";
+    }
+    if (caption) {
+      caption.style.animation = "fadeInUp 0.6s ease-out 0.3s both";
+    }
+
+    bars.forEach((bar, i) => {
+      bar.classList.toggle("active", i === indiceActual);
+    });
+
+    const activeBar = document.querySelector(".bar.active");
+    if (activeBar) {
+      activeBar.style.animation = "";
+      activeBar.classList.remove("cargando", "descargando");
+      void activeBar.offsetWidth;
+
+      estadoAnimacion = "cargando";
+      activeBar.classList.add("cargando");
+      activeBar.style.animationPlayState = "running";
+    }
+  }, 50);
 }
 
 // ========== FUNCIONES PARA EL AUTOPLAY ==========
@@ -74,43 +148,116 @@ function iniciarAutoplay() {
   if (intervaloAutoplay) {
     clearInterval(intervaloAutoplay);
   }
+
+  // Iniciar con animación de carga
+  estadoAnimacion = "cargando";
+  aplicarAnimacionBarra("cargando");
+
+  // Ciclo completo: carga (1.5s) + descarga (1.5s) = 3s total
+  intervaloAutoplay = setInterval(() => {
+    if (estadoAnimacion === "cargando") {
+      // Cambiar a descarga
+      estadoAnimacion = "descargando";
+      aplicarAnimacionBarra("descargando");
+    } else {
+      // Cambiar imagen y reiniciar ciclo
+      indiceActual = (indiceActual + 1) % imagenes.length;
+      actualizarCarrusel();
+
+      // Volver a carga después de actualizar
+      setTimeout(() => {
+        estadoAnimacion = "cargando";
+        aplicarAnimacionBarra("cargando");
+      }, 100);
+    }
+  }, 1500);
+}
+
+function aplicarAnimacionBarra(tipo) {
+  const activeBar = document.querySelector(".bar.active");
+  if (!activeBar) return;
+
+  // Quitar cualquier animación directa
+  activeBar.style.animation = "";
+  // Quitar clases anteriores
+  activeBar.classList.remove("cargando", "descargando");
+
+  // Forzar reflow
+  void activeBar.offsetWidth;
+
+  // Añadir nueva clase
+  activeBar.classList.add(tipo);
+  activeBar.style.animationPlayState = "running";
+}
+
+// Asegurar que la barra activa tiene la animación corriendo
+/*const activeBar = document.querySelector(".bar.active");
+  if (activeBar) {
+    activeBar.style.animation = "none";
+    activeBar.offsetHeight;
+    activeBar.style.animation = "progress 3s linear forwards";
+    activeBar.style.animationPlayState = "running";
+  }
+
   // Crear nuevo intervalo cada 3 segundos
   intervaloAutoplay = setInterval(() => {
     indiceActual = (indiceActual + 1) % imagenes.length;
     actualizarCarrusel();
-  }, 5000); // 5000ms = 5 segundos
-}
+  }, 3000); // 3000ms = 3 segundos*/
 
 function detenerAutoplay() {
   if (intervaloAutoplay) {
     clearInterval(intervaloAutoplay);
     intervaloAutoplay = null;
   }
+
+  // Pausar la animación de la barra activa
+  const activeBar = document.querySelector(".bar.active");
+  if (activeBar) {
+    activeBar.style.animationPlayState = "paused";
+  }
 }
-
-
 
 // Eventos de las flechas (igual que antes)
 document.querySelector(".arrow.right").addEventListener("click", () => {
   detenerAutoplay();
   indiceActual = (indiceActual + 1) % imagenes.length;
   actualizarCarrusel();
-  iniciarAutoplay();
+  //iniciarAutoplay();
+
+  setTimeout(() => {
+    estadoAnimacion = "cargando";
+    iniciarAutoplay();
+  }, 100);
 });
 
 document.querySelector(".arrow.left").addEventListener("click", () => {
   detenerAutoplay();
   indiceActual = (indiceActual - 1 + imagenes.length) % imagenes.length;
   actualizarCarrusel();
-  iniciarAutoplay();
+
+  setTimeout(() => {
+    estadoAnimacion = "cargando";
+    iniciarAutoplay();
+  }, 100);
 });
 
 document.querySelector(".carousel")?.addEventListener("mouseenter", () => {
   detenerAutoplay();
+
+  const activeBar = document.querySelector(".bar.active");
+  if (activeBar) {
+    activeBar.style.animationPlayState = "paused";
+  }
 });
 
 document.querySelector(".carousel")?.addEventListener("mouseleave", () => {
   iniciarAutoplay();
+
+  //const activeBar = document.querySelector(".bar.active");
+  //if (activeBar) {
+  //  activeBar.style.animationPlayState = "running";
+  //}
 });
 
 // ========== CARGAR NOTICIAS DESDE JSON ==========
