@@ -598,7 +598,7 @@ body {
   left: 0;
   height: 100%;
   width: 0%;
-  background-color: #e60012;
+  background-color: #ffffff;
   animation: carga 1.5s linear forwards;
 }
 
@@ -609,7 +609,7 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: #e60012;
+  background-color: #ffffff;
   animation: descarga 1.5s linear forwards;
 }
 /*
