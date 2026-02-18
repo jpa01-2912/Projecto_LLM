@@ -1,34 +1,53 @@
-[
-  {
-    "url": "./fotos/MarioTennis.jpg",
-    "alt": "Mario Tennis Aces",
-    "titulo": "Disponible 12-02",
-    "boton_texto": "Nuevo tráiler",
-    "link": "https://www.youtube.com/watch?v=example5"
+{
+  "principal": {
+    "etiqueta": "Noticia",
+    "titulo": "¡Lucha por el primer puesto en el próximo evento europeo en línea de Mario Kart World!",
+    "descripcion": "¡El evento «European February Fast Lane» de Mario Kart World tendrá lugar el 21 de febrero!",
+    "imagen": "./fotos/Novedades/MarioKartWorld_OnlineTournamen.jpg"
   },
-  {
-    "url": "./fotos/nintendo-direct.jpg",
-    "alt": "Nintendo Direct",
-    "titulo": "¡Ya lo podéis ver!",
-    "boton_texto": "Seguidlo aquí",
-    "link": "https://www.youtube.com/watch?v=example5"
-  },
-  {
-    "url": "./fotos/TomodachiLive.jpg",
-    "alt": "Tomodachi Life"
-  },
-  {
-    "url": "./fotos/Pokopia.jpg",
-    "alt": "Pokopia",
-    "titulo": "¡Se lanza el 05-03!",
-    "boton_texto": "Reservas disponibles",
-    "link": "https://www.youtube.com/watch?v=example5"
-  },
-  {
-    "url": "./fotos/animalcrossing.jpg",
-    "alt": "Cuarto juego",
-    "titulo": "Disfruta como nunca la vida insular",
-    "boton_texto": "¡Ya disponible!",
-    "link": "https://www.youtube.com/watch?v=example4"
-  }
-]
+  "secundarias": [
+    {
+      "etiqueta": "Noticias",
+      "titulo": "Virtual Boy – Nintendo Classics – ¡Ya está disponible!",
+      "imagen": "./fotos/Novedades/NCVirtualBoy.jpg"
+    },
+    {
+      "etiqueta": "Noticias",
+      "titulo": "My Mario",
+      "imagen": "./fotos/Novedades/MyMario.jpg"
+    },
+    {
+      "etiqueta": "Juegos",
+      "titulo": "Riquezas de avestruz – 17-02 al 24-02",
+      "imagen": "./fotos/Novedades/DonkeyKongBananza.jpg"
+    },
+    {
+      "etiqueta": "Noticia",
+      "titulo": "Yakuza Kiwami 3 & Dark Ties – Creator’s Voice",
+      "imagen": "./fotos/Novedades/yakuza.jpg"
+    }
+  ],
+  "otrasNoticias": [
+    {
+      "etiqueta": "Eventos",
+      "titulo": "Nintendo Direct: ¡Anunciado para el próximo jueves!",
+      "imagen": "./fotos/Novedades/nintendo-direct.jpg"
+    },
+    {
+      "etiqueta": "Actualización",
+      "titulo": "Nuevo firmware de Nintendo Switch mejora la estabilidad",
+      "imagen": "./fotos/Novedades/switch-firmware.jpg"
+    },
+    {
+      "etiqueta": "Ofertas",
+      "titulo": "Descuentos de hasta el 50% en la eShop",
+      "imagen": "./fotos/Novedades/eshop-sale.jpg"
+    },
+    {
+      "etiqueta": "Lanzamientos",
+      "titulo": "Esta semana en Nintendo Switch: 5 juegos que no te puedes perder",
+      "imagen": "./fotos/Novedades/new-releases.jpg"
+    }
+  ]
+}
+

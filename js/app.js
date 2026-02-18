@@ -1,4 +1,3 @@
-
 let indiceActual = 0;
 let imagenes = [];
 let intervaloAutoplay;
@@ -11,7 +10,7 @@ let cicloCompleto = false;
 const imagenSlide = document.getElementById("carousel-img");
 const indicadoresContainer = document.getElementById("indicators-container");
 
-fetch("./data/noticias.json")
+fetch("./data/carrousel.json")
   .then((response) => response.json())
   .then((data) => {
     imagenes = data;
@@ -267,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function cargarNoticias() {
   // Cargar las noticias desde el JSON
-  fetch("./data/noticias-web.json")
+  fetch("./data/noticias.json")
     .then((response) => {
       if (!response.ok) {
         throw new Error("No se pudo cargar el JSON");
@@ -288,7 +287,6 @@ function cargarNoticias() {
             <span class="noticia-etiqueta">${data.principal.etiqueta}</span>
             <h3>${data.principal.titulo}</h3>
             <p>${data.principal.descripcion}</p>
-            <span class="noticia-fuente">${data.principal.fuente}</span>
           </div>
         `;
       }
@@ -404,3 +402,83 @@ function configurarTabs(data) {
     });
   });
 }
+
+// ========== CARGAR JUEGOS DESDE NUEVO JSON ==========
+// Añade esta función al final de tu app.js
+
+function cargarJuegos() {
+  fetch("./data/juegos.json")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No se pudo cargar el JSON de juegos");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Juegos cargados:", data);
+
+      const juegosContainer = document.getElementById("juegos-container");
+      if (!juegosContainer) {
+        console.error("No se encontró el elemento con id 'juegos-container'");
+        return;
+      }
+      juegosContainer.innerHTML = data
+
+        .map(
+          (juego) => `
+          <div class="juego-card">
+          ${juego.esNuevaConsola ? `
+              <div class="badge-consola">
+                <img src="./fotos/logos/Nintendo_2.png" alt="Nueva Consola">
+              </div>
+              ` : ''}
+            <div class="juego-imagen">
+            
+              <img src="${juego.imagen || "./fotos/placeholder.jpg"}" alt="${juego.juego}">
+            </div>
+            <div class="juego-contenido">
+              <div class="juego-fecha">${juego.plataforma} | ${juego.fecha}</div>
+              <h3 class="juego-titulo">${juego.juego}</h3>
+            </div>
+            <div class="juego-favorito-container">
+                <button class="juego-favorito" onclick="toggleFavorito(this)">
+                  <i class="fa-regular fa-heart"></i>
+                </button>
+              </div>
+          </div>
+        `,
+        )
+        .join("");
+    })
+    .catch((error) => {
+      console.error("Error al cargar juegos:", error);
+      const juegosContainer = document.getElementById("juegos-container");
+      if (juegosContainer) {
+        juegosContainer.innerHTML =
+          '<p style="padding: 20px; color: red;">Error al cargar los juegos</p>';
+      }
+    });
+}
+
+// Función para toggle de favorito
+function toggleFavorito(boton) {
+  const icono = boton.querySelector('i');
+  
+  if (icono.classList.contains('fa-regular')) {
+    icono.classList.remove('fa-regular');
+    icono.classList.add('fa-solid');
+    boton.classList.add('activo');
+  } else {
+    icono.classList.remove('fa-solid');
+    icono.classList.add('fa-regular');
+    boton.classList.remove('activo');
+  }
+}
+// Hacer la función global
+window.toggleFavorito = toggleFavorito;
+
+// Llamar a la función después de cargar las noticias
+document.addEventListener("DOMContentLoaded", function () {
+  cargarNoticias();
+  cargarJuegos(); // Añade esta línea
+});

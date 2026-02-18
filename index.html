@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- Segundo favicon (formato explícito PNG) -->
-    <link rel="icon" type="image/png" href="./fotos/icono.jpg" />
+    <link rel="icon" type="image/png" href="./fotos/logos/icono.jpg" />
   </head>
 
   <body>
@@ -25,7 +25,7 @@
 
       <!-- Logo de Nintendo -->
       <div class="logo">
-        <img src="./fotos/nintendo-logo.png" alt="Nintendo Switch Logo" />
+        <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Switch Logo" />
       </div>
 
       <!-- Acciones de la parte derecha -->
@@ -70,13 +70,17 @@
 
         <!-- Sección Hardware -->
         <div class="side-item">
-          <i class="fa-solid fa-gamepad"></i><span>Hardware</span>
+          <img
+            src="./fotos/logos/iconohardware.png"
+            alt="Hardware"
+            id="hardware"
+          /><span>Hardware</span>
         </div>
 
         <!-- Nintendo Switch Online -->
         <div class="side-item">
           <img
-            src="./fotos/Nintendo_switch.png"
+            src="./fotos/logos/Nintendo_switch.png"
             alt="Switch Online"
             id="N_S"
           /><span>Nintendo Switch Online</span>
@@ -84,13 +88,17 @@
 
         <!-- Nintendo eShop -->
         <div class="side-item">
-          <i class="fa-solid fa-shopping-cart"></i><span>Nintendo eShop</span>
+          <img
+            src="./fotos/logos/iconoBolsa.png"
+            alt="Nintendo eShop"
+            id="eShop"
+          /><span>Nintendo eShop</span>
         </div>
 
         <!-- My Nintendo Store -->
         <div class="side-item">
           <img
-            src="./fotos/nintendo_store.png"
+            src="./fotos/logos/nintendo_store.png"
             alt="My Nintendo Store"
             id="M_N_S"
           /><span>My Nintendo Store</span>
@@ -103,7 +111,11 @@
 
         <!-- Noticias (aquí pone Ayuda otra vez, posible duplicado) -->
         <div class="side-item">
-          <i class="fa-regular fa-newspaper"></i><span>Ayuda</span>
+          <img
+            src="./fotos/logos/iconoayuda.png"
+            alt="Noticias"
+            id="noticias"
+          /><span>Noticias</span>
         </div>
 
         <!-- Redes sociales -->
@@ -176,6 +188,25 @@
             </div>
 
         </div>
+
+        <!-- ============================= -->
+        <!-- SECCIÓN JUEGOS -->
+        <!-- ============================= -->
+        <div class="section juegos-section">
+
+          <h2>Juegos</h2>
+
+          <div class="tabs">
+            <div class="tab active">Destacados</div>
+            <div class="tab">Próximamente</div>
+            <div class="tab">Super Mario Bros. 40th</div>
+            <div class="tab">Lanzamientos recientes</div>
+          </div>
+
+          <!-- Contenedor para los juegos (corregido el ID) -->
+          <div class="juegos-grid" id="juegos-container">
+            <!-- Se llena con JavaScript -->
+          </div>
       </div>
     </div>
 

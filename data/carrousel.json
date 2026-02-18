@@ -1,0 +1,34 @@
+[
+  {
+    "url": "./fotos/Carrousel/MarioTennis.jpg",
+    "alt": "Mario Tennis Aces",
+    "titulo": "Disponible 12-02",
+    "boton_texto": "Nuevo tráiler",
+    "link": "https://www.youtube.com/watch?v=example5"
+  },
+  {
+    "url": "./fotos/Carrousel/nintendo-direct.jpg",
+    "alt": "Nintendo Direct",
+    "titulo": "¡Ya lo podéis ver!",
+    "boton_texto": "Seguidlo aquí",
+    "link": "https://www.youtube.com/watch?v=example5"
+  },
+  {
+    "url": "./fotos/Carrousel/TomodachiLive.jpg",
+    "alt": "Tomodachi Life"
+  },
+  {
+    "url": "./fotos/Carrousel/Pokopia.jpg",
+    "alt": "Pokopia",
+    "titulo": "¡Se lanza el 05-03!",
+    "boton_texto": "Reservas disponibles",
+    "link": "https://www.youtube.com/watch?v=example5"
+  },
+  {
+    "url": "./fotos/Carrousel/animalcrossing.jpg",
+    "alt": "Cuarto juego",
+    "titulo": "Disfruta como nunca la vida insular",
+    "boton_texto": "¡Ya disponible!",
+    "link": "https://www.youtube.com/watch?v=example4"
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "juego": "RESIDENT EVIL Requiem",
+    "plataforma": "Nintendo Switch 2",
+    "fecha": "27/02/2026",
+    "imagen": "./fotos/juegos/ResidentEvilRequiem.jpg",
+    "esNuevaConsola": true
+  },
+  {
+    "juego": "DRAGON QUEST VII Reimagined",
+    "plataforma": "Nintendo Switch 2",
+    "fecha": "03/02/2026",
+    "imagen": "./fotos/juegos/DragonQuest.jpg",
+    "esNuevaConsola": true
+  },
+  {
+
+    "juego": "Monster Hunter Stories 3: Twisted Reflection",
+    "plataforma": "Nintendo Switch 2",
+    "fecha": "13/03/2026",
+    "imagen": "./fotos/juegos/MonsterHunte.jpg",
+    "esNuevaConsola": true
+  },
+  {
+    "juego": "Mario Kart World",
+    "plataforma": "Nintendo Switch 2",
+    "fecha": "05/06/2025",
+    "imagen": "./fotos/juegos/MarioKartWorld.jpg", 
+    "esNuevaConsola": true
+  }
+]
