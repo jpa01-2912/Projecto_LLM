@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function cargarNoticias() {
   // Cargar las noticias desde el JSON
-  fetch("./data/noticias.json")
+  fetch("./data/novedades.json")
     .then((response) => {
       if (!response.ok) {
         throw new Error("No se pudo cargar el JSON");
@@ -309,8 +309,32 @@ function cargarNoticias() {
         `,
           )
           .join("");
+          
+      }
+      // Eliminar botón anterior si ya existe
+      const botonExistente = document.querySelector(".ver-mas-container");
+      if (botonExistente) {
+        botonExistente.remove();
       }
 
+// Crear botón Ver más dinámicamente
+const botonContainer = document.createElement("div");
+botonContainer.classList.add("ver-mas-container");
+
+const boton = document.createElement("a");
+boton.href = "#";
+boton.classList.add("btn-ver-mas");
+boton.innerHTML = `Ver más <span class="arrow">›</span>`;
+
+boton.addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log("Botón Ver más pulsado");
+});
+
+botonContainer.appendChild(boton);
+
+// Insertarlo después del grid
+miniNoticiasGrid.parentNode.appendChild(botonContainer);
       // Configurar tabs
       configurarTabs(data);
     })
@@ -353,7 +377,6 @@ function configurarTabs(data) {
               <span class="noticia-etiqueta">${data.principal.etiqueta}</span>
               <h3>${data.principal.titulo}</h3>
               <p>${data.principal.descripcion}</p>
-              <span class="noticia-fuente">${data.principal.fuente}</span>
             </div>
           `;
         }
@@ -385,13 +408,16 @@ function configurarTabs(data) {
           miniNoticiasGrid.innerHTML = data.otrasNoticias
             .map(
               (noticia) => `
-            <article class="mini-noticia">
+            <article class="mini-noticia noticia-completa">
               <div class="mini-noticia-img">
                 <img src="${noticia.imagen}" alt="${noticia.titulo}">
               </div>
               <div class="mini-noticia-info">
-                <span class="noticia-etiqueta">${noticia.etiqueta}</span>
                 <h4>${noticia.titulo}</h4>
+                <div class="noticia-metadata">
+                  <span class="noticia-consola">${noticia.consola || 'Nintendo Switch'}</span>
+                  <span class="noticia-fecha">${noticia.fecha || ''}</span>
+                </div>
               </div>
             </article>
           `,

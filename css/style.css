@@ -7,7 +7,14 @@
   box-sizing: border-box; /* El padding y bordes no afectan al ancho definido */
   margin: 0;
   /* Fuente Roboto con fallbacks para diferentes sistemas operativos */
-  font-family: 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-family:
+    "Roboto",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
 }
 
 body {
@@ -153,15 +160,15 @@ body {
   flex-direction: column;
   flex-grow: 1;
   background: #f2f2f2;
-  min-height: calc(100vh - 70px); 
+  min-height: calc(100vh - 70px);
 }
 
 /* ====== CARRUSEL ====== */
 .carousel {
   position: relative;
   width: 100%;
-  height: 580px;
-  min-height: 580px;
+  height: 540px;
+  min-height: 540px;
   background-color: #000;
   display: flex;
   justify-content: center;
@@ -173,75 +180,75 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 93%;
+  height: 93%;
   gap: 20px;
 }
 
 .main-wrapper {
-    position: relative;
-    flex: 0 0 65%; /* La imagen central ocupa el 65% del ancho del carrusel */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
+  position: relative;
+  flex: 0 0 61%; /* La imagen central ocupa el 65% del ancho del carrusel */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
 .img-main {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .img-side {
   display: flex;
   flex: 0 0 15%; /* Imágenes laterales al 15% cada una */
-  height: 86%; 
+  height: 81%;
   object-fit: cover;
-  opacity: 0.5; 
+  opacity: 0.5;
   filter: blur(5px); /* Efecto de desenfoque para las imágenes de fondo */
   flex-shrink: 0;
 }
 
 .carousel-caption {
-    position: absolute;
-    bottom: 20px;
-    left: 40px;
-    right: 40px;
-    display: flex;
-    justify-content: flex-end; /* Alinea botón y texto a la derecha */
-    align-items: center;
-    gap: 20px;
-    pointer-events: none; /* Permite clics a través del contenedor hacia la imagen */
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: flex-end; /* Alinea botón y texto a la derecha */
+  align-items: center;
+  gap: 20px;
+  pointer-events: none; /* Permite clics a través del contenedor hacia la imagen */
 }
 
 .caption-text {
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-    margin: 0;
-    pointer-events: auto;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  margin: 0;
+  pointer-events: auto;
 }
 
 .caption-button {
-    background-color: white;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    pointer-events: auto; /* Reactiva la interacción para el botón */
-    transition: transform 0.2s;
-    white-space: nowrap;
-    min-width: 120px;
-    text-align: center;
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  pointer-events: auto; /* Reactiva la interacción para el botón */
+  transition: transform 0.2s;
+  white-space: nowrap;
+  min-width: 120px;
+  text-align: center;
 }
 
 .caption-button:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Efecto de degradado/desenfoque en los bordes izquierdo y derecho del carrusel */
@@ -253,12 +260,16 @@ body {
   width: 16%;
   height: 100%;
   z-index: 8;
-  pointer-events: none; 
-  backdrop-filter: blur(8px) brightness(0.5); 
+  pointer-events: none;
+  backdrop-filter: blur(8px) brightness(0.5);
 }
 
-.carousel::before { left: 0; }
-.carousel::after { right: 0; }
+.carousel::before {
+  left: 0;
+}
+.carousel::after {
+  right: 0;
+}
 
 .arrow {
   position: absolute;
@@ -275,8 +286,12 @@ body {
   transition: background 0.3s;
 }
 
-.left { left: 0; }
-.right { right: 0; }
+.left {
+  left: 9rem;
+}
+.right {
+  right: 9rem;
+}
 
 .indicators {
   position: absolute;
@@ -284,6 +299,167 @@ body {
   display: flex;
   gap: 10px;
   z-index: 25;
+}
+
+/* ====== ANIMACIONES DEL CARRUSEL ====== */
+.slide {
+  /* cubic-bezier proporciona una aceleración y desaceleración más profesional */
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change:
+    transform, opacity; /* Optimiza el rendimiento del navegador para la animación */
+  position: relative;
+}
+
+.img-main {
+  animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Animación de salida para la imagen anterior (izquierda) */
+.img-side:first-child {
+  animation: slideOutToLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Animación de entrada para la imagen siguiente (derecha) */
+.img-side:last-child {
+  animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Definición de Keyframes para los movimientos */
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    opacity: 0.5;
+    transform: translateX(0) scale(1);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.9);
+    filter: blur(8px);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.95);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 0.5;
+    transform: translateX(0) scale(1);
+    filter: blur(5px);
+  }
+}
+
+/* ====== BARRA DE PROGRESO ANIMADA ====== */
+
+.progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 20;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #ffffff;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+}
+
+.bar {
+  width: 40px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bar.active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Lógica de carga para el indicador activo */
+.bar.active.cargando::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #ffffff;
+  animation: carga 1.5s linear forwards;
+}
+
+/* Lógica de vaciado para el indicador que deja de estar activo */
+.bar.active.descargando::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  animation: descarga 1.5s linear forwards;
+}
+
+@keyframes carga {
+  0% {
+    width: 0%;
+    left: 0;
+  }
+  100% {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@keyframes descarga {
+  0% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0%;
+    left: 100%;
+  } /* El color blanco se desplaza hacia la derecha desapareciendo */
+}
+
+/* Efectos de interacción adicionales */
+
+.caption-button:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.bar:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scaleY(1.5); /* Engrosa la barra en hover */
+}
+
+.bar.active:hover::after {
+  animation-play-state: paused; /* Pausa la animación si el usuario pone el mouse encima */
 }
 
 /* ====== NOTICIAS Y NOVEDADES ====== */
@@ -348,7 +524,7 @@ body {
   display: flex;
   margin-bottom: 25px;
   gap: 10px;
-  background: #F5F6F7;
+  background: #f5f6f7;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -406,17 +582,17 @@ body {
 .mini-noticia {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: #f0f0f0;
+  background-color: #f2f2f2;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 100%;
 }
-
 
 .mini-noticia-img {
   width: 100%;
-  aspect-ratio: 16/9; /* Mantiene proporción panorámica */
+  aspect-ratio: 16/9;
   overflow: hidden;
-  border-radius: 2px;
-  background: #f5f5f5;
+  background: #ddd;
 }
 
 .mini-noticia-img img {
@@ -426,152 +602,63 @@ body {
 }
 
 .mini-noticia-info {
-  font-size: 15px;
-  font-weight: 600;
-  padding: 4px 12px;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  flex-grow: 1;
 }
 
 .mini-noticia-info h4 {
-  /*padding: 15px;*/
-  font-size: 15px;
-  font-weight: 795;
-  line-height: 1.45;
-  color: #1a1a1a;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Prefijo para navegadores antiguos y motores WebKit */
-  line-clamp: 2;         /* Propiedad estándar para compatibilidad moderna */
-  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #111;
+  margin-bottom: 13px;
+
 }
 
-/* ====== ANIMACIONES DEL CARRUSEL ====== */
-.slide {
-  /* cubic-bezier proporciona una aceleración y desaceleración más profesional */
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform, opacity; /* Optimiza el rendimiento del navegador para la animación */
-  position: relative;
+.noticia-metadata {
+  margin-top: auto; /* EMPUJA TODO HACIA ABAJO */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.img-main {
-  animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  will-change: transform, opacity;
+.noticia-consola {
+  color: #7a7a7a;
+  font-size: 12px;
+  letter-spacing: 0.5px;
 }
 
-/* Animación de salida para la imagen anterior (izquierda) */
-.img-side:first-child {
-  animation: slideOutToLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  will-change: transform, opacity;
+.noticia-fecha {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
 }
 
-/* Animación de entrada para la imagen siguiente (derecha) */
-.img-side:last-child {
-  animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
-  will-change: transform, opacity;
+.ver-mas-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0 20px 0;
 }
 
-/* Definición de Keyframes para los movimientos */
-@keyframes slideInFromRight {
-  0% { opacity: 0; transform: translateX(50px) scale(0.95); }
-  100% { opacity: 1; transform: translateX(0) scale(1); }
-}
-
-@keyframes slideOutToLeft {
-  0% { opacity: 0.5; transform: translateX(0) scale(1); filter: blur(5px); }
-  100% { opacity: 0; transform: translateX(-60px) scale(0.9); filter: blur(8px); }
-}
-
-@keyframes slideInFromLeft {
-  0% { opacity: 0; transform: translateX(-50px) scale(0.95); filter: blur(3px); }
-  100% { opacity: 0.5; transform: translateX(0) scale(1); filter: blur(5px); }
-}
-
-/* ====== BARRA DE PROGRESO ANIMADA ====== */
-.progress-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.2);
-  z-index: 20;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background-color: #ffffff;
-  transition: width 0.1s linear;
-  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
-}
-
-.bar {
-  width: 40px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.3); /* Barra de fondo gris */
-  border-radius: 2px;
-  cursor: pointer;
+.btn-ver-mas {
+  background-color: #ff3b30;
+  color: white;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
 }
 
-.bar.active {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Lógica de carga para el indicador activo */
-.bar.active.cargando::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
-  background-color: #ffffff;
-  animation: carga 1.5s linear forwards;
-}
-
-/* Lógica de vaciado para el indicador que deja de estar activo */
-.bar.active.descargando::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #ffffff;
-  animation: descarga 1.5s linear forwards;
-}
-
-@keyframes carga {
-  0% { width: 0%; left: 0; }
-  100% { width: 100%; left: 0; }
-}
-
-@keyframes descarga {
-  0% { width: 100%; left: 0; }
-  100% { width: 0%; left: 100%; } /* El color blanco se desplaza hacia la derecha desapareciendo */
-}
-
-/* Efectos de interacción adicionales */
-.main-wrapper:hover {
-  transform: scale(1.02) translateY(-5px);
-}
-
-.caption-button:hover {
-  transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.bar:hover {
-  background: rgba(255, 255, 255, 0.5);
-  transform: scaleY(1.5); /* Engrosa la barra en hover */
-}
-
-.bar.active:hover::after {
-  animation-play-state: paused; /* Pausa la animación si el usuario pone el mouse encima */
+.btn-ver-mas:hover {
+  background-color: #e63228;
+  transform: translateY(-2px);
 }
 
 /* ====== ESTILOS PARA JUEGOS ====== */
@@ -581,7 +668,7 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
   max-width: 1300px;
-  margin: 10px auto;
+  margin: 40px auto;
   padding: 0 20px;
 }
 
@@ -589,16 +676,18 @@ body {
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
-  border-radius: 0;
+  border-radius: 10px;
   overflow: hidden;
+  /*
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  */
 }
 
 .juego-imagen {
   width: 100%;
   height: 270px;
-  aspect-ratio: 16/9;
   overflow: hidden;
-  background-color: #f0f0f0;
 }
 
 .juego-imagen img {
@@ -610,68 +699,63 @@ body {
 /* La franja roja */
 .badge-consola {
   background-color: #e60012;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  color: white;
   display: flex;
-  align-items: center;      /* Centra vertical */
-  justify-content: center;  /* Centra horizontal */
-  height: 20px;             /* IMPORTANTE: altura fija */
-  padding: 0 12px;
-}
-
-.juego-fecha, .juego-contenido {
-  display: inline-block;
-  padding: 2px 0 0 7px;
-  color: gray;
-  font-size: 12px;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  align-items: center; /* Centra vertical */
+  justify-content: center; /* Centra horizontal */
+  height: 20px; /* IMPORTANTE: altura fija */
 }
 
 /* Estilo para la nueva FOTO del logo */
 .badge-consola img {
-  height: 12px;   /* Ajusta según lo grande que lo quieras */
+  height: 12px; /* Ajusta según lo grande que lo quieras */
   width: auto;
   display: block;
+}
+
+/* ====== CONTENIDO ====== */
+.juego-contenido {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.juego-fecha {
+  font-size: 12px;
+  color: #7a7a7a;
+  letter-spacing: 0.5px;
 }
 
 .juego-titulo {
   font-size: 16px;
   font-weight: 700;
-  color: #222;
+  color: #111;
   line-height: 1.4;
-  margin: 0;
 }
 
 /* ====== BOTÓN DE FAVORITO ABAJO ====== */
 .juego-favorito-container {
+  margin-top: auto;
   display: flex;
-  align-items: center;
-  margin-top: 6px;
-  margin-right: 10px;
-  justify-content: flex-end; /* 👈 Esto lo manda a la derecha */
+  justify-content: flex-end;
+  padding: 12px 16px 16px 16px;
+  border-top: 1px dashed #e0e0e0;
 }
 
 .juego-favorito {
   background: transparent;
   border: none;
   cursor: pointer;
-  display: flex;
-  padding: 0;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
 }
 
 .juego-favorito i {
-  color: #999;
   font-size: 20px;
+  color: #aaa;
   transition: all 0.2s ease;
 }
 
 .juego-favorito.activo i {
   color: #e60012;
-  
 }
 
 .juego-favorito:hover i {
@@ -686,7 +770,7 @@ body {
   .section {
     padding: 40px calc((100% - 1400px) / 2);
   }
-  
+
   .section .tabs {
     right: calc((100% - 1400px) / 2);
   }
@@ -704,7 +788,7 @@ body {
   .mini-noticias-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   #juegos-container {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -716,15 +800,15 @@ body {
     width: 80px;
     min-width: 80px;
   }
-  
+
   .main {
     width: calc(100% - 80px);
   }
-  
+
   .section {
     padding: 40px 60px;
   }
-  
+
   .section .tabs {
     right: 60px;
   }
@@ -735,15 +819,15 @@ body {
   .mini-noticias-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   #juegos-container {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .section {
     padding: 30px 40px;
   }
-  
+
   .section .tabs {
     right: 40px;
   }
@@ -754,7 +838,7 @@ body {
   .contenedor-flex {
     flex-direction: column;
   }
-  
+
   .sidebar {
     position: relative;
     top: 0;
@@ -766,31 +850,31 @@ body {
     padding-bottom: 0;
     overflow-x: auto;
   }
-  
+
   .side-item {
     min-height: 100px;
     width: 90px;
     flex-shrink: 0;
   }
-  
+
   .main {
     width: 100%;
   }
-  
+
   .carousel {
     height: 400px;
     min-height: 400px;
   }
-  
+
   .section {
     padding: 30px 30px;
   }
-  
+
   .section h2 {
     display: block;
     margin-bottom: 60px;
   }
-  
+
   .section .tabs {
     position: relative;
     right: auto;
@@ -799,75 +883,77 @@ body {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .noticia-principal {
     flex-direction: column;
   }
-  
+
   .noticia-imagen {
     max-width: 100%;
   }
-  
+
   .carousel-caption {
     left: 20px;
     right: 20px;
   }
-  
+
   .carousel::before,
   .carousel::after {
     width: 10%;
   }
 }
 
+/*
+
 /* Móviles grandes (entre 480px y 600px) */
 @media (max-width: 600px) {
   .top-actions {
     gap: 12px;
   }
-  
+
   .action i {
     font-size: 24px;
   }
-  
+
   .action a {
     font-size: 9px;
   }
-  
+
   .carousel {
     height: 350px;
     min-height: 350px;
   }
-  
+
   .img-side {
     display: none;
   }
-  
+
   .main-wrapper {
     flex: 0 0 100%;
   }
-  
+
   .carousel::before,
   .carousel::after {
     display: none;
   }
-  
+
   .mini-noticias-grid {
     grid-template-columns: 1fr;
   }
-  
+
   #juegos-container {
     grid-template-columns: 1fr;
   }
-  
+
   .section {
     padding: 25px 20px;
   }
-  
+
   .section .tabs {
     flex-wrap: wrap;
     gap: 5px;
   }
-  
+
   .section .tab {
     flex: 1 1 auto;
     text-align: center;
@@ -879,49 +965,49 @@ body {
   .topbar {
     padding: 0 15px;
   }
-  
+
   .top-actions {
     gap: 8px;
   }
-  
+
   .action i {
     font-size: 20px;
     margin-bottom: 4px;
   }
-  
+
   .action a {
     font-size: 8px;
   }
-  
+
   .logo img {
     height: 18px;
   }
-  
+
   .carousel {
     height: 250px;
     min-height: 250px;
   }
-  
+
   .carousel-caption {
     left: 15px;
     right: 15px;
     bottom: 15px;
   }
-  
+
   .caption-button {
     padding: 8px 15px;
     min-width: 100px;
     font-size: 12px;
   }
-  
+
   .indicators {
     gap: 5px;
   }
-  
+
   .bar {
     width: 30px;
   }
-  
+
   .section .tab {
     padding: 6px 10px;
     font-size: 11px;
