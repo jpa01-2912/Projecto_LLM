@@ -1,0 +1,100 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fondo estilo Nintendo */
+body {
+  background-color: #f50d0d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Contenedor general */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Logo */
+.login-logo img {
+  width: 180px;
+  margin-bottom: 20px;
+}
+
+/* Tarjeta blanca */
+.login-card {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Título */
+.login-card h2 {
+  margin-bottom: 25px;
+  color: #333;
+}
+
+/* Inputs */
+.login-card input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #e60012; /* rojo Nintendo */
+}
+
+/* Botón */
+.login-card button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e60012;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-card button:hover {
+  background-color: #c4000f;
+}
+
+/* Texto extra */
+.login-extra {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-extra a {
+  color: #e60012;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-extra a:hover {
+  text-decoration: underline;
+}
+
+/* Error */
+.error-message {
+  margin-top: 15px;
+  color: red;
+  font-size: 14px;
+}

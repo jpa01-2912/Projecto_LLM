@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión - Clon Nintendo</title>
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo">
+    </div>
+
+    <!-- Tarjeta -->
+    <div class="login-card">
+      <h2>Iniciar sesión</h2>
+
+      <form id="login-form">
+        <input type="email" id="email" placeholder="Correo electrónico" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+
+        <button type="submit">Iniciar sesión</button>
+      </form>
+
+      <p class="login-extra">
+        ¿No tienes cuenta? <a href="#">Crear cuenta</a>
+      </p>
+
+      <p id="login-error" class="error-message"></p>
+    </div>
+
+  </div>
+
+  <script src="./js/login.js"></script>
+</body>
+</html>

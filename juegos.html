@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartelera de Juegos</title>
+  <link rel="stylesheet" href="./css/juegos.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Cartelera Nintendo</h1>
+  <div class="top-controls">
+    <a href="wishlist.html" class="wishlist-link">
+      ❤️ Lista (<span id="wishlist-count">0</span>)
+    </a>
+  </div>
+</header>
+
+<section class="filters">
+
+  <input type="text" id="search" placeholder="Buscar juego...">
+
+  <select id="platform-filter">
+    <option value="all">Todas las plataformas</option>
+    <option value="Nintendo Switch 2">Nintendo Switch 2</option>
+  </select>
+
+  <select id="sort">
+    <option value="default">Ordenar por</option>
+    <option value="price-asc">Precio ↑</option>
+    <option value="price-desc">Precio ↓</option>
+    <option value="date-new">Más recientes</option>
+  </select>
+
+</section>
+
+<main>
+  <div class="games-grid" id="games-container"></div>
+</main>
+
+<script src="./js/juegos.js"></script>
+</body>
+</html>
