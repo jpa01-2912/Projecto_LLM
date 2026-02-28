@@ -9,7 +9,7 @@ let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
 updateWishlistCount();
 
-fetch("../data/juegos.json")
+fetch("./data/juegos.json")
   .then(res => res.json())
   .then(games => {
     allGames = games;
