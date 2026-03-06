@@ -71,6 +71,12 @@ function actualizarCarrusel() {
     if (urlAnterior.includes("/projecto_llm/")) {
       urlAnterior = urlAnterior.replace("/projecto_llm/", "./");
     }
+    if (urlActual.includes("/projecto_llm/")) {
+      urlActual = urlActual.replace("/projecto_llm/", "./");
+    }
+    if (urlSiguiente.includes("/projecto_llm/")) {
+      urlSiguiente = urlSiguiente.replace("/projecto_llm/", "./");
+    }
 
     let botonHTML = "";
     if (itemActual.boton_texto && itemActual.link) {
@@ -81,6 +87,7 @@ function actualizarCarrusel() {
     const allImages = slideContainer.querySelectorAll("img");
     allImages.forEach((img) => {
       img.style.animation = "none";
+      img.style.transform = "";
     });
 
     // SEGUNDO: Actualizar el contenido
@@ -104,8 +111,8 @@ function actualizarCarrusel() {
 
     // CUARTO: Aplicar las animaciones manualmente
     const imgMain = slideContainer.querySelector(".img-main");
-    const imgSideFirst = slideContainer.querySelector(".img-side:first-child");
-    const imgSideLast = slideContainer.querySelector(".img-side:last-child");
+    const imgSideFirst = slideContainer.querySelector(".img-side:first-child"); // IZQUIERDA
+    const imgSideLast = slideContainer.querySelector(".img-side:last-child"); // DERECHA
     const caption = slideContainer.querySelector(".carousel-caption");
 
     if (imgMain) {
@@ -114,11 +121,11 @@ function actualizarCarrusel() {
     }
     if (imgSideFirst) {
       imgSideFirst.style.animation =
-        "slideOutToLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards";
+        "slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards";
     }
     if (imgSideLast) {
       imgSideLast.style.animation =
-        "slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards";
+        "slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards";
     }
     if (caption) {
       caption.style.animation = "fadeInUp 0.6s ease-out 0.3s both";
@@ -309,7 +316,6 @@ function cargarNoticias() {
         `,
           )
           .join("");
-          
       }
       // Eliminar botón anterior si ya existe
       const botonExistente = document.querySelector(".ver-mas-container");
@@ -317,24 +323,7 @@ function cargarNoticias() {
         botonExistente.remove();
       }
 
-// Crear botón Ver más dinámicamente
-const botonContainer = document.createElement("div");
-botonContainer.classList.add("ver-mas-container");
 
-const boton = document.createElement("a");
-boton.href = "#";
-boton.classList.add("btn-ver-mas");
-boton.innerHTML = `Ver más <span class="arrow">›</span>`;
-
-boton.addEventListener("click", (e) => {
-  e.preventDefault();
-  console.log("Botón Ver más pulsado");
-});
-
-botonContainer.appendChild(boton);
-
-// Insertarlo después del grid
-miniNoticiasGrid.parentNode.appendChild(botonContainer);
       // Configurar tabs
       configurarTabs(data);
     })
@@ -354,7 +343,33 @@ miniNoticiasGrid.parentNode.appendChild(botonContainer);
 }
 
 function configurarTabs(data) {
-  const tabs = document.querySelectorAll(".tab");
+  const tabs = document.querySelectorAll(".novedades-tabs .tab");
+
+  // Función para controlar la visibilidad del botón "Ver más"
+  function controlarVisibilidadBoton(mostrar) {
+    let verMasContainer = document.querySelector(".ver-mas-container");
+    
+    if (mostrar) {
+      // Si no existe el contenedor, lo creamos
+      if (!verMasContainer) {
+        
+        verMasContainer = document.createElement("div");
+        verMasContainer.className = "ver-mas-container";
+        verMasContainer.innerHTML = '<a href="#" class="ver-mas-btn">VER MÁS ></a>';
+        
+        // Insertar después del mini-noticias-grid
+        const miniNoticiasGrid = document.querySelector(".mini-noticias-grid");
+        if (miniNoticiasGrid && miniNoticiasGrid.parentNode) {
+          miniNoticiasGrid.parentNode.appendChild(verMasContainer);
+        }
+      }
+      verMasContainer.style.display = "flex";
+    } else {
+      if (verMasContainer) {
+        verMasContainer.style.display = "none";
+      }
+    }
+  }
 
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => {
@@ -398,6 +413,8 @@ function configurarTabs(data) {
             )
             .join("");
         }
+
+        controlarVisibilidadBoton(false);
       } else {
         // Pestaña NOTICIAS
         if (noticiaPrincipal) {
@@ -415,8 +432,8 @@ function configurarTabs(data) {
               <div class="mini-noticia-info">
                 <h4>${noticia.titulo}</h4>
                 <div class="noticia-metadata">
-                  <span class="noticia-consola">${noticia.consola || 'Nintendo Switch'}</span>
-                  <span class="noticia-fecha">${noticia.fecha || ''}</span>
+                  <span class="noticia-consola">${noticia.consola || "Nintendo Switch"}</span>
+                  <span class="noticia-fecha">${noticia.fecha || ""}</span>
                 </div>
               </div>
             </article>
@@ -424,7 +441,24 @@ function configurarTabs(data) {
             )
             .join("");
         }
+        controlarVisibilidadBoton(true);
       }
+    });
+  });
+
+  const juegosTabs = document.querySelectorAll(".juegos-tabs .tab");
+
+  juegosTabs.forEach((tab, index) => {
+    tab.addEventListener("click", function () {
+      // Cambiar pestaña activa solo en juegos
+      juegosTabs.forEach((t) => t.classList.remove("active"));
+      this.classList.add("active");
+
+      // Aquí puedes añadir la lógica para filtrar juegos según la pestaña seleccionada
+      console.log("Pestaña de juegos seleccionada:", index, this.textContent);
+
+      // Ejemplo de filtrado (puedes implementar según tu JSON de juegos):
+      filtrarJuegosPorCategoria(index);
     });
   });
 }
@@ -453,11 +487,15 @@ function cargarJuegos() {
         .map(
           (juego) => `
           <div class="juego-card">
-          ${juego.esNuevaConsola ? `
+          ${
+            juego.esNuevaConsola
+              ? `
               <div class="badge-consola">
                 <img src="./fotos/logos/Nintendo_2.png" alt="Nueva Consola">
               </div>
-              ` : ''}
+              `
+              : ""
+          }
             <div class="juego-imagen">
             
               <img src="${juego.imagen || "./fotos/placeholder.jpg"}" alt="${juego.juego}">
@@ -488,16 +526,16 @@ function cargarJuegos() {
 
 // Función para toggle de favorito
 function toggleFavorito(boton) {
-  const icono = boton.querySelector('i');
-  
-  if (icono.classList.contains('fa-regular')) {
-    icono.classList.remove('fa-regular');
-    icono.classList.add('fa-solid');
-    boton.classList.add('activo');
+  const icono = boton.querySelector("i");
+
+  if (icono.classList.contains("fa-regular")) {
+    icono.classList.remove("fa-regular");
+    icono.classList.add("fa-solid");
+    boton.classList.add("activo");
   } else {
-    icono.classList.remove('fa-solid');
-    icono.classList.add('fa-regular');
-    boton.classList.remove('activo');
+    icono.classList.remove("fa-solid");
+    icono.classList.add("fa-regular");
+    boton.classList.remove("activo");
   }
 }
 // Hacer la función global
