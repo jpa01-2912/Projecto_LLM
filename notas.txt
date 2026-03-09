@@ -8,3 +8,10 @@ navbar
  - user
  <i class="fa-solid fa-user"></i>
  - estrella
+
+
+mejorar main
+- el tamaño de las tarjetas de las aplicaciones para dispositivos inteligentees
+- la linea gris entre el apartado de aplicaciones y my nintendo stroe que no tengo ni puta idea de donde sale
+- todo lo de nintendo store, mas que nada añadir el lodo en el html y cuadrarlo, y el boton si es posible (no es urgente)
+- para un futuro, ver si podemos cambiar el <div class="main"> a un <main> y que sea mas facil y elegante

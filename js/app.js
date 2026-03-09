@@ -524,6 +524,114 @@ function cargarJuegos() {
     });
 }
 
+// ========== CARGAR APLICACIONES DESDE JSON ==========
+
+function cargarAplicaciones() {
+  fetch("./data/aplicaciones.json")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No se pudo cargar el JSON de aplicaciones");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Aplicaciones cargadas:", data);
+
+      const appsContainer = document.getElementById("apps-container");
+
+      if (!appsContainer) {
+        console.error("No se encontró el contenedor apps-container");
+        return;
+      }
+
+      appsContainer.innerHTML = data
+        .map(
+          (app) => `
+        <div class="app-card">
+
+          <div class="app-imagen">
+            <img src="${app.imagen}" alt="${app.aplicacion}">
+          </div>
+
+          <div class="app-info">
+            <div class="app-meta">
+              ${app.plataforma} | ${app.fecha}
+            </div>
+
+            <h3 class="app-titulo">
+              ${app.aplicacion}
+            </h3>
+
+          </div>
+
+        </div>
+      `
+        )
+        .join("");
+    })
+    .catch((error) => {
+      console.error("Error al cargar aplicaciones:", error);
+
+      const appsContainer = document.getElementById("apps-container");
+      if (appsContainer) {
+        appsContainer.innerHTML =
+          '<p style="color:red;padding:20px;">Error al cargar aplicaciones</p>';
+      }
+    });
+}
+
+// ========== CARGAR MY NINTENDO STORE DESDE JSON ==========
+
+function cargarMyNintendoStore() {
+  fetch("./data/myNintendoStore.json") 
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No se pudo cargar el archivo MyNintendoStore.json");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Buscamos el contenedor en el HTML que definiste
+      const storeSection = document.querySelector(".my-nintendo-store-section");
+      if (!storeSection) return;
+
+      // Buscamos o creamos el grid
+      let storeGrid = storeSection.querySelector(".store-grid");
+      if (!storeGrid) {
+        storeGrid = document.createElement("div");
+        storeGrid.className = "store-grid";
+        storeSection.appendChild(storeGrid);
+      }
+
+      // IMPORTANTE: Los nombres aquí deben ser item.aplicacion e item.descripcion
+      storeGrid.innerHTML = data
+        .map(
+          (item) => `
+        <div class="store-card">
+          <div class="store-imagen">
+            <img src="${item.imagen}" alt="${item.aplicacion}">
+          </div>
+          <div class="store-info">
+            <div class="store-meta">${item.descripcion}</div>
+            <h3 class="store-titulo">${item.aplicacion}</h3>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      // Añadimos el botón si no existe
+      if (!storeSection.querySelector(".store-footer")) {
+        const botonHTML = `
+          <div class="store-footer">
+            <a href="#" class="store-btn-main">Ir a My Nintendo Store</a>
+          </div>`;
+        storeSection.insertAdjacentHTML('beforeend', botonHTML);
+      }
+    })
+    .catch((error) => console.error("Error en Store:", error));
+}
+
 // Función para toggle de favorito
 function toggleFavorito(boton) {
   const icono = boton.querySelector("i");
@@ -544,5 +652,7 @@ window.toggleFavorito = toggleFavorito;
 // Llamar a la función después de cargar las noticias
 document.addEventListener("DOMContentLoaded", function () {
   cargarNoticias();
-  cargarJuegos(); // Añade esta línea
+  cargarJuegos(); 
+  cargarAplicaciones();
+  cargarMyNintendoStore();
 });

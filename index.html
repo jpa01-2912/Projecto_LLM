@@ -7,7 +7,7 @@
     <title>Clon Nintendo</title>
 
     <!-- Favicon principal -->
-    <link rel="icon" href="./fotos/luigi.png" />    
+    <link rel="icon" href="./fotos/luigi.png" />
 
     <!-- Hoja de estilos principal -->
     <link rel="stylesheet" href="./css/style.css" />
@@ -17,12 +17,10 @@
   </head>
 
   <body>
-
     <!-- ============================= -->
     <!-- BARRA SUPERIOR (TOPBAR) -->
     <!-- ============================= -->
     <div class="topbar">
-
       <!-- Logo de Nintendo -->
       <div class="logo">
         <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Switch Logo" />
@@ -30,7 +28,6 @@
 
       <!-- Acciones de la parte derecha -->
       <div class="top-actions">
-
         <!-- Buscador -->
         <div class="action">
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -48,7 +45,6 @@
           <i class="fa-solid fa-user"></i>
           <a href="login.html">Iniciar sesión</a>
         </div>
-
       </div>
     </div>
 
@@ -57,12 +53,10 @@
     <!-- Sidebar + Main -->
     <!-- ============================= -->
     <div class="contenedor-flex">
-      
       <!-- ============================= -->
       <!-- BARRA LATERAL (SIDEBAR) -->
       <!-- ============================= -->
       <div class="sidebar">
-
         <!-- Sección Juegos -->
         <div class="side-item">
           <i class="fa-solid fa-star"></i>
@@ -107,11 +101,9 @@
 
         <!-- Noticias (aquí pone Ayuda otra vez, posible duplicado) -->
         <div class="side-item">
-          <img
-            src="./fotos/logos/iconoayuda.png"
-            alt="Ayuda"
-            id="ayuda"
-          /><span>Ayuda</span>
+          <img src="./fotos/logos/iconoayuda.png" alt="Ayuda" id="ayuda" /><span
+            >Ayuda</span
+          >
         </div>
 
         <!-- Redes sociales -->
@@ -121,23 +113,19 @@
 
         <!-- Botón más opciones -->
         <div class="side-item">⋯</div>
-
       </div>
 
       <!-- ============================= -->
       <!-- CONTENIDO PRINCIPAL -->
       <!-- ============================= -->
       <div class="main">
-        
         <!-- ============================= -->
         <!-- CARRUSEL PRINCIPAL -->
         <!-- ============================= -->
         <div class="carousel">
-
           <!-- Slide activo -->
           <div class="slide">
             <div class="carousel-container">
-
               <!-- Imagen dinámica del carrusel -->
               <img src="" alt="" id="carousel-img" />
 
@@ -146,7 +134,6 @@
                 <h2 id="carousel-text"></h2>
                 <a href="#" class="caption-button">¡Siguelo aquí!</a>
               </div>
-
             </div>
           </div>
 
@@ -158,14 +145,12 @@
 
           <!-- Indicadores dinámicos del carrusel -->
           <div class="indicators" id="indicators-container"></div>
-
         </div>
 
         <!-- ============================= -->
         <!-- SECCIÓN NOVEDADES -->
         <!-- ============================= -->
         <div class="section">
-
           <!-- Título de la sección -->
           <h2>Novedades</h2>
 
@@ -176,20 +161,16 @@
           </div>
 
           <!-- Noticia principal (se rellena dinámicamente) -->
-          <article class="noticia-principal">
-            </article>
+          <article class="noticia-principal"></article>
 
           <!-- Grid de mini noticias (se rellena dinámicamente) -->
-          <div class="mini-noticias-grid">
-            </div>
-
+          <div class="mini-noticias-grid"></div>
         </div>
 
         <!-- ============================= -->
         <!-- SECCIÓN JUEGOS -->
         <!-- ============================= -->
         <div class="section juegos-section">
-
           <h2>Juegos</h2>
 
           <div class="tabs juegos-tabs">
@@ -203,11 +184,63 @@
           <div class="juegos-grid" id="juegos-container">
             <!-- Se llena con JavaScript -->
           </div>
+        </div>
+
+        <div class="section apps-section">
+          <h2>Aplicaciones para dispositivos inteligentes</h2>
+          <div class="apps-grid" id="apps-container"></div>
+        </div>
+
+        <div class="my-nintendo-store-section">
+          <!-- hay que poner el logo -->
+          <h2>My Nintendo Store</h2>
+        </div>
+
+        <div class="section hardware-section">
+          <h2>Hardware</h2>
+          <div class="hardware-container-switch2">
+            <div class="hardware-flex">
+              <div class="eslogan">
+                <img
+                  src="./fotos/logos/Nintendo_2.png"
+                  alt="Nintendo Switch OLED"
+                />
+                <p>Todos juntos, cuando queráis y donde queráis</p>
+              </div>
+              <div class="hardware-image">
+                <img
+                  src="./fotos/Hardware/NintendoSwitch2Consola.jpg"
+                  alt="Nintendo Switch 2"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="hardware-container-switch invertido">
+            <div class="hardware-flex">
+              <div class="hardware-image">
+                <img
+                  src="./fotos/Hardware/NintendoSwitchConsola.jpg"
+                  alt="Consola Switch"
+                />
+              </div>
+
+              <div class="eslogan2">
+                <img
+                  src="./fotos/logos/Nintendo_switch.png"
+                  alt="Logo Switch"
+                />
+                <p>
+                  Disfruta de tus juegos cuando quieras, donde quieras y con
+                  quien quieras
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Script principal JS -->
     <script src="./js/app.js"></script>
-
   </body>
 </html>

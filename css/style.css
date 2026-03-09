@@ -207,7 +207,7 @@ body {
 
 .img-side {
   flex: 0 0 14%; 
-  height: 81%;
+  height: 95%;
   object-fit: cover;
   opacity: 0.5;
   filter: blur(5px); 
@@ -274,7 +274,6 @@ body {
   height: 100%;
   z-index: 8;
   pointer-events: none;
-  backdrop-filter: blur(8px) brightness(0.7);
   will-change: backdrop-filter; 
   transition: backdrop-filter 0.3s ease;
 }
@@ -752,6 +751,207 @@ body {
 .juego-favorito:hover i {
   color: #e60012;
   transform: scale(1.1);
+}
+
+/* ====== SECCIÓN APPS ====== */
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.app-card {
+  background: #f2f2f2;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.app-imagen img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.app-info {
+  padding: 15px;
+}
+
+.app-meta {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.app-titulo {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ====== MY NINTENDO STORE  ====== */
+.my-nintendo-store-section {
+    background-color: #e60012; 
+    color: white;
+    padding: 20px;
+    margin-top: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.my-nintendo-store-section h2 {
+    font-size: 28px;
+    margin-bottom: 40px;
+    font-weight: bold;
+    color: white;
+}
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.store-card {
+  background: #F5F6F7;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  margin-bottom: 20px;
+}
+
+.store-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.store-info {
+  padding: 15px;
+}
+
+.store-meta {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.store-titulo {
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+}
+
+.store-btn-main {
+    display: inline-block;
+    padding: 15px 35px;
+    border: 2px solid white;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* ====== SECCIÓN HARDWARE (ESTILO CENTRADO) ====== */
+.hardware-container-switch2,
+.hardware-container-switch {
+    max-width: 1200px;
+    margin: 0 auto 100px auto; /* Espacio entre las dos secciones de consolas */
+    padding: 0 40px;
+}
+
+.hardware-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hardware-container-switch2 .hardware-image {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    gap: 50px; /* Espacio entre logo, texto e imagen */
+
+    img {
+        width: 650px;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+.eslogan {
+    flex: 1;
+    font-size: 19px;
+    color: #f5f6f7;
+    max-width: 600px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    font-weight: 500;
+
+    /* probablemente para añadir espacio entre el logo y el eslogan habira que separarlos */
+
+    img {
+        width: 100px;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+.hardware-container-switch2 {
+    background-color: #e60012;
+    color: #1a1a1a;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.hardware-container-switch .hardware-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    text-align: left; /* Alineamos el texto a la izquierda */
+}
+
+.eslogan2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Logo y texto alineados a la izquierda */
+}
+
+.eslogan2 img {
+    width: 280px; /* Tamaño del logo */
+    height: auto;
+    margin-bottom: 20px;
+    object-fit: contain;
+}
+
+.eslogan2 p {
+    font-size: 22px;
+    color: #484848;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.hardware-container-switch .hardware-image {
+    flex: 1.5;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hardware-container-switch .hardware-image img {
+    width: 100%;
+    max-width: 750px; /* Tamaño de la consola */
+    height: auto;
+    object-fit: contain;
 }
 
 /* ====== MEDIA QUERIES PARA ADAPTACIÓN A PANTALLA ====== */
