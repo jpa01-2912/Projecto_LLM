@@ -859,7 +859,7 @@ body {
 .hardware-container-switch2,
 .hardware-container-switch {
     max-width: 1200px;
-    margin: 0 auto 100px auto; /* Espacio entre las dos secciones de consolas */
+    margin: 0 auto 40px auto; /* Espacio entre las dos secciones de consolas */
     padding: 0 40px;
 }
 
@@ -896,18 +896,18 @@ body {
     font-weight: 500;
 
     /* probablemente para añadir espacio entre el logo y el eslogan habira que separarlos */
-
-    img {
-        width: 100px;
-        height: auto;
-        object-fit: contain;
-    }
 }
+
+.eslogan img {
+    width: 350px;
+    height: auto;
+    object-fit: contain;
+    /*mover la imagen al centro*/
+  }
 
 .hardware-container-switch2 {
     background-color: #e60012;
     color: #1a1a1a;
-    padding: 40px 20px;
     text-align: center;
 }
 
@@ -928,10 +928,12 @@ body {
 }
 
 .eslogan2 img {
-    width: 280px; /* Tamaño del logo */
+    width: 100px; /* Tamaño del logo */
     height: auto;
     margin-bottom: 20px;
     object-fit: contain;
+    background-color: #e60012;
+    padding: 20px;
 }
 
 .eslogan2 p {
@@ -952,6 +954,148 @@ body {
     max-width: 750px; /* Tamaño de la consola */
     height: auto;
     object-fit: contain;
+}
+
+/* ============================= */
+/* SERVICIOS SWITCH */
+/* ============================= */
+
+.servicios-switch h2{
+  margin-bottom:20px;
+}
+
+.servicio-card{
+  background:#e60012;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  position:relative;
+  padding:30px 40px;
+  margin-bottom:20px;
+  overflow:visible;
+}
+
+.servicio-left img{
+  height:45px;
+}
+
+
+.servicio-personajes{
+  position:absolute;
+  left: 30%;
+  bottom: -4px;
+}
+
+.servicio-personajes img{
+  height:150px;
+}
+
+/* texto derecha */
+
+.servicio-right{
+
+  margin-left:auto;
+  max-width:420px;
+
+  color:white;
+}
+
+.servicio-right h3{
+
+  font-size:22px;
+  margin-bottom:8px;
+}
+
+.servicio-right p{
+
+  font-size:15px;
+  line-height:1.5;
+}
+
+/* ============================= */
+/* FOOTER ESTILO NINTENDO */
+/* ============================= */
+footer {
+    background-color: #e60012; /* Rojo característico de Nintendo */
+    color: white;
+    padding: 30px 20px 20px;
+    text-align: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.footer-logo img {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px 30px;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.footer-links a:hover {
+    border-bottom-color: white;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px 30px;
+    margin: 25px 0 15px;
+    font-size: 13px;
+}
+
+.footer-bottom a {
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.footer-bottom a:hover {
+    border-bottom-color: white;
+}
+
+.copyright {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-top: 15px;
+}
+
+.divider {
+    width: 100%;
+    max-width: 1200px;
+    margin: 15px auto;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 600px) {
+    .footer-links, .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+    }
 }
 
 /* ====== MEDIA QUERIES PARA ADAPTACIÓN A PANTALLA ====== */
