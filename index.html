@@ -3,16 +3,16 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <!-- Título de la pestaña -->
+    <!-- Título que aparece en la pestaña del navegador -->
     <title>Clon Nintendo</title>
 
-    <!-- Favicon principal -->
+    <!-- Favicon principal (pequeño icono que aparece en la pestaña) -->
     <link rel="icon" href="./fotos/luigi.png" />
 
     <!-- Hoja de estilos principal -->
     <link rel="stylesheet" href="./css/style.css" />
 
-    <!-- Segundo favicon (formato explícito PNG) -->
+    <!-- Segundo favicon, con tipo explícito PNG -->
     <link rel="icon" type="image/png" href="./fotos/logos/icono.jpg" />
   </head>
 
@@ -21,12 +21,12 @@
     <!-- BARRA SUPERIOR (TOPBAR) -->
     <!-- ============================= -->
     <div class="topbar">
-      <!-- Logo de Nintendo -->
+      <!-- Logo de Nintendo a la izquierda -->
       <div class="logo">
         <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Switch Logo" />
       </div>
 
-      <!-- Acciones de la parte derecha -->
+      <!-- Acciones a la derecha del topbar -->
       <div class="top-actions">
         <!-- Buscador -->
         <div class="action">
@@ -50,9 +50,10 @@
 
     <!-- ============================= -->
     <!-- CONTENEDOR FLEX PRINCIPAL -->
-    <!-- Sidebar + Main -->
+    <!-- Contiene Sidebar y Main -->
     <!-- ============================= -->
     <div class="contenedor-flex">
+
       <!-- ============================= -->
       <!-- BARRA LATERAL (SIDEBAR) -->
       <!-- ============================= -->
@@ -65,71 +66,61 @@
 
         <!-- Sección Hardware -->
         <div class="side-item">
-          <img
-            src="./fotos/logos/iconohardware.png"
-            alt="Hardware"
-            id="hardware"
-          /><span>Hardware</span>
+          <img src="./fotos/logos/iconohardware.png" alt="Hardware" id="hardware" />
+          <span>Hardware</span>
         </div>
 
         <!-- Nintendo Switch Online -->
         <div class="side-item">
-          <img
-            src="./fotos/logos/Nintendo_switch.png"
-            alt="Switch Online"
-            id="N_S"
-          /><span>Nintendo Switch Online</span>
+          <img src="./fotos/logos/Nintendo_switch.png" alt="Switch Online" id="N_S" />
+          <span>Nintendo Switch Online</span>
         </div>
 
         <!-- Nintendo eShop -->
         <div class="side-item">
-          <img
-            src="./fotos/logos/iconoBolsa.png"
-            alt="Nintendo eShop"
-            id="eShop"
-          /><span>Nintendo eShop</span>
+          <img src="./fotos/logos/iconoBolsa.png" alt="Nintendo eShop" id="eShop" />
+          <span>Nintendo eShop</span>
         </div>
 
         <!-- My Nintendo Store -->
         <div class="side-item">
-          <img
-            src="./fotos/logos/nintendo_store.png"
-            alt="My Nintendo Store"
-            id="M_N_S"
-          /><span>My Nintendo Store</span>
+          <img src="./fotos/logos/nintendo_store.png" alt="My Nintendo Store" id="M_N_S" />
+          <span>My Nintendo Store</span>
         </div>
 
-        <!-- Noticias (aquí pone Ayuda otra vez, posible duplicado) -->
+        <!-- Ayuda / Noticias -->
         <div class="side-item">
-          <img src="./fotos/logos/iconoayuda.png" alt="Ayuda" id="ayuda" /><span
-            >Ayuda</span
-          >
+          <img src="./fotos/logos/iconoayuda.png" alt="Ayuda" id="ayuda" />
+          <span>Ayuda</span>
         </div>
 
         <!-- Redes sociales -->
         <div class="side-item">
-          <i class="fa-solid fa-users"></i><span>Síguenos</span>
+          <i class="fa-solid fa-users"></i>
+          <span>Síguenos</span>
         </div>
 
-        <!-- Botón más opciones -->
+        <!-- Botón más opciones (⋯) -->
         <div class="side-item">⋯</div>
       </div>
 
       <!-- ============================= -->
-      <!-- CONTENIDO PRINCIPAL -->
+      <!-- CONTENIDO PRINCIPAL (MAIN) -->
       <!-- ============================= -->
       <div class="main">
+
         <!-- ============================= -->
         <!-- CARRUSEL PRINCIPAL -->
         <!-- ============================= -->
         <div class="carousel">
+
           <!-- Slide activo -->
           <div class="slide">
             <div class="carousel-container">
-              <!-- Imagen dinámica del carrusel -->
+              <!-- Imagen que se actualizará dinámicamente con JS -->
               <img src="" alt="" id="carousel-img" />
 
-              <!-- Texto y botón superpuestos -->
+              <!-- Texto y botón superpuestos sobre la imagen -->
               <div class="carousel-caption">
                 <h2 id="carousel-text"></h2>
                 <a href="#" class="caption-button">¡Siguelo aquí!</a>
@@ -137,13 +128,11 @@
             </div>
           </div>
 
-          <!-- Flecha izquierda -->
+          <!-- Flechas de navegación del carrusel -->
           <div class="arrow left">‹</div>
-
-          <!-- Flecha derecha -->
           <div class="arrow right">›</div>
 
-          <!-- Indicadores dinámicos del carrusel -->
+          <!-- Indicadores dinámicos del carrusel (dots) -->
           <div class="indicators" id="indicators-container"></div>
         </div>
 
@@ -154,16 +143,16 @@
           <!-- Título de la sección -->
           <h2>Novedades</h2>
 
-          <!-- Pestañas de filtrado -->
+          <!-- Pestañas de filtrado para noticias -->
           <div class="tabs novedades-tabs">
             <div class="tab active">Destacadas</div>
             <div class="tab">Noticias</div>
           </div>
 
-          <!-- Noticia principal (se rellena dinámicamente) -->
+          <!-- Noticia principal (contenido dinámico) -->
           <article class="noticia-principal"></article>
 
-          <!-- Grid de mini noticias (se rellena dinámicamente) -->
+          <!-- Grid de mini noticias (contenido dinámico) -->
           <div class="mini-noticias-grid"></div>
         </div>
 
@@ -173,6 +162,7 @@
         <div class="section juegos-section">
           <h2>Juegos</h2>
 
+          <!-- Pestañas de filtrado para juegos -->
           <div class="tabs juegos-tabs">
             <div class="tab active">Destacados</div>
             <div class="tab">Próximamente</div>
@@ -180,55 +170,59 @@
             <div class="tab">Lanzamientos recientes</div>
           </div>
 
-          <!-- Contenedor para los juegos (corregido el ID) -->
-          <div class="juegos-grid" id="juegos-container">
-            <!-- Se llena con JavaScript -->
-          </div>
+          <!-- Contenedor de juegos (rellenado dinámicamente con JS) -->
+          <div class="juegos-grid" id="juegos-container"></div>
         </div>
 
+        <!-- ============================= -->
+        <!-- SECCIÓN APLICACIONES -->
+        <!-- ============================= -->
         <div class="section apps-section">
           <h2>Aplicaciones para dispositivos inteligentes</h2>
           <div class="apps-grid" id="apps-container"></div>
         </div>
 
+        <!-- ============================= -->
+        <!-- SECCIÓN MY NINTENDO STORE -->
+        <!-- ============================= -->
         <div class="my-nintendo-store-section">
-          <!-- hay que poner el logo -->
+          <!-- Título principal -->
           <h2>My Nintendo Store</h2>
         </div>
 
+        <!-- ============================= -->
+        <!-- SECCIÓN HARDWARE -->
+        <!-- ============================= -->
         <div class="section hardware-section">
           <h2>Hardware</h2>
+
+          <!-- Primera sección de hardware -->
           <div class="hardware-container-switch2">
             <div class="hardware-flex">
+              <!-- Eslogan con logo -->
               <div class="eslogan">
-                <img
-                  src="./fotos/logos/Nintendo_2.png"
-                  alt="Nintendo Switch OLED"
-                />
+                <img src="./fotos/logos/Nintendo_2.png" alt="Nintendo Switch OLED" />
                 <p>Todos juntos, cuando queráis y donde queráis</p>
               </div>
+
+              <!-- Imagen de la consola -->
               <div class="hardware-image">
-                <img
-                  src="./fotos/Hardware/NintendoSwitch2Consola.jpg"
-                  alt="Nintendo Switch 2"
-                />
+                <img src="./fotos/Hardware/NintendoSwitch2Consola.jpg" alt="Nintendo Switch 2" />
               </div>
             </div>
           </div>
+
+          <!-- Segunda sección de hardware (invertida) -->
           <div class="hardware-container-switch invertido">
             <div class="hardware-flex">
+              <!-- Imagen de la consola -->
               <div class="hardware-image">
-                <img
-                  src="./fotos/Hardware/NintendoSwitchConsola.jpg"
-                  alt="Consola Switch"
-                />
+                <img src="./fotos/Hardware/NintendoSwitchConsola.jpg" alt="Consola Switch" />
               </div>
 
+              <!-- Eslogan con logo -->
               <div class="eslogan2">
-                <img
-                  src="./fotos/logos/Nintendo_switch.png"
-                  alt="Logo Switch"
-                />
+                <img src="./fotos/logos/Nintendo_switch.png" alt="Logo Switch" />
                 <p>
                   Disfruta de tus juegos cuando quieras, donde quieras y con
                   quien quieras
@@ -236,11 +230,12 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
 
-    <!-- Script principal JS -->
+    <!-- Script principal de JavaScript -->
     <script src="./js/app.js"></script>
   </body>
 </html>
