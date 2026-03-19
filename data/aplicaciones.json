@@ -11,18 +11,17 @@
     "fecha": "27/03/2025",
     "imagen": "./fotos/aplicaciones/nintendoToday.jpg"
   },
-    {
-        "aplicacion": "Nintendo Music",
-        "plataforma": "Dispositivos inteligentes",
-        "fecha": "31/10/2024",
-        "imagen": "./fotos/aplicaciones/nintendoMusic.jpg"
-
-    },
-    {
-        "aplicacion": "Fire Emblem Shadows",
-        "plataforma": "Dispositivos inteligentes",
-        "fecha": "25/09/2025",
-        "imagen": "./fotos/aplicaciones/fireEmblem.jpg"
-    }
+  {
+    "aplicacion": "Nintendo Music",
+    "plataforma": "Dispositivos inteligentes",
+    "fecha": "31/10/2024",
+    "imagen": "./fotos/aplicaciones/nintendoMusic.jpg"
+  },
+  {
+    "aplicacion": "Fire Emblem Shadows",
+    "plataforma": "Dispositivos inteligentes",
+    "fecha": "25/09/2025",
+    "imagen": "./fotos/aplicaciones/fireEmblem.jpg"
+  }
 ]
     
