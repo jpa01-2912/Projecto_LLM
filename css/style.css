@@ -96,7 +96,7 @@ body {
   top: 71px;
   width: 90px;
   height: 51.9rem;
-  background: #e60012;
+  background: #ae000f;
   color: white;
   display: flex;
   flex-direction: column;
@@ -110,6 +110,7 @@ body {
   display: block;
   margin: 0 auto;
 }
+
 
 /* Identificadores específicos para assets de imagen en la sidebar */
 #N_S {
@@ -133,6 +134,7 @@ body {
   text-align: center;
   cursor: pointer;
   border-top: 1px solid rgba(0, 0, 0, 0.25);
+  background-color: #e60012;
 }
 
 .side-item:hover {
@@ -966,7 +968,7 @@ body {
 
 .servicio-card{
   background:#e60012;
-  border-radius:10px;
+  border-radius: 4px;
   display:flex;
   align-items:center;
   position:relative;
@@ -986,9 +988,22 @@ body {
   bottom: -4px;
 }
 
-.servicio-personajes img{
-  height:150px;
+#nintendo-online {
+  height: 150px;
 }
+
+#heroes {
+  height: 165px;
+}
+
+#control-parental {
+  height: 35px;
+}
+
+#villanos {
+  height: 142px;
+}
+
 
 /* texto derecha */
 
