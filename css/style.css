@@ -71,7 +71,7 @@ body {
   text-decoration: none;
 }
 
-.action a:hover {
+.action:hover a {
   text-decoration: underline;
 }
 
@@ -111,10 +111,9 @@ body {
   margin: 0 auto;
 }
 
-
 /* Identificadores específicos para assets de imagen en la sidebar */
 #N_S {
-  width: 289px;
+  width: 29px;
   height: 29px;
   object-fit: contain;
 }
@@ -141,11 +140,23 @@ body {
   background: #c50010; /* Cambio de tono en hover */
 }
 
-.side-item span {
+/* Unificamos el estilo para span y enlaces dentro de la sidebar */
+.side-item span,
+.side-item a {
   font-size: 12.5px;
   margin-top: 6px;
+  color: white; /* Forzamos el color blanco */
+  text-decoration: none; /* Quitamos el subrayado del enlace */
+  font-family: "Roboto", sans-serif; /* Aseguramos la misma fuente */
+  display: block;
   overflow: hidden;
-  text-overflow: ellipsis; /* Corta el texto con puntos suspensivos si es muy largo */
+  text-overflow: ellipsis;
+}
+
+/* Evitamos que el enlace cambie de color si ya ha sido visitado */
+.side-item a:visited,
+.side-item a:active {
+  color: white;
 }
 
 .sidebar .side-item:last-child {
@@ -170,15 +181,14 @@ body {
 .carousel {
   position: relative;
   width: 100%;
-  height: 540px;
-  min-height: 540px;
+  height: 580px;
   background-color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Corta las imágenes laterales que salen de los límites */
-  max-width: 1400px; /* Limitar ancho máximo en pantallas muy grandes */
-  margin: 0 auto;
+  overflow: hidden;
+  max-width: 100%; /* Cambiado de 1400px a 100% para evitar huecos en monitores grandes */
+  margin: 0;
 }
 
 .slide {
@@ -208,16 +218,16 @@ body {
 }
 
 .img-side {
-  flex: 0 0 14%; 
+  flex: 0 0 14%;
   height: 95%;
   object-fit: cover;
   opacity: 0.5;
-  filter: blur(5px); 
+  filter: blur(5px);
   display: block;
   border-radius: 4px;
   flex-shrink: 0;
   will-change: filter, opacity;
-} 
+}
 
 .img-side:first-child,
 .img-side:last-child {
@@ -276,17 +286,21 @@ body {
   height: 100%;
   z-index: 8;
   pointer-events: none;
-  will-change: backdrop-filter; 
+  will-change: backdrop-filter;
   transition: backdrop-filter 0.3s ease;
 }
 
 .carousel::before {
   left: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 100%
+  );
 }
 .carousel::after {
   right: 0;
-  background: linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 100%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
 }
 
 .arrow {
@@ -606,7 +620,6 @@ body {
   line-height: 1.4;
   color: #111;
   margin-bottom: 13px;
-
 }
 
 .noticia-metadata {
@@ -793,19 +806,19 @@ body {
 
 /* ====== MY NINTENDO STORE  ====== */
 .my-nintendo-store-section {
-    background-color: #e60012; 
-    color: white;
-    padding: 20px;
-    margin-top: 40px;
-    text-align: center;
-    width: 100%;
+  background-color: #e60012;
+  color: white;
+  padding: 20px;
+  margin-top: 40px;
+  text-align: center;
+  width: 100%;
 }
 
 .my-nintendo-store-section h2 {
-    font-size: 28px;
-    margin-bottom: 40px;
-    font-weight: bold;
-    color: white;
+  font-size: 28px;
+  margin-bottom: 40px;
+  font-weight: bold;
+  color: white;
 }
 
 .store-grid {
@@ -817,7 +830,7 @@ body {
 }
 
 .store-card {
-  background: #F5F6F7;
+  background: #f5f6f7;
   border-radius: 4px;
   overflow: hidden;
   transition: transform 0.2s;
@@ -847,143 +860,145 @@ body {
 }
 
 .store-btn-main {
-    display: inline-block;
-    padding: 15px 35px;
-    border: 2px solid white;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+  display: inline-block;
+  padding: 15px 35px;
+  border: 2px solid white;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 /* ====== SECCIÓN HARDWARE (ESTILO CENTRADO) ====== */
 .hardware-container-switch2,
 .hardware-container-switch {
-    max-width: 1200px;
-    margin: 0 auto 40px auto; /* Espacio entre las dos secciones de consolas */
-    padding: 0 40px;
+  max-width: 1200px;
+  margin: 0 auto 40px auto; /* Espacio entre las dos secciones de consolas */
+  padding: 0 40px;
 }
 
 .hardware-flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.hardware-container-switch2 {
+  border-radius: 5px;
 }
 
 .hardware-container-switch2 .hardware-image {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
-    gap: 50px; /* Espacio entre logo, texto e imagen */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  gap: 50px;
 
-    img {
-        width: 650px;
-        height: auto;
-        object-fit: contain;
-    }
+  img {
+    width: 650px;
+    height: auto;
+    object-fit: contain;
+  }
 }
 
 .eslogan {
-    flex: 1;
-    font-size: 19px;
-    color: #f5f6f7;
-    max-width: 600px;
-    line-height: 1.4;
-    margin-bottom: 20px;
-    font-weight: 500;
-
-    /* probablemente para añadir espacio entre el logo y el eslogan habira que separarlos */
+  flex: 1;
+  font-size: 19px;
+  color: #f5f6f7;
+  max-width: 600px;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .eslogan img {
-    width: 350px;
-    height: auto;
-    object-fit: contain;
-    /*mover la imagen al centro*/
-  }
+  width: 85px;
+  height: 85px;
+  object-fit: contain;
+  /*mover la imagen al centro*/
+}
 
 .hardware-container-switch2 {
-    background-color: #e60012;
-    color: #1a1a1a;
-    text-align: center;
+  background-color: #e60012;
+  color: #1a1a1a;
+  text-align: center;
 }
 
 .hardware-container-switch .hardware-flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
-    text-align: left; /* Alineamos el texto a la izquierda */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  text-align: left; /* Alineamos el texto a la izquierda */
 }
 
 .eslogan2 {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Logo y texto alineados a la izquierda */
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Alinea los elementos en vertical */
+  align-items: center;    /* Centra el logo y el texto horizontalmente */
+  text-align: center;     /* Centra las líneas de texto */
 }
 
 .eslogan2 img {
-    width: 100px; /* Tamaño del logo */
-    height: auto;
-    margin-bottom: 20px;
-    object-fit: contain;
-    background-color: #e60012;
-    padding: 20px;
+  width: 100px; /* Tamaño del logo */
+  height: auto;
+  margin-bottom: 20px;
+  object-fit: contain;
+  background-color: #e60012;
+  padding: 20px;
 }
 
 .eslogan2 p {
-    font-size: 22px;
-    color: #484848;
-    line-height: 1.3;
-    font-weight: 500;
+  font-size: 22px;
+  color: #484848;
+  line-height: 1.3;
+  font-weight: 500;
 }
 
 .hardware-container-switch .hardware-image {
-    flex: 1.5;
-    display: flex;
-    justify-content: flex-end;
+  flex: 1.5;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .hardware-container-switch .hardware-image img {
-    width: 100%;
-    max-width: 750px; /* Tamaño de la consola */
-    height: auto;
-    object-fit: contain;
+  width: 100%;
+  max-width: 750px; /* Tamaño de la consola */
+  height: auto;
+  object-fit: contain;
 }
 
 /* ============================= */
 /* SERVICIOS SWITCH */
 /* ============================= */
 
-.servicios-switch h2{
-  margin-bottom:20px;
+.servicios-switch h2 {
+  margin-bottom: 20px;
 }
 
-.servicio-card{
-  background:#e60012;
+.servicio-card {
+  background: #e60012;
   border-radius: 4px;
-  display:flex;
-  align-items:center;
-  position:relative;
-  padding:30px 40px;
-  margin-bottom:20px;
-  overflow:visible;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 30px 40px;
+  margin-bottom: 20px;
+  overflow: visible;
 }
 
-.servicio-left img{
-  height:45px;
+.servicio-left img {
+  height: 45px;
 }
 
-
-.servicio-personajes{
-  position:absolute;
+.servicio-personajes {
+  position: absolute;
   left: 30%;
   bottom: -4px;
 }
@@ -1004,113 +1019,110 @@ body {
   height: 142px;
 }
 
-
 /* texto derecha */
 
-.servicio-right{
+.servicio-right {
+  margin-left: auto;
+  max-width: 420px;
 
-  margin-left:auto;
-  max-width:420px;
-
-  color:white;
+  color: white;
 }
 
-.servicio-right h3{
-
-  font-size:22px;
-  margin-bottom:8px;
+.servicio-right h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
 }
 
-.servicio-right p{
-
-  font-size:15px;
-  line-height:1.5;
+.servicio-right p {
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 /* ============================= */
 /* FOOTER ESTILO NINTENDO */
 /* ============================= */
 footer {
-    background-color: #e60012; /* Rojo característico de Nintendo */
-    color: white;
-    padding: 30px 20px 20px;
-    text-align: center;
-    width: 100%;
-    margin-top: 40px;
+  background-color: #e60012; /* Rojo característico de Nintendo */
+  color: white;
+  padding: 30px 20px 20px;
+  text-align: center;
+  width: 100%;
+  margin-top: 40px;
 }
 
 .footer-logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 25px;
-    letter-spacing: 1px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
 }
 
 .footer-logo img {
-    height: 30px;
-    width: auto;
-    object-fit: contain;
+  height: 30px;
+  width: auto;
+  object-fit: contain;
 }
 
 .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px 30px;
-    margin-bottom: 25px;
-    font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px 30px;
+  margin-bottom: 25px;
+  font-size: 14px;
 }
 
 .footer-links a {
-    color: white;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
 }
 
 .footer-links a:hover {
-    border-bottom-color: white;
+  border-bottom-color: white;
 }
 
 .footer-bottom {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px 30px;
-    margin: 25px 0 15px;
-    font-size: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px 30px;
+  margin: 25px 0 15px;
+  font-size: 13px;
 }
 
 .footer-bottom a {
-    color: white;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s;
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
 }
 
 .footer-bottom a:hover {
-    border-bottom-color: white;
+  border-bottom-color: white;
 }
 
 .copyright {
-    font-size: 13px;
-    opacity: 0.9;
-    margin-top: 15px;
+  font-size: 13px;
+  opacity: 0.9;
+  margin-top: 15px;
 }
 
 .divider {
-    width: 100%;
-    max-width: 1200px;
-    margin: 15px auto;
-    height: 1px;
-    background-color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 1200px;
+  margin: 15px auto;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 600px) {
-    .footer-links, .footer-bottom {
-        flex-direction: column;
-        gap: 12px;
-    }
+  .footer-links,
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+  }
 }
 
 /* ====== MEDIA QUERIES PARA ADAPTACIÓN A PANTALLA ====== */
