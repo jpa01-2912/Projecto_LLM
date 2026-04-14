@@ -1,30 +1,29 @@
 const form = document.getElementById("login-form");
 const errorMessage = document.getElementById("login-error");
 
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
+form.addEventListener("submit", function(e){
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+e.preventDefault();
 
-  fetch("../users.json")
-    .then(response => response.json())
-    .then(users => {
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
 
-      const user = users.find(u => 
-        u.email === email && u.password === password
-      );
+const users = JSON.parse(localStorage.getItem("users")) || [];
 
-      if(user) {
-        alert("¡Inicio de sesión exitoso!");
-        window.location.href = "index.html"; // vuelve al inicio
-      } else {
-        errorMessage.textContent = "Correo o contraseña incorrectos";
-      }
+const user = users.find(u =>
+u.email === email && u.password === password
+);
 
-    })
-    .catch(error => {
-      errorMessage.textContent = "Error al conectar con el servidor";
-      console.error(error);
-    });
+if(user){
+
+localStorage.setItem("loggedUser", JSON.stringify(user));
+
+window.location.href = "index.html";
+
+}else{
+
+errorMessage.textContent = "Correo o contraseña incorrectos";
+
+}
+
 });
