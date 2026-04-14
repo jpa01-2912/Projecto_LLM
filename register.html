@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Registro</title>
+<link rel="icon" href="./fotos/logos/icono.jpg" />
 
 <link rel="stylesheet" href="css/register.css">
 
@@ -13,26 +14,39 @@
 
 <div class="register-container">
 
-<h2>Crear cuenta Nintendo</h2>
+<h2 data-i18n="title_register">Crear cuenta Nintendo</h2>
 
 <form id="register-form">
 
-<input type="email" id="email" placeholder="Correo electrónico" required>
+<input type="email" id="email" placeholder="Correo electrónico" required data-i18n="email_placeholder">
 
-<input type="password" id="password" placeholder="Contraseña" required>
+<input type="password" id="password" placeholder="Contraseña" required data-i18n="password_placeholder">
 
-<button type="submit">Crear cuenta</button>
+<button type="submit" data-i18n="btn_register">Crear cuenta</button>
 
 <p id="register-error"></p>
 
 </form>
 
 <p class="login-link">
-¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+<span data-i18n="already_account">¿Ya tienes cuenta?</span> <a href="login.html" data-i18n="link_login">Inicia sesión</a>
 </p>
+
+<!-- Language Selector -->
+<div style="margin-top: 20px; text-align: center;">
+  <select class="language-selector" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+    <option>Español (España)</option>
+    <option>English (United States)</option>
+    <option>中文 (中国)</option>
+    <option>日本語 (日本)</option>
+    <option>한국어 (대한민국)</option>
+    <option>Português (Brasil)</option>
+  </select>
+</div>
 
 </div>
 
+<script src="js/i18n.js"></script>
 <script src="js/register.js"></script>
 
 </body>

@@ -6,8 +6,10 @@ const wishlistCount = document.getElementById("wishlist-count");
 
 let allGames = [];
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let cart = JSON.parse(localStorage.getItem("carrito")) || [];
 
 updateWishlistCount();
+updateCartCount();
 
 fetch("/api/juegos")
   .then(res => res.json())
@@ -48,7 +50,7 @@ function renderGames(games) {
 
     // Comprar
     card.querySelector(".buy-btn").addEventListener("click", () => {
-      alert("Has comprado " + game.juego);
+      addToCart(game);
     });
 
     // Wishlist toggle
@@ -77,6 +79,27 @@ function toggleWishlist(game) {
 
 function updateWishlistCount() {
   wishlistCount.textContent = wishlist.length;
+}
+
+function updateCartCount() {
+  const cartCount = document.getElementById("cart-count");
+  if(cartCount) {
+    cartCount.textContent = cart.length;
+  }
+}
+
+function addToCart(game) {
+  // Verificamos si ya existe
+  const exists = cart.some(item => item.juego === game.juego);
+  if (exists) {
+    alert("Este juego ya está en tu carrito.");
+  } else {
+    cart.push(game);
+    localStorage.setItem("carrito", JSON.stringify(cart));
+    updateCartCount();
+    // Reutilizando estilos visuales o simplemente un alert suave
+    alert(`¡${game.juego} añadido al carrito!`);
+  }
 }
 
 function applyFilters() {

@@ -74,6 +74,41 @@ app.post('/api/:filename', (req, res) => {
     });
 });
 
+// Endpoint para eliminar un elemento de un array JSON usando su índice
+app.delete('/api/:filename/:index', (req, res) => {
+    const filePath = path.join(dataDir, `${req.params.filename}.json`);
+    const index = parseInt(req.params.index);
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(404).json({ error: "Archivo no encontrado." });
+        }
+        
+        try {
+            let jsonArray = JSON.parse(data);
+            if (!Array.isArray(jsonArray)) {
+                return res.status(400).json({ error: "El archivo JSON no es un arreglo (array)." });
+            }
+            
+            if (isNaN(index) || index < 0 || index >= jsonArray.length) {
+                return res.status(400).json({ error: "Índice inválido." });
+            }
+
+            // Eliminar elemento de esa posicion
+            jsonArray.splice(index, 1);
+            
+            fs.writeFile(filePath, JSON.stringify(jsonArray, null, 2), 'utf8', (err) => {
+                if (err) {
+                    return res.status(500).json({ error: "Error al borrar el elemento." });
+                }
+                res.status(200).json({ message: "Elemento eliminado correctamente." });
+            });
+        } catch (e) {
+            res.status(500).json({ error: "Error procesando el JSON." });
+        }
+    });
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`Backend API escuchando en http://localhost:${PORT}`);

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "nombre": "Admin Principal",
+    "email": "admin@nintendo.com",
+    "password": "admin",
+    "rol": "admin",
+    "estado": "activo",
+    "fecha_registro": "2023-01-15",
+    "avatar": "https://ui-avatars.com/api/?name=Admin&background=E60012&color=fff"
+  },
+  {
+    "id": 2,
+    "nombre": "Jairo",
+    "email": "jairo@nintendo.com",
+    "password": "123",
+    "rol": "admin",
+    "estado": "activo",
+    "fecha_registro": "2023-05-20",
+    "avatar": "https://ui-avatars.com/api/?name=J&background=0284c7&color=fff"
+  },
+  {
+    "id": 3,
+    "nombre": "Mario Bros",
+    "email": "mario.jump@mushroom.kr",
+    "password": "123",
+    "rol": "user",
+    "estado": "activo",
+    "fecha_registro": "2023-06-01",
+    "avatar": "https://ui-avatars.com/api/?name=MB&background=dc2626&color=fff"
+  },
+  {
+    "id": 4,
+    "nombre": "Luigi",
+    "email": "luigi.ghost@mushroom.kr",
+    "password": "123",
+    "rol": "user",
+    "estado": "activo",
+    "fecha_registro": "2023-06-02",
+    "avatar": "https://ui-avatars.com/api/?name=L&background=16a34a&color=fff"
+  },
+  {
+    "id": 5,
+    "nombre": "Zelda",
+    "email": "princess.zelda@hyrule.gov",
+    "password": "123",
+    "rol": "user",
+    "estado": "activo",
+    "fecha_registro": "2023-08-11",
+    "avatar": "https://ui-avatars.com/api/?name=Z&background=ca8a04&color=fff"
+  },
+  {
+    "id": 6,
+    "nombre": "Link",
+    "email": "hero.time@hyrule.gov",
+    "password": "123",
+    "rol": "user",
+    "estado": "inactivo",
+    "fecha_registro": "2023-08-11",
+    "avatar": "https://ui-avatars.com/api/?name=L&background=059669&color=fff"
+  },
+  {
+    "id": 7,
+    "nombre": "Bowser",
+    "email": "king.koopa@darkland.com",
+    "password": "password",
+    "rol": "user",
+    "estado": "bloqueado",
+    "fecha_registro": "2024-01-05",
+    "avatar": "https://ui-avatars.com/api/?name=B&background=ea580c&color=fff"
+  },
+  {
+    "id": 8,
+    "nombre": "Samus Aran",
+    "email": "samus.hunter@bounty.gal",
+    "password": "123",
+    "rol": "user",
+    "estado": "activo",
+    "fecha_registro": "2024-02-15",
+    "avatar": "https://ui-avatars.com/api/?name=SA&background=d97706&color=fff"
+  },
+  {
+    "id": 9,
+    "nombre": "Kirby",
+    "email": "poyo@dreamland.st",
+    "password": "123",
+    "rol": "user",
+    "estado": "activo",
+    "fecha_registro": "2024-03-22",
+    "avatar": "https://ui-avatars.com/api/?name=K&background=db2777&color=fff"
+  },
+  {
+    "id": 10,
+    "nombre": "Yoshi",
+    "email": "yoshi.island@dino.net",
+    "password": "123",
+    "rol": "user",
+    "estado": "activo",
+    "fecha_registro": "2024-04-01",
+    "avatar": "https://ui-avatars.com/api/?name=Y&background=84cc16&color=fff"
+  }
+]

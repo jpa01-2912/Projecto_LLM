@@ -670,4 +670,38 @@ document.addEventListener("DOMContentLoaded", function () {
   cargarJuegos(); 
   cargarAplicaciones();
   cargarMyNintendoStore();
+  
+  // === LÓGICA DE USUARIO LOGUEADO LOGUEADO ===
+  const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+  if (loggedUser) {
+    // Buscar el botón de Iniciar Sesión en la barra superior
+    const loginLink = document.querySelector(".top-actions .action a[href='login.html']");
+    if (loginLink) {
+      // Extraer el texto antes del @ para usarlo de nombre y poner la primera mayuscula
+      let baseName = loggedUser.email.split("@")[0];
+      let displayName = baseName.charAt(0).toUpperCase() + baseName.slice(1);
+      
+      loginLink.textContent = "Hola, " + displayName;
+      // Opcionalmente podrías cambiar el link a un dashboard o #
+      // loginLink.href = "admin.html"; // Por si quieres mandarlo al admin
+      
+      // Modificar el contenedor para habilitar "Cerrar Sesión" de forma sutil
+      const loginContainer = loginLink.parentElement;
+      
+      const logoutBtn = document.createElement("a");
+      logoutBtn.href = "#";
+      logoutBtn.textContent = "(Salir)";
+      logoutBtn.style.color = "#ccc";
+      logoutBtn.style.fontSize = "12px";
+      logoutBtn.style.marginLeft = "8px";
+      
+      logoutBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          localStorage.removeItem("loggedUser");
+          window.location.reload();
+      });
+      
+      loginContainer.appendChild(logoutBtn);
+    }
+  }
 });
