@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
+const mysql = require('mysql2/promise');
 const path = require('path');
 
 const app = express();
@@ -8,109 +8,257 @@ const PORT = 3000;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
-// Directorio del frontend (arriba de backend) y carpeta de datos
-const dataDir = path.join(__dirname, '..', 'data');
-const frontendDir = path.join(__dirname, '..');
+// Servir archivos estáticos del frontend (la carpeta raíz del proyecto)
+app.use(express.static(path.join(__dirname, '..')));
 
-// Servir archivos estáticos del frontend
-app.use(express.static(frontendDir));
+// Pool de conexiones MySQL
+const pool = mysql.createPool({
+  host: 'localhost',
+  port: 3307,
+  user: 'root',
+  password: '',
+  database: 'tienda',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
-// --- API Endpoints ---
+// ---------- ENDPOINTS PARA CADA RECURSO ----------
 
-// Ruta genérica para obtener cualquier JSON
-app.get('/api/:filename', (req, res) => {
-    const filePath = path.join(dataDir, `${req.params.filename}.json`);
+// ---------- USUARIOS ----------
+app.get('/api/usuarios', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM usuarios ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/usuarios', async (req, res) => {
+  try {
+    const { nombre, email, password, rol, estado, fecha_registro, avatar } = req.body;
+    const [result] = await pool.query(
+      'INSERT INTO usuarios (nombre, email, password, rol, estado, fecha_registro, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [nombre, email, password, rol || 'user', estado || 'activo', fecha_registro || new Date().toISOString().split('T')[0], avatar]
+    );
+    res.status(201).json({ id: result.insertId, message: 'Usuario creado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/usuarios/:id', async (req, res) => {
+  try {
+    const { nombre, email, password, rol, estado, avatar } = req.body;
+    await pool.query(
+      'UPDATE usuarios SET nombre=?, email=?, password=?, rol=?, estado=?, avatar=? WHERE id=?',
+      [nombre, email, password, rol, estado, avatar, req.params.id]
+    );
+    res.json({ message: 'Usuario actualizado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/usuarios/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM usuarios WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Usuario eliminado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---------- JUEGOS (similar para los demás recursos) ----------
+app.get('/api/juegos', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM juegos ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/juegos', async (req, res) => {
+  try {
+    const { juego, plataforma, fecha, imagen, esNuevaConsola, precio } = req.body;
+    const [result] = await pool.query(
+      'INSERT INTO juegos (juego, plataforma, fecha, imagen, esNuevaConsola, precio) VALUES (?, ?, ?, ?, ?, ?)',
+      [juego, plataforma, fecha, imagen, esNuevaConsola || false, precio]
+    );
+    res.status(201).json({ id: result.insertId, message: 'Juego añadido' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/juegos/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM juegos WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Juego eliminado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---------- APLICACIONES ----------
+app.get('/api/aplicaciones', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM aplicaciones');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/aplicaciones', async (req, res) => {
+  try {
+    const { aplicacion, plataforma, fecha, imagen } = req.body;
+    const [result] = await pool.query(
+      'INSERT INTO aplicaciones (aplicacion, plataforma, fecha, imagen) VALUES (?, ?, ?, ?)',
+      [aplicacion, plataforma, fecha, imagen]
+    );
+    res.status(201).json({ id: result.insertId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/aplicaciones/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM aplicaciones WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Aplicación eliminada' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---------- CARRUSEL ----------
+app.get('/api/carrousel', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM carrousel ORDER BY id');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/carrousel', async (req, res) => {
+  try {
+    const { url, alt, titulo, boton_texto, link } = req.body;
+    const [result] = await pool.query(
+      'INSERT INTO carrousel (url, alt, titulo, boton_texto, link) VALUES (?, ?, ?, ?, ?)',
+      [url, alt, titulo, boton_texto, link]
+    );
+    res.status(201).json({ id: result.insertId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/carrousel/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM carrousel WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Elemento del carrusel eliminado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---------- MY NINTENDO STORE ----------
+app.get('/api/myNintendoStore', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM myNintendoStore');
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/myNintendoStore', async (req, res) => {
+  try {
+    const { aplicacion, descripcion, imagen } = req.body;
+    const [result] = await pool.query(
+      'INSERT INTO myNintendoStore (aplicacion, descripcion, imagen) VALUES (?, ?, ?)',
+      [aplicacion, descripcion, imagen]
+    );
+    res.status(201).json({ id: result.insertId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/myNintendoStore/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM myNintendoStore WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Elemento eliminado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ---------- NOVEDADES (estructura especial) ----------
+app.get('/api/novedades', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT principal, secundarias, otrasNoticias FROM novedades WHERE id = 1');
+    if (rows.length === 0) return res.json({ principal: {}, secundarias: [], otrasNoticias: [] });
+    const { principal, secundarias, otrasNoticias } = rows[0];
+    res.json({
+      principal: JSON.parse(principal),
+      secundarias: JSON.parse(secundarias),
+      otrasNoticias: JSON.parse(otrasNoticias)
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Actualizar novedades completa (PUT)
+app.put('/api/novedades', async (req, res) => {
+  try {
+    const { principal, secundarias, otrasNoticias } = req.body;
+    await pool.query(
+      'UPDATE novedades SET principal = ?, secundarias = ?, otrasNoticias = ? WHERE id = 1',
+      [JSON.stringify(principal), JSON.stringify(secundarias), JSON.stringify(otrasNoticias)]
+    );
+    res.json({ message: 'Novedades actualizadas' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Para mantener compatibilidad con el admin (que espera POST para añadir items en secundarias, etc.)
+// Pero como novedades tiene una estructura especial, recomendamos manejar la actualización completa.
+// Si tu admin.js actual intenta hacer POST /api/novedades, puedes redirigirlo a PUT.
+app.post('/api/novedades', async (req, res) => {
+  // Redirigimos a la actualización completa (opcional)
+  try {
+    const current = await pool.query('SELECT principal, secundarias, otrasNoticias FROM novedades WHERE id = 1');
+    let { principal, secundarias, otrasNoticias } = current[0][0];
+    principal = JSON.parse(principal);
+    secundarias = JSON.parse(secundarias);
+    otrasNoticias = JSON.parse(otrasNoticias);
     
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(404).json({ error: "Archivo no encontrado o error al leer." });
-        }
-        res.json(JSON.parse(data));
-    });
-});
-
-// Ruta genérica para sobreescribir cualquier JSON (manipular datos)
-app.put('/api/:filename', (req, res) => {
-    const filePath = path.join(dataDir, `${req.params.filename}.json`);
-    const newData = req.body;
-
-    fs.writeFile(filePath, JSON.stringify(newData, null, 2), 'utf8', (err) => {
-        if (err) {
-            return res.status(500).json({ error: "Error al guardar los datos." });
-        }
-        res.json({ message: "Datos actualizados correctamente." });
-    });
-});
-
-// Endpoint para añadir un elemento a un array JSON específico (ej: nuevo juego)
-app.post('/api/:filename', (req, res) => {
-    const filePath = path.join(dataDir, `${req.params.filename}.json`);
-    const newItem = req.body;
-
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(404).json({ error: "Archivo no encontrado." });
-        }
-        
-        try {
-            let jsonArray = JSON.parse(data);
-            if (!Array.isArray(jsonArray)) {
-                return res.status(400).json({ error: "El archivo JSON no es un arreglo (array)." });
-            }
-            
-            jsonArray.push(newItem);
-            
-            fs.writeFile(filePath, JSON.stringify(jsonArray, null, 2), 'utf8', (err) => {
-                if (err) {
-                    return res.status(500).json({ error: "Error al guardar el nuevo elemento." });
-                }
-                res.status(201).json({ message: "Elemento añadido correctamente.", item: newItem });
-            });
-        } catch (e) {
-            res.status(500).json({ error: "Error procesando el JSON." });
-        }
-    });
-});
-
-// Endpoint para eliminar un elemento de un array JSON usando su índice
-app.delete('/api/:filename/:index', (req, res) => {
-    const filePath = path.join(dataDir, `${req.params.filename}.json`);
-    const index = parseInt(req.params.index);
-
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            return res.status(404).json({ error: "Archivo no encontrado." });
-        }
-        
-        try {
-            let jsonArray = JSON.parse(data);
-            if (!Array.isArray(jsonArray)) {
-                return res.status(400).json({ error: "El archivo JSON no es un arreglo (array)." });
-            }
-            
-            if (isNaN(index) || index < 0 || index >= jsonArray.length) {
-                return res.status(400).json({ error: "Índice inválido." });
-            }
-
-            // Eliminar elemento de esa posicion
-            jsonArray.splice(index, 1);
-            
-            fs.writeFile(filePath, JSON.stringify(jsonArray, null, 2), 'utf8', (err) => {
-                if (err) {
-                    return res.status(500).json({ error: "Error al borrar el elemento." });
-                }
-                res.status(200).json({ message: "Elemento eliminado correctamente." });
-            });
-        } catch (e) {
-            res.status(500).json({ error: "Error procesando el JSON." });
-        }
-    });
+    // Según lo que envíe el admin, podrías agregar a secundarias, etc. Pero por simplicidad:
+    // Si el body tiene "secundarias", lo reemplazas. Si no, ignoras.
+    if (req.body.secundarias) secundarias = req.body.secundarias;
+    if (req.body.otrasNoticias) otrasNoticias = req.body.otrasNoticias;
+    
+    await pool.query(
+      'UPDATE novedades SET principal = ?, secundarias = ?, otrasNoticias = ? WHERE id = 1',
+      [JSON.stringify(principal), JSON.stringify(secundarias), JSON.stringify(otrasNoticias)]
+    );
+    res.json({ message: 'Novedades actualizadas vía POST' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`Backend API escuchando en http://localhost:${PORT}`);
-    console.log(`Frontend accesible en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Base de datos MySQL conectada correctamente`);
 });
