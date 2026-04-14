@@ -661,6 +661,204 @@ function toggleFavorito(boton, juegoNombre) {
   
   localStorage.setItem('favoritos', JSON.stringify(favoritos));
 }
+
+// ========== MENÚ DESPLEGABLE ==========
+// DATOS DEL MENÚ
+const menuData = {
+    juegos: {
+        title: 'Juegos',
+        items: [
+            'Información',
+            'Juegos de Nintendo Switch 2',
+            'Juegos de Nintendo Switch',
+            'Destacados del mes',
+            'Lanzamientos recientes',
+            'Próximos juegos',
+            'Demos',
+            'Juegos de instalación gratuita',
+            'Contenido descargable',
+            'Juegos de dispositivo inteligente',
+            'Portal de Nintendo'
+        ]
+    },
+    hardware: {
+        title: 'Hardware',
+        items: [
+            'Consolas',
+            'Controles',
+            'Accesorios',
+            'Cuidado y limpieza',
+            'Baterías'
+        ]
+    },
+    online: {
+        title: 'Nintendo Switch Online',
+        items: [
+            'Planes de suscripción',
+            'Juegos incluidos',
+            'Beneficios',
+            'Requisitos técnicos'
+        ]
+    },
+    eshop: {
+        title: 'Nintendo eShop',
+        items: [
+            'Nuevos lanzamientos',
+            'Ofertas',
+            'Juegos destacados',
+            'Géneros',
+            'Mis compras'
+        ]
+    },
+    mynintendo: {
+        title: 'My Nintendo Store',
+        items: [
+            'Puntos MyNintendo',
+            'Recompensas',
+            'Exclusivas',
+            'Colecciones'
+        ]
+    },
+    seguenos: {
+        title: 'Síguenos',
+        items: [
+            'Facebook',
+            'Twitter',
+            'Instagram',
+            'YouTube',
+            'TikTok'
+        ]
+    },
+    mas: {
+        title: 'Más',
+        items: [
+            'Comunidad',
+            'Centro de ayuda',
+            'Contacto',
+            'Privacidad',
+            'Términos de servicio',
+            'Accesibilidad'
+        ]
+    }
+};
+
+// Variables para el dropdown
+let dropdownPanel = null;
+let isDropdownVisible = false;
+
+
+// FUNCIÓN PARA CREAR EL DROPDOWN PANEL
+function crearDropdownPanel() {
+    if (dropdownPanel) return;
+    
+    // Buscar el sidebar (la barra lateral izquierda)
+    dropdownPanel = document.createElement('div');
+    dropdownPanel.className = 'dropdown-panel';
+    
+    dropdownPanel.innerHTML = `
+        <h3 class="dropdown-title">Juegos</h3>
+        <div class="dropdown-items" id="dropdownItemsContainer">
+        </div>
+        `;
+    document.body.appendChild(dropdownPanel);
+}
+
+
+// FUNCIÓN PARA ACTUALIZAR EL CONTENIDO DEL DROPDOWN
+function actualizarDropdown(menuKey) {
+    if (!dropdownPanel) crearDropdownPanel();
+    if (!dropdownPanel) return;
+    
+    const menu = menuData[menuKey];
+    if (!menu) return;
+    
+    // Actualizar título
+    const titleElement = dropdownPanel.querySelector('.dropdown-title');
+    if (titleElement) titleElement.textContent = menu.title;
+    
+    // Actualizar items
+    const container = dropdownPanel.querySelector('#dropdownItemsContainer');
+    if (container) {
+        container.innerHTML = '';
+        
+        menu.items.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'dropdown-item';
+            itemDiv.textContent = item;
+            itemDiv.onclick = (e) => {
+                e.stopPropagation();
+                console.log(`Seleccionado: ${item}`);
+                alert(`Has seleccionado: ${item}`);
+                cerrarDropdown();
+            };
+            container.appendChild(itemDiv);
+            
+            // Añadir divisor excepto después del último
+            if (index < menu.items.length - 1) {
+                const divider = document.createElement('div');
+                divider.className = 'divider';
+                container.appendChild(divider);
+            }
+        });
+    }
+}
+
+// FUNCIÓN PARA ABRIR EL DROPDOWN
+function abrirDropdown(menuKey) {
+    if (!dropdownPanel) crearDropdownPanel();
+    if (!dropdownPanel) return;
+    
+    actualizarDropdown(menuKey);
+    dropdownPanel.classList.add('active');
+    isDropdownVisible = true;
+}
+
+// FUNCIÓN PARA CERRAR EL DROPDOWN
+function cerrarDropdown() {
+    if (dropdownPanel) {
+        dropdownPanel.classList.remove('active');
+        isDropdownVisible = false;
+    }
+}
+
+// FUNCIÓN PARA ALTERNAR EL DROPDOWN
+function toggleDropdown(menuKey) {
+    if (isDropdownVisible) {
+        cerrarDropdown();
+    } else {
+        abrirDropdown(menuKey);
+    }
+}
+
+// Cerrar dropdown al hacer clic fuera
+document.addEventListener('click', function(event) {
+    if (!isDropdownVisible) return;
+    
+    const sidebar = document.querySelector('.sidebar');
+    const isClickOnSidebar = sidebar && sidebar.contains(event.target);
+    const isClickOnDropdown = dropdownPanel && dropdownPanel.contains(event.target);
+    
+    if (!isClickOnSidebar && !isClickOnDropdown) {
+        cerrarDropdown();
+    }
+});
+
+window.selectMenu = function(menuKey) {
+  toggleDropdown(menuKey);
+  document.querySelectorAll('.side-item').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  const clickedElement = document.querySelector(`.side-item[onclick="selectMenu('${menuKey}')"]`);
+  if (clickedElement) {
+    clickedElement.classList.add('active');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  crearDropdownPanel();
+});
+
 // Hacer la función global
 window.toggleFavorito = toggleFavorito;
 

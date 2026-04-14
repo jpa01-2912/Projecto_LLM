@@ -1117,6 +1117,95 @@ footer {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+
+/* ====== MENÚ DESPLEGABLE NINTENDO (SOLO DROPDOWN) ====== */
+
+/* DROPDOWN PANEL */
+.dropdown-panel {
+    width: 380px;
+    background: white;
+    border-right: 1px solid #e0e0e0;
+    padding: 25px 0;
+    overflow-y: auto;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease;
+    display: none;
+    position: fixed;
+    left: 90px;
+    top: 71px;
+    z-index: 1000;
+    max-height: calc(100vh - 71px);
+}
+
+.dropdown-panel.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* TÍTULO DEL DROPDOWN */
+.dropdown-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    padding: 0 25px 20px 25px;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 0;
+}
+
+/* CONTENEDOR DE ITEMS */
+.dropdown-items {
+    padding: 10px 0;
+}
+
+/* ITEMS DEL DROPDOWN */
+.dropdown-item {
+    padding: 12px 25px;
+    color: #444;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    position: relative;
+    border-left: 3px solid transparent;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f8f8;
+    color: #e60012;
+    border-left-color: #e60012;
+    padding-left: 30px;
+}
+
+/* SEPARADORES */
+.divider {
+    height: 1px;
+    background: #eeeeee;
+    margin: 8px 25px;
+}
+
+/* SCROLLBAR */
+.dropdown-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dropdown-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.dropdown-panel::-webkit-scrollbar-thumb {
+    background: #e60012;
+    border-radius: 2px;
+}
+
 @media (max-width: 600px) {
   .footer-links,
   .footer-bottom {
