@@ -10,7 +10,7 @@ let cicloCompleto = false;
 const imagenSlide = document.getElementById("carousel-img");
 const indicadoresContainer = document.getElementById("indicators-container");
 
-fetch("./data/carrousel.json")
+fetch("/api/carrousel")
   .then((response) => response.json())
   .then((data) => {
     imagenes = data;
@@ -272,8 +272,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function cargarNoticias() {
-  // Cargar las noticias desde el JSON
-  fetch("./data/novedades.json")
+  // Cargar las noticias desde la API
+  fetch("/api/novedades")
     .then((response) => {
       if (!response.ok) {
         throw new Error("No se pudo cargar el JSON");
@@ -467,21 +467,25 @@ function configurarTabs(data) {
 // Añade esta función al final de tu app.js
 
 function cargarJuegos() {
-  fetch("./data/juegos.json")
+  fetch("/api/juegos")
     .then((response) => {
       if (!response.ok) {
-        throw new Error("No se pudo cargar el JSON de juegos");
+        throw new Error("No se pudo cargar la API de juegos");
       }
       return response.json();
     })
     .then((data) => {
-      console.log("Juegos cargados:", data);
+      console.log("Juegos cargadas desde API:", data);
 
       const juegosContainer = document.getElementById("juegos-container");
       if (!juegosContainer) {
         console.error("No se encontró el elemento con id 'juegos-container'");
         return;
       }
+      
+      // Obtener favoritos del localStorage
+      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+
       juegosContainer.innerHTML = data
 
         .map(
@@ -505,8 +509,8 @@ function cargarJuegos() {
               <h3 class="juego-titulo">${juego.juego}</h3>
             </div>
             <div class="juego-favorito-container">
-                <button class="juego-favorito" onclick="toggleFavorito(this)">
-                  <i class="fa-regular fa-heart"></i>
+                <button class="juego-favorito ${favoritos.includes(juego.juego) ? 'activo' : ''}" onclick="toggleFavorito(this, '${juego.juego.replace(/'/g, "\\'")}')">
+                  <i class="${favoritos.includes(juego.juego) ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
                 </button>
               </div>
           </div>
@@ -527,10 +531,10 @@ function cargarJuegos() {
 // ========== CARGAR APLICACIONES DESDE JSON ==========
 
 function cargarAplicaciones() {
-  fetch("./data/aplicaciones.json")
+  fetch("/api/aplicaciones")
     .then((response) => {
       if (!response.ok) {
-        throw new Error("No se pudo cargar el JSON de aplicaciones");
+        throw new Error("No se pudo cargar la API de aplicaciones");
       }
       return response.json();
     })
@@ -583,10 +587,10 @@ function cargarAplicaciones() {
 // ========== CARGAR MY NINTENDO STORE DESDE JSON ==========
 
 function cargarMyNintendoStore() {
-  fetch("./data/myNintendoStore.json") 
+  fetch("/api/myNintendoStore") 
     .then((response) => {
       if (!response.ok) {
-        throw new Error("No se pudo cargar el archivo MyNintendoStore.json");
+        throw new Error("No se pudo cargar la API MyNintendoStore");
       }
       return response.json();
     })
@@ -632,19 +636,30 @@ function cargarMyNintendoStore() {
     .catch((error) => console.error("Error en Store:", error));
 }
 
-// Función para toggle de favorito
-function toggleFavorito(boton) {
+// Función para toggle de favorito y localStorage
+function toggleFavorito(boton, juegoNombre) {
   const icono = boton.querySelector("i");
+  let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
 
   if (icono.classList.contains("fa-regular")) {
     icono.classList.remove("fa-regular");
     icono.classList.add("fa-solid");
     boton.classList.add("activo");
+    
+    // Añadir a localStorage
+    if (!favoritos.includes(juegoNombre)) {
+      favoritos.push(juegoNombre);
+    }
   } else {
     icono.classList.remove("fa-solid");
     icono.classList.add("fa-regular");
     boton.classList.remove("activo");
+    
+    // Remover de localStorage
+    favoritos = favoritos.filter(f => f !== juegoNombre);
   }
+  
+  localStorage.setItem('favoritos', JSON.stringify(favoritos));
 }
 // Hacer la función global
 window.toggleFavorito = toggleFavorito;
