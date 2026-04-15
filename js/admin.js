@@ -74,7 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
             headers.forEach(key => {
                 const td = document.createElement("td");
                 let valor = item[key];
-                if (typeof valor === 'string' && (valor.includes(".jpg") || valor.includes(".png") || valor.includes("http"))) {
+                if (key === 'link') {
+                    td.innerHTML = `<a href="${valor}" target="_blank" style="color: blue; text-decoration: underline;">${valor}</a>`;
+                } else if (typeof valor === 'string' && (valor.includes(".jpg") || valor.includes(".png") || valor.includes("http"))) {
                     td.classList.add("img-cell");
                     td.innerHTML = `<img src="${valor}" alt="preview" onerror="this.src='./fotos/placeholder.jpg'" style="max-width:80px;">`;
                 } else if (typeof valor === 'object') {

@@ -10,12 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $host = 'localhost';
+$port = 3307;
 $user = 'root';
 $password = '';
 $database = 'tienda';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$database;charset=utf8", $user, $password);
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$database;charset=utf8", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     http_response_code(500);
