@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuenta Nintendo</title>
+  <link rel="icon" href="./fotos/logos/icono.jpg" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/count.css">
+</head>
+<body>
+  <header class="count-header">
+    <div class="logo-wrapper">
+      <a href="index.html" aria-label="Inicio">
+        <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo">
+      </a>
+    </div>
+    <div class="header-title">Cuenta Nintendo</div>
+  </header>
+
+  <main class="count-main">
+    <!-- User Profile Header -->
+    <div class="profile-header">
+      <div class="avatar" id="user-avatar">?</div>
+      <h1 class="user-name" id="user-name">Cargando...</h1>
+      <p class="user-email" id="user-email">...</p>
+      <button class="settings-btn">
+        <i class="fa-solid fa-table-cells-large"></i> Ajustes de la cuenta >
+      </button>
+    </div>
+
+    <!-- Group: Grupo Familiar -->
+    <div class="card card-single">
+      <div class="card-row">
+        <span class="row-title">Grupo familiar</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+    </div>
+
+    <!-- Section Title -->
+    <h2 class="section-title">Nintendo Switch 2/Nintendo Switch</h2>
+    
+    <!-- Group: Switch -->
+    <div class="card card-grid">
+      <!-- Grid part -->
+      <div class="grid-2">
+        <div class="card-box">
+          <i class="fa-regular fa-face-smile"></i>
+          <div class="box-text">
+            <span>Usuario</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
+        <div class="card-box">
+          <i class="fa-solid fa-gamepad"></i>
+          <div class="box-text">
+            <span>Consolas</span>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+      <!-- List part -->
+      <div class="card-row">
+        <div class="row-icon-center"><i class="fa-solid fa-mobile-screen-button"></i></div>
+      </div>
+      <div class="card-row">
+        <span class="row-title">Tarjetas de juego virtuales</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div class="card-row">
+        <div class="row-left">
+          <div class="red-icon">
+            <span style="font-family: Arial; font-weight: 800; font-size: 10px;">ONLINE</span>
+          </div>
+          <div class="row-text">
+            <span class="row-title">Nintendo Switch Online</span>
+            <span class="row-subtitle">Sin suscripción</span>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div class="card-row">
+        <div class="row-left">
+          <i class="fa-solid fa-ticket fa-lg"></i>
+          <div class="row-text">
+            <span class="row-title">Suscripciones</span>
+            <span class="row-subtitle">0</span>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+    </div>
+
+    <!-- Section Title -->
+    <h2 class="section-title">Tienda</h2>
+
+    <!-- Group: Tienda -->
+    <div class="card">
+      <div class="card-row">
+        <div class="row-left">
+          <i class="fa-brands fa-monero fa-2x" style="color: #666;"></i>
+          <div class="row-text">
+            <span class="row-title">Puntos</span>
+            <span class="row-subtitle"><i class="fa-solid fa-circle" style="color:silver; font-size: 10px;"></i> 30</span>
+          </div>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+      <div class="card-row">
+        <div class="row-left">
+          <i class="fa-regular fa-credit-card fa-lg"></i>
+          <span class="row-title" style="margin-left: 15px;">Fondos y métodos de pago</span>
+        </div>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+    </div>
+
+    <button id="logout-btn" class="logout-btn">Cerrar sesión</button>
+  </main>
+
+  <script src="./js/count.js"></script>
+</body>
+</html>

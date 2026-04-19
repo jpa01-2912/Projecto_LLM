@@ -49,3 +49,14 @@ font-size:14px;
 .login-link{
 margin-top:15px;
 }
+
+.language-selector-container {
+margin-top: 20px;
+text-align: center;
+}
+
+.language-selector {
+padding: 5px;
+border-radius: 4px;
+border: 1px solid #ccc;
+}

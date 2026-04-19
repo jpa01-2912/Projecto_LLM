@@ -192,3 +192,15 @@
     width: 100%;
   }
 }
+
+/* Clases extraídas de carrito.html */
+.topbar-logo {
+  height: 35px;
+  background-color: #e60012;
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+.wishlist-link-right {
+  margin-left: 10px;
+}

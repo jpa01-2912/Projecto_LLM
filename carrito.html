@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Carrito - Nintendo</title>
   <link rel="icon" href="./fotos/logos/icono.jpg" />
   <link rel="stylesheet" href="./css/juegos.css">
   <link rel="stylesheet" href="./css/carrito.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
   <header class="topbar">
     <a href="index.html">
-      <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" style="height: 35px; background-color: #e60012; padding: 2px 10px; border-radius: 4px;">
+      <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" class="topbar-logo">
     </a>
     <a href="juegos.html" class="wishlist-link">← Volver al Catálogo</a>
-    <a href="wishlist.html" class="wishlist-link" style="margin-left:10px;">❤️ Lista de Deseos</a>
+    <a href="wishlist.html" class="wishlist-link wishlist-link-right">❤️ Lista de Deseos</a>
   </header>
 
   <main class="cart-main">
     <div class="cart-container">
-      
+
       <!-- Lado Izquierdo: Lista de juegos -->
       <div class="cart-items" id="cart-list">
         <!-- Renderizado desde js/carrito.js -->
@@ -41,16 +44,17 @@
           <span>Total</span>
           <span id="total-price">0.00€</span>
         </div>
-        
+
         <button class="checkout-btn" id="btn-checkout">Continuar a la caja</button>
         <div class="secure-checkout">
           <i class="fa-solid fa-lock"></i> Compra segura garantizada
         </div>
       </div>
-      
+
     </div>
   </main>
 
   <script src="./js/carrito.js"></script>
 </body>
+
 </html>

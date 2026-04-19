@@ -1,135 +1,141 @@
 <!doctype html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cuenta Nintendo</title>
-<link rel="icon" href="./fotos/logos/icono.jpg" />
 
-<link rel="stylesheet" href="css/login.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuenta Nintendo</title>
+    <link rel="icon" href="./fotos/logos/icono.jpg" />
+
+    <link rel="stylesheet" href="css/login.css">
 
 </head>
 
 <body>
 
-<header class="main-header">
+    <header class="main-header">
 
-<div class="logo-wrapper">
-<div class="logo-red-box">
-<img src="fotos/logos/nintendo-logo.png" alt="Logo de Nintendo" class="logo-image">
-</div>
-</div>
+        <div class="logo-wrapper">
+            <div class="logo-red-box">
+                <a href="index.html" aria-label="Inicio">
+                    <img src="fotos/logos/nintendo-logo.png" alt="Logo de Nintendo" class="logo-image">
+                </a>
+            </div>
+        </div>
 
-<div class="header-title" data-i18n="title_login">Cuenta Nintendo</div>
+        <div class="header-title" data-i18n="title_login">Cuenta Nintendo</div>
 
-</header>
-
-
-<main class="content">
-
-<h1 data-i18n="title_login">Cuenta Nintendo</h1>
-
-<div class="card">
-
-<p class="instruction" data-i18n="instruction">
-Inicia sesión con tu cuenta Nintendo <br>
-o crea una cuenta nueva.
-</p>
-
-<div class="buttons-container">
-
-<div class="button-group">
-
-<p class="button-label" data-i18n="has_account">¿Tienes ya una cuenta?</p>
-
-<form id="login-form">
-
-<input type="email" id="email" placeholder="Correo electrónico" required data-i18n="email_placeholder">
-
-<input type="password" id="password" placeholder="Contraseña" required data-i18n="password_placeholder">
-
-<button type="submit" class="btn btn-red" data-i18n="btn_login">Iniciar sesión</button>
-
-<p id="login-error"></p>
-
-</form>
-
-</div>
-
-<div class="button-group">
-
-<p class="button-label" data-i18n="no_account">¿No tienes cuenta?</p>
-
-<a href="register.html" class="btn btn-red" data-i18n="btn_create">
-Crear una cuenta Nintendo
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-</main>
+    </header>
 
 
-<footer class="footer">
+    <main class="content">
 
-<div class="footer-container">
+        <h1 data-i18n="title_login">Cuenta Nintendo</h1>
 
-<div class="footer-links">
+        <div class="card">
 
-<div class="link-item">
-<span class="dot">?</span>
-<a href="#" data-i18n="footer_help">Ayuda</a>
-</div>
+            <p class="instruction" data-i18n="instruction">
+                Inicia sesión con tu cuenta Nintendo <br>
+                o crea una cuenta nueva.
+            </p>
 
-<div class="link-item">
-<span class="dot">›</span>
-<a href="#" data-i18n="footer_contract">Contrato de la cuenta Nintendo</a>
-</div>
+            <div class="buttons-container">
 
-<div class="link-item">
-<span class="dot">›</span>
-<a href="#" data-i18n="footer_privacy">Política de privacidad de la cuenta Nintendo</a>
-</div>
+                <div class="button-group">
 
-<div class="link-item">
-<span class="dot">›</span>
-<a href="#" data-i18n="footer_web_privacy">Contacto y política de privacidad de este sitio web</a>
-</div>
+                    <p class="button-label" data-i18n="has_account">¿Tienes ya una cuenta?</p>
 
-<div class="link-item second-row">
-<span class="dot">›</span>
-<a href="#" data-i18n="footer_nintendo">Sitio web de Nintendo</a>
-</div>
+                    <form id="login-form">
 
-</div>
+                        <input type="email" id="email" placeholder="Correo electrónico" required
+                            data-i18n="email_placeholder">
 
-<div class="footer-aside">
+                        <input type="password" id="password" placeholder="Contraseña" required
+                            data-i18n="password_placeholder">
 
-<div class="language-box">
-<select class="language-selector">
-<option>Español (España)</option>
-<option>English (United States)</option>
-<option>中文 (中国)</option>
-<option>日本語 (日本)</option>
-<option>한국어 (대한민국)</option>
-<option>Português (Brasil)</option>
-</select>
-<span class="select-arrows">↕</span>
-</div>
+                        <button type="submit" class="btn btn-red" data-i18n="btn_login">Iniciar sesión</button>
 
-<p class="copyright">© Nintendo</p>
+                        <p id="login-error"></p>
 
-</div>
+                    </form>
 
-</div>
+                </div>
 
-</footer>
+                <div class="button-group">
 
-<script src="js/i18n.js"></script>
-<script src="js/login.js"></script>
+                    <p class="button-label" data-i18n="no_account">¿No tienes cuenta?</p>
+
+                    <a href="register.html" class="btn btn-red" data-i18n="btn_create">
+                        Crear una cuenta Nintendo
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-links">
+
+                <div class="link-item">
+                    <span class="dot">?</span>
+                    <a href="#" data-i18n="footer_help">Ayuda</a>
+                </div>
+
+                <div class="link-item">
+                    <span class="dot">›</span>
+                    <a href="#" data-i18n="footer_contract">Contrato de la cuenta Nintendo</a>
+                </div>
+
+                <div class="link-item">
+                    <span class="dot">›</span>
+                    <a href="#" data-i18n="footer_privacy">Política de privacidad de la cuenta Nintendo</a>
+                </div>
+
+                <div class="link-item">
+                    <span class="dot">›</span>
+                    <a href="#" data-i18n="footer_web_privacy">Contacto y política de privacidad de este sitio web</a>
+                </div>
+
+                <div class="link-item second-row">
+                    <span class="dot">›</span>
+                    <a href="#" data-i18n="footer_nintendo">Sitio web de Nintendo</a>
+                </div>
+
+            </div>
+
+            <div class="footer-aside">
+
+                <div class="language-box">
+                    <select class="language-selector" aria-label="Seleccionar idioma">
+                        <option>Español (España)</option>
+                        <option>English (United States)</option>
+                        <option>中文 (中国)</option>
+                        <option>日本語 (日本)</option>
+                        <option>한국어 (대한민국)</option>
+                        <option>Português (Brasil)</option>
+                    </select>
+                    <span class="select-arrows">↕</span>
+                </div>
+
+                <p class="copyright">© Nintendo</p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
+
 </html>
