@@ -288,12 +288,12 @@ function cargarNoticias() {
       if (noticiaPrincipal) {
         noticiaPrincipal.innerHTML = `
           <div class="noticia-imagen">
-            <img src="${data.principal.imagen}" alt="${data.principal.titulo}">
+            <img src="${data.principal?.imagen || "./fotos/placeholder.jpg"}" alt="${data.principal?.titulo || ""}">
           </div>
           <div class="noticia-contenido">
-            <span class="noticia-etiqueta">${data.principal.etiqueta}</span>
-            <h3>${data.principal.titulo}</h3>
-            <p>${data.principal.descripcion}</p>
+            <span class="noticia-etiqueta">${data.principal?.etiqueta || ""}</span>
+            <h3>${data.principal?.titulo || ""}</h3>
+            <p>${data.principal?.descripcion || ""}</p>
           </div>
         `;
       }
@@ -323,7 +323,6 @@ function cargarNoticias() {
         botonExistente.remove();
       }
 
-
       // Configurar tabs
       configurarTabs(data);
     })
@@ -348,15 +347,15 @@ function configurarTabs(data) {
   // Función para controlar la visibilidad del botón "Ver más"
   function controlarVisibilidadBoton(mostrar) {
     let verMasContainer = document.querySelector(".ver-mas-container");
-    
+
     if (mostrar) {
       // Si no existe el contenedor, lo creamos
       if (!verMasContainer) {
-        
         verMasContainer = document.createElement("div");
         verMasContainer.className = "ver-mas-container";
-        verMasContainer.innerHTML = '<a href="#" class="ver-mas-btn">VER MÁS ></a>';
-        
+        verMasContainer.innerHTML =
+          '<a href="#" class="ver-mas-btn">VER MÁS ></a>';
+
         // Insertar después del mini-noticias-grid
         const miniNoticiasGrid = document.querySelector(".mini-noticias-grid");
         if (miniNoticiasGrid && miniNoticiasGrid.parentNode) {
@@ -386,27 +385,27 @@ function configurarTabs(data) {
           noticiaPrincipal.style.display = "flex";
           noticiaPrincipal.innerHTML = `
             <div class="noticia-imagen">
-              <img src="${data.principal.imagen}" alt="${data.principal.titulo}">
+              <img src="${data.principal?.imagen || "./fotos/placeholder.jpg"}" alt="${data.principal?.titulo || ""}">
             </div>
             <div class="noticia-contenido">
-              <span class="noticia-etiqueta">${data.principal.etiqueta}</span>
-              <h3>${data.principal.titulo}</h3>
-              <p>${data.principal.descripcion}</p>
+              <span class="noticia-etiqueta">${data.principal?.etiqueta || ""}</span>
+              <h3>${data.principal?.titulo || ""}</h3>
+              <p>${data.principal?.descripcion || ""}</p>
             </div>
           `;
         }
 
         if (miniNoticiasGrid) {
-          miniNoticiasGrid.innerHTML = data.secundarias
+          miniNoticiasGrid.innerHTML = (data.secundarias || [])
             .map(
               (noticia) => `
             <article class="mini-noticia">
               <div class="mini-noticia-img">
-                <img src="${noticia.imagen}" alt="${noticia.titulo}">
+                <img src="${noticia.imagen || "./fotos/placeholder.jpg"}" alt="${noticia.titulo || ""}">
               </div>
               <div class="mini-noticia-info">
-                <span class="noticia-etiqueta">${noticia.etiqueta}</span>
-                <h4>${noticia.titulo}</h4>
+                <span class="noticia-etiqueta">${noticia.etiqueta || ""}</span>
+                <h4>${noticia.titulo || ""}</h4>
               </div>
             </article>
           `,
@@ -421,16 +420,16 @@ function configurarTabs(data) {
           noticiaPrincipal.style.display = "none";
         }
 
-        if (miniNoticiasGrid && data.otrasNoticias) {
-          miniNoticiasGrid.innerHTML = data.otrasNoticias
+        if (miniNoticiasGrid) {
+          miniNoticiasGrid.innerHTML = (data.otrasNoticias || [])
             .map(
               (noticia) => `
             <article class="mini-noticia noticia-completa">
               <div class="mini-noticia-img">
-                <img src="${noticia.imagen}" alt="${noticia.titulo}">
+                <img src="${noticia.imagen || "./fotos/placeholder.jpg"}" alt="${noticia.titulo || ""}">
               </div>
               <div class="mini-noticia-info">
-                <h4>${noticia.titulo}</h4>
+                <h4>${noticia.titulo || ""}</h4>
                 <div class="noticia-metadata">
                   <span class="noticia-consola">${noticia.consola || "Nintendo Switch"}</span>
                   <span class="noticia-fecha">${noticia.fecha || ""}</span>
@@ -482,9 +481,9 @@ function cargarJuegos() {
         console.error("No se encontró el elemento con id 'juegos-container'");
         return;
       }
-      
+
       // Obtener favoritos del localStorage
-      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+      const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
       juegosContainer.innerHTML = data
 
@@ -509,8 +508,8 @@ function cargarJuegos() {
               <h3 class="juego-titulo">${juego.juego}</h3>
             </div>
             <div class="juego-favorito-container">
-                <button class="juego-favorito ${favoritos.includes(juego.juego) ? 'activo' : ''}" onclick="toggleFavorito(this, '${juego.juego.replace(/'/g, "\\'")}')">
-                  <i class="${favoritos.includes(juego.juego) ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                <button class="juego-favorito ${favoritos.includes(juego.juego) ? "activo" : ""}" onclick="toggleFavorito(this, '${juego.juego.replace(/'/g, "\\'")}')">
+                  <i class="${favoritos.includes(juego.juego) ? "fa-solid" : "fa-regular"} fa-heart"></i>
                 </button>
               </div>
           </div>
@@ -569,7 +568,7 @@ function cargarAplicaciones() {
           </div>
 
         </div>
-      `
+      `,
         )
         .join("");
     })
@@ -587,7 +586,7 @@ function cargarAplicaciones() {
 // ========== CARGAR MY NINTENDO STORE DESDE JSON ==========
 
 function cargarMyNintendoStore() {
-  fetch("/api/myNintendoStore") 
+  fetch("/api/myNintendoStore")
     .then((response) => {
       if (!response.ok) {
         throw new Error("No se pudo cargar la API MyNintendoStore");
@@ -620,7 +619,7 @@ function cargarMyNintendoStore() {
             <h3 class="store-titulo">${item.aplicacion}</h3>
           </div>
         </div>
-      `
+      `,
         )
         .join("");
 
@@ -630,7 +629,7 @@ function cargarMyNintendoStore() {
           <div class="store-footer">
             <a href="#" class="store-btn-main">Ir a My Nintendo Store</a>
           </div>`;
-        storeSection.insertAdjacentHTML('beforeend', botonHTML);
+        storeSection.insertAdjacentHTML("beforeend", botonHTML);
       }
     })
     .catch((error) => console.error("Error en Store:", error));
@@ -639,13 +638,13 @@ function cargarMyNintendoStore() {
 // Función para toggle de favorito y localStorage
 function toggleFavorito(boton, juegoNombre) {
   const icono = boton.querySelector("i");
-  let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
 
   if (icono.classList.contains("fa-regular")) {
     icono.classList.remove("fa-regular");
     icono.classList.add("fa-solid");
     boton.classList.add("activo");
-    
+
     // Añadir a localStorage
     if (!favoritos.includes(juegoNombre)) {
       favoritos.push(juegoNombre);
@@ -654,208 +653,198 @@ function toggleFavorito(boton, juegoNombre) {
     icono.classList.remove("fa-solid");
     icono.classList.add("fa-regular");
     boton.classList.remove("activo");
-    
+
     // Remover de localStorage
-    favoritos = favoritos.filter(f => f !== juegoNombre);
+    favoritos = favoritos.filter((f) => f !== juegoNombre);
   }
-  
-  localStorage.setItem('favoritos', JSON.stringify(favoritos));
+
+  localStorage.setItem("favoritos", JSON.stringify(favoritos));
 }
 
 // ========== MENÚ DESPLEGABLE ==========
 // DATOS DEL MENÚ
 const menuData = {
-    juegos: {
-        title: 'Juegos',
-        items: [
-            'Información',
-            'Juegos de Nintendo Switch 2',
-            'Juegos de Nintendo Switch',
-            'Destacados del mes',
-            'Lanzamientos recientes',
-            'Próximos juegos',
-            'Demos',
-            'Juegos de instalación gratuita',
-            'Contenido descargable',
-            'Juegos de dispositivo inteligente',
-            'Portal de Nintendo'
-        ]
-    },
-    hardware: {
-        title: 'Hardware',
-        items: [
-            'Consolas',
-            'Controles',
-            'Accesorios',
-            'Cuidado y limpieza',
-            'Baterías'
-        ]
-    },
-    online: {
-        title: 'Nintendo Switch Online',
-        items: [
-            'Planes de suscripción',
-            'Juegos incluidos',
-            'Beneficios',
-            'Requisitos técnicos'
-        ]
-    },
-    eshop: {
-        title: 'Nintendo eShop',
-        items: [
-            'Nuevos lanzamientos',
-            'Ofertas',
-            'Juegos destacados',
-            'Géneros',
-            'Mis compras'
-        ]
-    },
-    mynintendo: {
-        title: 'My Nintendo Store',
-        items: [
-            'Puntos MyNintendo',
-            'Recompensas',
-            'Exclusivas',
-            'Colecciones'
-        ]
-    },
-    seguenos: {
-        title: 'Síguenos',
-        items: [
-            'Facebook',
-            'Twitter',
-            'Instagram',
-            'YouTube',
-            'TikTok'
-        ]
-    },
-    mas: {
-        title: 'Más',
-        items: [
-            'Comunidad',
-            'Centro de ayuda',
-            'Contacto',
-            'Privacidad',
-            'Términos de servicio',
-            'Accesibilidad'
-        ]
-    }
+  juegos: {
+    title: "Juegos",
+    items: [
+      "Información",
+      "Juegos de Nintendo Switch 2",
+      "Juegos de Nintendo Switch",
+      "Destacados del mes",
+      "Lanzamientos recientes",
+      "Próximos juegos",
+      "Demos",
+      "Juegos de instalación gratuita",
+      "Contenido descargable",
+      "Juegos de dispositivo inteligente",
+      "Portal de Nintendo",
+    ],
+  },
+  hardware: {
+    title: "Hardware",
+    items: [
+      "Consolas",
+      "Controles",
+      "Accesorios",
+      "Cuidado y limpieza",
+      "Baterías",
+    ],
+  },
+  online: {
+    title: "Nintendo Switch Online",
+    items: [
+      "Planes de suscripción",
+      "Juegos incluidos",
+      "Beneficios",
+      "Requisitos técnicos",
+    ],
+  },
+  eshop: {
+    title: "Nintendo eShop",
+    items: [
+      "Nuevos lanzamientos",
+      "Ofertas",
+      "Juegos destacados",
+      "Géneros",
+      "Mis compras",
+    ],
+  },
+  mynintendo: {
+    title: "My Nintendo Store",
+    items: ["Puntos MyNintendo", "Recompensas", "Exclusivas", "Colecciones"],
+  },
+  seguenos: {
+    title: "Síguenos",
+    items: ["Facebook", "Twitter", "Instagram", "YouTube", "TikTok"],
+  },
+  mas: {
+    title: "Más",
+    items: [
+      "Comunidad",
+      "Centro de ayuda",
+      "Contacto",
+      "Privacidad",
+      "Términos de servicio",
+      "Accesibilidad",
+    ],
+  },
 };
 
 // Variables para el dropdown
 let dropdownPanel = null;
 let isDropdownVisible = false;
 
-
 // FUNCIÓN PARA CREAR EL DROPDOWN PANEL
 function crearDropdownPanel() {
-    if (dropdownPanel) return;
-    
-    // Buscar el sidebar (la barra lateral izquierda)
-    dropdownPanel = document.createElement('div');
-    dropdownPanel.className = 'dropdown-panel';
-    
-    dropdownPanel.innerHTML = `
+  if (dropdownPanel) return;
+
+  // Buscar el sidebar (la barra lateral izquierda)
+  dropdownPanel = document.createElement("div");
+  dropdownPanel.className = "dropdown-panel";
+
+  dropdownPanel.innerHTML = `
         <h3 class="dropdown-title">Juegos</h3>
         <div class="dropdown-items" id="dropdownItemsContainer">
         </div>
         `;
-    document.body.appendChild(dropdownPanel);
+  document.body.appendChild(dropdownPanel);
 }
-
 
 // FUNCIÓN PARA ACTUALIZAR EL CONTENIDO DEL DROPDOWN
 function actualizarDropdown(menuKey) {
-    if (!dropdownPanel) crearDropdownPanel();
-    if (!dropdownPanel) return;
-    
-    const menu = menuData[menuKey];
-    if (!menu) return;
-    
-    // Actualizar título
-    const titleElement = dropdownPanel.querySelector('.dropdown-title');
-    if (titleElement) titleElement.textContent = menu.title;
-    
-    // Actualizar items
-    const container = dropdownPanel.querySelector('#dropdownItemsContainer');
-    if (container) {
-        container.innerHTML = '';
-        
-        menu.items.forEach((item, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'dropdown-item';
-            itemDiv.textContent = item;
-            itemDiv.onclick = (e) => {
-                e.stopPropagation();
-                console.log(`Seleccionado: ${item}`);
-                alert(`Has seleccionado: ${item}`);
-                cerrarDropdown();
-            };
-            container.appendChild(itemDiv);
-            
-            // Añadir divisor excepto después del último
-            if (index < menu.items.length - 1) {
-                const divider = document.createElement('div');
-                divider.className = 'divider';
-                container.appendChild(divider);
-            }
-        });
-    }
+  if (!dropdownPanel) crearDropdownPanel();
+  if (!dropdownPanel) return;
+
+  const menu = menuData[menuKey];
+  if (!menu) return;
+
+  // Actualizar título
+  const titleElement = dropdownPanel.querySelector(".dropdown-title");
+  if (titleElement) titleElement.textContent = menu.title;
+
+  // Actualizar items
+  const container = dropdownPanel.querySelector("#dropdownItemsContainer");
+  if (container) {
+    container.innerHTML = "";
+
+    menu.items.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "dropdown-item";
+      itemDiv.textContent = item;
+      itemDiv.onclick = (e) => {
+        e.stopPropagation();
+        console.log(`Seleccionado: ${item}`);
+        alert(`Has seleccionado: ${item}`);
+        cerrarDropdown();
+      };
+      container.appendChild(itemDiv);
+
+      // Añadir divisor excepto después del último
+      if (index < menu.items.length - 1) {
+        const divider = document.createElement("div");
+        divider.className = "divider";
+        container.appendChild(divider);
+      }
+    });
+  }
 }
 
 // FUNCIÓN PARA ABRIR EL DROPDOWN
 function abrirDropdown(menuKey) {
-    if (!dropdownPanel) crearDropdownPanel();
-    if (!dropdownPanel) return;
-    
-    actualizarDropdown(menuKey);
-    dropdownPanel.classList.add('active');
-    isDropdownVisible = true;
+  if (!dropdownPanel) crearDropdownPanel();
+  if (!dropdownPanel) return;
+
+  actualizarDropdown(menuKey);
+  dropdownPanel.classList.add("active");
+  isDropdownVisible = true;
 }
 
 // FUNCIÓN PARA CERRAR EL DROPDOWN
 function cerrarDropdown() {
-    if (dropdownPanel) {
-        dropdownPanel.classList.remove('active');
-        isDropdownVisible = false;
-    }
+  if (dropdownPanel) {
+    dropdownPanel.classList.remove("active");
+    isDropdownVisible = false;
+  }
 }
 
 // FUNCIÓN PARA ALTERNAR EL DROPDOWN
 function toggleDropdown(menuKey) {
-    if (isDropdownVisible) {
-        cerrarDropdown();
-    } else {
-        abrirDropdown(menuKey);
-    }
+  if (isDropdownVisible) {
+    cerrarDropdown();
+  } else {
+    abrirDropdown(menuKey);
+  }
 }
 
 // Cerrar dropdown al hacer clic fuera
-document.addEventListener('click', function(event) {
-    if (!isDropdownVisible) return;
-    
-    const sidebar = document.querySelector('.sidebar');
-    const isClickOnSidebar = sidebar && sidebar.contains(event.target);
-    const isClickOnDropdown = dropdownPanel && dropdownPanel.contains(event.target);
-    
-    if (!isClickOnSidebar && !isClickOnDropdown) {
-        cerrarDropdown();
-    }
+document.addEventListener("click", function (event) {
+  if (!isDropdownVisible) return;
+
+  const sidebar = document.querySelector(".sidebar");
+  const isClickOnSidebar = sidebar && sidebar.contains(event.target);
+  const isClickOnDropdown =
+    dropdownPanel && dropdownPanel.contains(event.target);
+
+  if (!isClickOnSidebar && !isClickOnDropdown) {
+    cerrarDropdown();
+  }
 });
 
-window.selectMenu = function(menuKey) {
+window.selectMenu = function (menuKey) {
   toggleDropdown(menuKey);
-  document.querySelectorAll('.side-item').forEach(el => {
-    el.classList.remove('active');
+  document.querySelectorAll(".side-item").forEach((el) => {
+    el.classList.remove("active");
   });
 
-  const clickedElement = document.querySelector(`.side-item[onclick="selectMenu('${menuKey}')"]`);
+  const clickedElement = document.querySelector(
+    `.side-item[onclick="selectMenu('${menuKey}')"]`,
+  );
   if (clickedElement) {
-    clickedElement.classList.add('active');
+    clickedElement.classList.add("active");
   }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   crearDropdownPanel();
 });
 
@@ -865,40 +854,42 @@ window.toggleFavorito = toggleFavorito;
 // Llamar a la función después de cargar las noticias
 document.addEventListener("DOMContentLoaded", function () {
   cargarNoticias();
-  cargarJuegos(); 
+  cargarJuegos();
   cargarAplicaciones();
   cargarMyNintendoStore();
-  
+
   // === LÓGICA DE USUARIO LOGUEADO LOGUEADO ===
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
   if (loggedUser) {
     // Buscar el botón de Iniciar Sesión en la barra superior
-    const loginLink = document.querySelector(".top-actions .action a[href='login.html']");
+    const loginLink = document.querySelector(
+      ".top-actions .action a[href='login.html']",
+    );
     if (loginLink) {
       // Extraer el texto antes del @ para usarlo de nombre y poner la primera mayuscula
       let baseName = loggedUser.email.split("@")[0];
       let displayName = baseName.charAt(0).toUpperCase() + baseName.slice(1);
-      
+
       loginLink.textContent = "Hola, " + displayName;
       // Opcionalmente podrías cambiar el link a un dashboard o #
       // loginLink.href = "admin.html"; // Por si quieres mandarlo al admin
-      
+
       // Modificar el contenedor para habilitar "Cerrar Sesión" de forma sutil
       const loginContainer = loginLink.parentElement;
-      
+
       const logoutBtn = document.createElement("a");
       logoutBtn.href = "#";
       logoutBtn.textContent = "(Salir)";
       logoutBtn.style.color = "#ccc";
       logoutBtn.style.fontSize = "12px";
       logoutBtn.style.marginLeft = "8px";
-      
+
       logoutBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("loggedUser");
-          window.location.reload();
+        e.preventDefault();
+        localStorage.removeItem("loggedUser");
+        window.location.reload();
       });
-      
+
       loginContainer.appendChild(logoutBtn);
     }
   }

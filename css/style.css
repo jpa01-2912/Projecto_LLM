@@ -527,18 +527,20 @@ body {
 
 /* Noticia principal (Destacada) */
 .noticia-principal {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(420px, 1.6fr) minmax(320px, 1fr);
+  gap: 24px;
   margin-bottom: 25px;
-  gap: 10px;
-  background: #f5f6f7;
-  border-radius: 4px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background: transparent;
 }
 
 .noticia-imagen {
-  flex: 0 0 65%;
-  max-width: 950px;
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 380px;
+  background: #000;
 }
 
 .noticia-imagen img {
@@ -548,17 +550,84 @@ body {
 }
 
 .noticia-contenido {
-  flex: 1;
-  padding: 20px 20px 20px 0;
+  background: #ffffff;
+  padding: 34px 32px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
-/* Este identifica para todos los mini titulos de noticias */
 .noticia-etiqueta {
   display: inline-block;
-  color: gray;
+  color: #e60012;
   font-size: 12px;
-  margin-bottom: 10px;
+  font-weight: 800;
+  margin-bottom: 14px;
   letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.noticia-contenido h3 {
+  font-size: 34px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: #111111;
+}
+
+.noticia-contenido p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #4a4a4a;
+  max-width: 520px;
+}
+
+.mini-noticia {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+}
+
+.mini-noticia-img {
+  width: 100%;
+  aspect-ratio: 1.8 / 1;
+  overflow: hidden;
+  background: #ddd;
+}
+
+.mini-noticia-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+}
+
+.mini-noticia-info h4 {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #111;
+  margin-bottom: 0;
+}
+
+.noticia-metadata {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.noticia-consola,
+.noticia-fecha {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #7a7a7a;
 }
 
 .noticia-contenido h3 {
@@ -941,8 +1010,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column; /* Alinea los elementos en vertical */
-  align-items: center;    /* Centra el logo y el texto horizontalmente */
-  text-align: center;     /* Centra las líneas de texto */
+  align-items: center; /* Centra el logo y el texto horizontalmente */
+  text-align: center; /* Centra las líneas de texto */
 }
 
 .eslogan2 img {
@@ -1117,93 +1186,92 @@ footer {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-
 /* ====== MENÚ DESPLEGABLE NINTENDO (SOLO DROPDOWN) ====== */
 
 /* DROPDOWN PANEL */
 .dropdown-panel {
-    width: 380px;
-    background: white;
-    border-right: 1px solid #e0e0e0;
-    padding: 25px 0;
-    overflow-y: auto;
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.3s ease;
-    display: none;
-    position: fixed;
-    left: 90px;
-    top: 71px;
-    z-index: 1000;
-    max-height: calc(100vh - 71px);
+  width: 380px;
+  background: white;
+  border-right: 1px solid #e0e0e0;
+  padding: 25px 0;
+  overflow-y: auto;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease;
+  display: none;
+  position: fixed;
+  left: 90px;
+  top: 71px;
+  z-index: 1000;
+  max-height: calc(100vh - 71px);
 }
 
 .dropdown-panel.active {
-    display: block;
+  display: block;
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* TÍTULO DEL DROPDOWN */
 .dropdown-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #000000;
-    padding: 0 25px 20px 25px;
-    border-bottom: 1px solid #f0f0f0;
-    margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000000;
+  padding: 0 25px 20px 25px;
+  border-bottom: 1px solid #f0f0f0;
+  margin: 0;
 }
 
 /* CONTENEDOR DE ITEMS */
 .dropdown-items {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 /* ITEMS DEL DROPDOWN */
 .dropdown-item {
-    padding: 12px 25px;
-    color: #444;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 14px;
-    position: relative;
-    border-left: 3px solid transparent;
+  padding: 12px 25px;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  position: relative;
+  border-left: 3px solid transparent;
 }
 
 .dropdown-item:hover {
-    background-color: #f8f8f8;
-    color: #e60012;
-    border-left-color: #e60012;
-    padding-left: 30px;
+  background-color: #f8f8f8;
+  color: #e60012;
+  border-left-color: #e60012;
+  padding-left: 30px;
 }
 
 /* SEPARADORES */
 .divider {
-    height: 1px;
-    background: #eeeeee;
-    margin: 8px 25px;
+  height: 1px;
+  background: #eeeeee;
+  margin: 8px 25px;
 }
 
 /* SCROLLBAR */
 .dropdown-panel::-webkit-scrollbar {
-    width: 4px;
+  width: 4px;
 }
 
 .dropdown-panel::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 .dropdown-panel::-webkit-scrollbar-thumb {
-    background: #e60012;
-    border-radius: 2px;
+  background: #e60012;
+  border-radius: 2px;
 }
 
 @media (max-width: 600px) {

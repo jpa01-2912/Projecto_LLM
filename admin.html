@@ -1,136 +1,238 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Nintendo Web</title>
-  <link rel="icon" href="./fotos/logos/icono.jpg" />
-  <link rel="stylesheet" href="./css/admin.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="admin-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="logo-box">
-          <i class="fa-solid fa-gamepad"></i>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Nintendo Web</title>
+    <link rel="icon" href="./fotos/logos/icono.jpg" />
+    <link rel="stylesheet" href="./css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo-box">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+          <h2>Admin Panel</h2>
         </div>
-        <h2>Admin Panel</h2>
-      </div>
-      <ul class="nav-links">
-        <li class="active" data-endpoint="usuarios">
-          <i class="fa-solid fa-users"></i>
-          <span>Usuarios</span>
-        </li>
-        <li data-endpoint="juegos">
-          <i class="fa-solid fa-ghost"></i>
-          <span>Juegos</span>
-        </li>
-        <li data-endpoint="aplicaciones">
-          <i class="fa-solid fa-mobile-screen"></i>
-          <span>Aplicaciones</span>
-        </li>
-        <li data-endpoint="carrousel">
-          <i class="fa-solid fa-images"></i>
-          <span>Carrousel</span>
-        </li>
-        <li data-endpoint="myNintendoStore">
-          <i class="fa-solid fa-store"></i>
-          <span>Tienda</span>
-        </li>
-      </ul>
-      <div class="sidebar-footer">
-        <a href="index.html" class="back-home">
-          <i class="fa-solid fa-arrow-left"></i>
-          <span>Volver a Inicio</span>
-        </a>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <header class="top-nav">
-        <div class="search-bar">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="searchInput" placeholder="Buscar en esta vista...">
+        <ul class="nav-links">
+          <li class="active" data-endpoint="usuarios">
+            <i class="fa-solid fa-users"></i>
+            <span>Usuarios</span>
+          </li>
+          <li data-endpoint="juegos">
+            <i class="fa-solid fa-ghost"></i>
+            <span>Juegos</span>
+          </li>
+          <li data-endpoint="aplicaciones">
+            <i class="fa-solid fa-mobile-screen"></i>
+            <span>Aplicaciones</span>
+          </li>
+          <li data-endpoint="carrousel">
+            <i class="fa-solid fa-images"></i>
+            <span>Carrousel</span>
+          </li>
+          <li data-endpoint="myNintendoStore">
+            <i class="fa-solid fa-store"></i>
+            <span>Tienda</span>
+          </li>
+          <li data-endpoint="novedades">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Novedades</span>
+          </li>
+        </ul>
+        <div class="sidebar-footer">
+          <a href="index.html" class="back-home">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Volver a Inicio</span>
+          </a>
         </div>
-        <div class="user-profile">
-          <img src="https://ui-avatars.com/api/?name=Admin&background=E60012&color=fff" alt="Admin">
-          <span>Administrador</span>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-nav">
+          <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar en esta vista..."
+            />
+          </div>
+          <div class="user-profile">
+            <img
+              src="https://ui-avatars.com/api/?name=Admin&background=E60012&color=fff"
+              alt="Admin"
+            />
+            <span>Administrador</span>
+          </div>
+        </header>
+
+        <div class="content-header">
+          <h1 id="pageTitle">Gestión de Usuarios</h1>
+          <button id="addNewBtn" class="primary-btn">
+            <i class="fa-solid fa-plus"></i> Añadir Nuevo
+          </button>
         </div>
-      </header>
 
-      <div class="content-header">
-        <h1 id="pageTitle">Gestión de Usuarios</h1>
-        <button id="addNewBtn" class="primary-btn">
-          <i class="fa-solid fa-plus"></i> Añadir Nuevo
-        </button>
-      </div>
-
-      <!-- Dashboard Dashboard Stats Cards -->
-      <div class="dashboard-stats" id="statsContainer">
-        <div class="stat-card">
-          <div class="stat-icon u-icon"><i class="fa-solid fa-users"></i></div>
-          <div class="stat-info">
-            <h3 id="statTotalNumber">0</h3>
-            <p>Elementos Registrados</p>
+        <!-- Dashboard Dashboard Stats Cards -->
+        <div class="dashboard-stats" id="statsContainer">
+          <div class="stat-card">
+            <div class="stat-icon u-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="statTotalNumber">0</h3>
+              <p>Elementos Registrados</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon g-icon">
+              <i class="fa-solid fa-database"></i>
+            </div>
+            <div class="stat-info">
+              <h3 id="statDbCount">...</h3>
+              <p>Tablas Activas</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon s-icon">
+              <i class="fa-solid fa-server"></i>
+            </div>
+            <div class="stat-info">
+              <h3 class="status-online">Online</h3>
+              <p>Estado de API</p>
+            </div>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon g-icon"><i class="fa-solid fa-gamepad"></i></div>
-          <div class="stat-info">
-            <h3>4 Bases</h3>
-            <p>de Datos Activas</p>
+
+        <!-- Data Table Container -->
+        <div class="card-container" id="tableContainer">
+          <div class="table-wrapper">
+            <table id="dataTable">
+              <thead>
+                <tr id="tableHeaderLine">
+                  <!-- Headers dynamicos -->
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- Datos dynamicos -->
+              </tbody>
+            </table>
           </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon s-icon"><i class="fa-solid fa-server"></i></div>
-          <div class="stat-info">
-            <h3 class="status-online">Online</h3>
-            <p>Estado de API</p>
+
+        <div class="card-container hidden" id="novedadesEditor">
+          <div class="table-wrapper novedades-editor-wrapper">
+            <div class="editor-header">
+              <h2>Editor de Novedades</h2>
+              <p>
+                Controla la noticia principal y las tarjetas de novedades que se
+                muestran en la portada.
+              </p>
+            </div>
+            <div class="novedades-editor-sections">
+              <section class="novedades-section">
+                <div class="section-header">
+                  <h3>Principal</h3>
+                </div>
+                <div class="field-grid">
+                  <div class="field-group">
+                    <label for="principalImagen"
+                      >Ruta de imagen principal</label
+                    >
+                    <input
+                      id="principalImagen"
+                      type="text"
+                      placeholder="localhost:3000/fotos/ejemplo.jpg o ./fotos/ejemplo.jpg"
+                    />
+                  </div>
+                  <div class="field-group">
+                    <label for="principalEtiqueta">Tipo de Sección</label>
+                    <input
+                      id="principalEtiqueta"
+                      type="text"
+                      placeholder="Ej. Noticias, Destacados..."
+                    />
+                  </div>
+                  <div class="field-group">
+                    <label for="principalTitulo">Título</label>
+                    <input
+                      id="principalTitulo"
+                      type="text"
+                      placeholder="Pregunta al desarrollador, volumen 21..."
+                    />
+                  </div>
+                  <div class="field-group">
+                    <label for="principalDescripcion">Subtítulo (Descripción)</label>
+                    <textarea
+                      id="principalDescripcion"
+                      rows="4"
+                      placeholder="Subtítulo o descripción breve de la noticia principal"
+                    ></textarea>
+                  </div>
+                </div>
+              </section>
+
+              <section class="novedades-section">
+                <div class="section-header">
+                  <h3>4 tarjetas debajo de la principal</h3>
+                </div>
+                <div id="secundariasList"></div>
+              </section>
+            </div>
+
+            <div class="editor-actions">
+              <button class="primary-btn" id="saveNovedadesBtn">
+                <i class="fa-solid fa-save"></i> Guardar Novedades
+              </button>
+            </div>
+            <span class="error-msg" id="novedadesJsonError"
+              >JSON no válido.</span
+            >
           </div>
         </div>
-      </div>
+      </main>
+    </div>
 
-      <!-- Data Table Container -->
-      <div class="card-container">
-        <div class="table-wrapper">
-          <table id="dataTable">
-            <thead>
-              <tr id="tableHeaderLine">
-                <!-- Headers dynamicos -->
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <!-- Datos dynamicos -->
-            </tbody>
-          </table>
+    <!-- Modal Formularios -->
+    <div class="modal-overlay" id="addModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modalTitle">Añadir Nuevo Elemento</h2>
+          <button class="close-modal" aria-label="Cerrar modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal Formularios -->
-  <div class="modal-overlay" id="addModal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2 id="modalTitle">Añadir Nuevo Elemento</h2>
-        <button class="close-modal" aria-label="Cerrar modal"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-subtitle">Inserta el objeto en formato JSON válido:</p>
-        <textarea id="jsonInput" rows="10" placeholder='{\n  "clave": "valor"\n}'></textarea>
-        <span class="error-msg" id="jsonError">El JSON no es válido.</span>
-      </div>
-      <div class="modal-footer">
-        <button class="secondary-btn close-modal">Cancelar</button>
-        <button class="primary-btn" id="saveBtn">Guardar</button>
+        <div class="modal-body">
+          <p class="modal-subtitle">
+            Inserta el objeto en formato JSON válido:
+          </p>
+          <textarea
+            id="jsonInput"
+            rows="10"
+            placeholder='{\n  "clave": "valor"\n}'
+          ></textarea>
+          <span class="error-msg" id="jsonError">El JSON no es válido.</span>
+        </div>
+        <div class="modal-footer">
+          <button class="secondary-btn close-modal">Cancelar</button>
+          <button class="primary-btn" id="saveBtn">Guardar</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="./js/admin.js"></script>
-</body>
+    <script src="./js/admin.js"></script>
+  </body>
 </html>
