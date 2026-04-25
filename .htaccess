@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Si la petición es para /api, no hacer nada y dejar que api/.htaccess se encargue
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteRule ^ - [L]
+
+# Si la petición es para la raíz, servir public/index.html
+RewriteRule ^$ public/index.html [L]
+
+# Si la petición no empieza con /public/ ni /api/, reescribir a public/
+RewriteCond %{REQUEST_URI} !^/public/ [NC]
+RewriteCond %{REQUEST_URI} !^/api/ [NC]
+RewriteRule ^(.*)$ public/$1 [L]

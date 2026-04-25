@@ -1,0 +1,183 @@
+/* informacion.css - Estilos para páginas informativas de Nintendo */
+
+.info-hero {
+    width: 100%;
+    padding: 80px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+.parental-hero { background: linear-gradient(135deg, #e60012 0%, #b3000e 100%); }
+.help-hero { background: linear-gradient(135deg, #0071e3 0%, #004a99 100%); }
+.company-hero { background: linear-gradient(135deg, #444 0%, #111 100%); }
+.jobs-hero { background: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%); }
+
+.hero-content {
+    max-width: 600px;
+    z-index: 2;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.hero-content p {
+    font-size: 18px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.hero-image img {
+    max-height: 300px;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+}
+
+.info-section {
+    padding: 60px;
+    background: white;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.info-card {
+    background: #f8f8f8;
+    padding: 40px;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    background: white;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+}
+
+.card-icon {
+    font-size: 40px;
+    color: #e60012;
+    margin-bottom: 20px;
+}
+
+.info-card h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.info-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.info-content-block {
+    padding: 80px 60px;
+    background: #fff;
+    border-top: 1px solid #eee;
+}
+
+.text-block {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.text-block h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background: #e60012;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    margin-top: 30px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: #c4000f;
+    transform: scale(1.05);
+}
+
+/* Ayuda / Search */
+.search-bar-help {
+    display: flex;
+    background: white;
+    padding: 5px;
+    border-radius: 30px;
+    margin-top: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.search-bar-help input {
+    flex: 1;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-bar-help button {
+    background: #e60012;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* FAQ */
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.faq-question {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #e60012;
+}
+
+.faq-answer {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Privacidad */
+.privacy-section h1 { font-size: 42px; margin-bottom: 10px; }
+.last-update { color: #888; font-size: 14px; margin-bottom: 40px; }
+.privacy-block { margin-bottom: 40px; }
+.privacy-block h2 { font-size: 24px; margin-bottom: 15px; }
+
+@media (max-width: 768px) {
+    .info-hero { flex-direction: column; text-align: center; padding: 40px 20px; }
+    .hero-image { margin-top: 40px; }
+    .info-section, .info-content-block { padding: 40px 20px; }
+}

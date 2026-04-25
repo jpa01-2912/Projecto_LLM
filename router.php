@@ -11,15 +11,37 @@ if (preg_match('#^/api/#', $path)) {
     return true;
 }
 
-// Si el archivo o directorio existe estáticamente, dejar que el servidor lo devuelva
-if (file_exists(__DIR__ . $path) && is_file(__DIR__ . $path)) {
-    return false;
+// Redirigir la raíz al index.html de la carpeta public
+if ($path === '/') {
+    $path = '/index.html';
 }
 
-// Si no, podemos devolver el index.html por defecto o dejar que siga su curso
-if ($path === '/') {
-    require __DIR__ . '/index.html';
+$publicPath = __DIR__ . '/public' . $path;
+
+// Si el archivo existe en la carpeta public, servirlo con el Content-Type adecuado
+if (file_exists($publicPath) && is_file($publicPath)) {
+    $ext = pathinfo($publicPath, PATHINFO_EXTENSION);
+    $mimeTypes = [
+        'html' => 'text/html',
+        'css'  => 'text/css',
+        'js'   => 'application/javascript',
+        'png'  => 'image/png',
+        'jpg'  => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'gif'  => 'image/gif',
+        'svg'  => 'image/svg+xml',
+        'ico'  => 'image/x-icon',
+        'json' => 'application/json'
+    ];
+    
+    if (isset($mimeTypes[$ext])) {
+        header("Content-Type: {$mimeTypes[$ext]}");
+    }
+    
+    readfile($publicPath);
     return true;
 }
 
-return false;
+http_response_code(404);
+echo "404 Not Found";
+return true;

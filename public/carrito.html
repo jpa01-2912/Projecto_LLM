@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Carrito - Nintendo</title>
+  <link rel="icon" href="./fotos/logos/icono.jpg" />
+
+  <!-- Estilos base (topbar, sidebar, footer) -->
+  <link rel="stylesheet" href="./css/style.css" />
+
+  <!-- Scripts comunes (Auth, RBAC) -->
+  <script src="./js/common.js"></script>
+
+  <!-- Estilos específicos del carrito -->
+  <link rel="stylesheet" href="./css/carrito.css">
+</head>
+<body>
+  <!-- ============================= -->
+  <!-- BARRA SUPERIOR (TOPBAR) -->
+  <!-- ============================= -->
+  <div class="topbar">
+    <div class="logo">
+      <a href="index.html" aria-label="Inicio">
+        <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Switch Logo" />
+      </a>
+    </div>
+
+    <div class="top-actions">
+      <div class="action">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <a href="juegos.html">Buscar</a>
+      </div>
+      <div class="action">
+        <i class="fa-regular fa-heart"></i>
+        <a href="wishlist.html">Lista deseos</a>
+      </div>
+      <div class="action">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <a href="carrito.html">Carrito</a>
+      </div>
+      <div id="auth-action" class="action">
+        <i class="fa-solid fa-user"></i>
+        <a href="login.html">Iniciar sesión</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= -->
+  <!-- CONTENEDOR FLEX PRINCIPAL -->
+  <!-- ============================= -->
+  <div class="contenedor-flex">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="side-item">
+        <i class="fa-solid fa-star"></i>
+        <a href="juegos.html">Juegos</a>
+      </div>
+      <div class="side-item">
+        <img src="./fotos/logos/iconohardware.png" alt="Hardware" id="hardware" />
+        <span>Hardware</span>
+      </div>
+      <div class="side-item">
+        <img src="./fotos/logos/Nintendo_switch.png" alt="Switch Online" id="N_S" />
+        <span>Nintendo Switch Online</span>
+      </div>
+      <div class="side-item">
+        <img src="./fotos/logos/iconoBolsa.png" alt="Nintendo eShop" id="eShop" />
+        <span>Nintendo <br />eShop</span>
+      </div>
+      <div class="side-item">
+        <img src="./fotos/logos/nintendo_store.png" alt="My Nintendo Store" id="M_N_S" />
+        <span>My Nintendo Store</span>
+      </div>
+      <div class="side-item">
+        <img src="./fotos/logos/iconoayuda.png" alt="Ayuda" id="ayuda" />
+        <span>Ayuda</span>
+      </div>
+      <div class="side-item">
+        <i class="fa-solid fa-users"></i>
+        <span>Síguenos</span>
+      </div>
+      <div class="side-item">⋯</div>
+    </div>
+
+    <!-- ============================= -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ============================= -->
+    <div class="main">
+      <!-- Hero Banner -->
+      <div class="cart-hero">
+        <div class="cart-hero-content">
+          <h1><i class="fa-solid fa-cart-shopping" style="margin-right: 12px;"></i>Mi Carrito</h1>
+          <p>Revisa tu selección y completa tu compra</p>
+        </div>
+      </div>
+
+      <!-- Contenido del carrito -->
+      <div class="cart-content">
+        <div class="cart-layout">
+          <!-- Lado Izquierdo: Lista de juegos -->
+          <div class="cart-items-section">
+            <div class="cart-items-header">
+              <h2>Productos en tu carrito</h2>
+              <span id="cart-count-label">0 artículos</span>
+            </div>
+            <div class="cart-items-list" id="cart-list">
+              <!-- Renderizado desde js/carrito.js -->
+            </div>
+          </div>
+
+          <!-- Lado Derecho: Resumen -->
+          <div class="cart-summary">
+            <h2>Resumen del pedido</h2>
+            <div class="summary-details">
+              <div class="summary-line">
+                <span>Subtotal</span>
+                <span id="subtotal-price">0.00€</span>
+              </div>
+              <div class="summary-line">
+                <span>Impuestos (21%)</span>
+                <span id="taxes-price">0.00€</span>
+              </div>
+              <div class="summary-line total-line">
+                <span>Total</span>
+                <span id="total-price">0.00€</span>
+              </div>
+            </div>
+
+            <button class="checkout-btn" id="btn-checkout">
+              <i class="fa-solid fa-lock" style="margin-right: 8px;"></i>
+              Continuar a la caja
+            </button>
+            <div class="secure-checkout">
+              <i class="fa-solid fa-shield-halved"></i> Compra segura garantizada
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" />
+    </div>
+    <div class="footer-links">
+      <a href="#">Padres y control parental</a>
+      <a href="#">Ayuda</a>
+      <a href="#">Información de la empresa</a>
+      <a href="#">Empleo</a>
+      <a href="#">Política de privacidad de este sitio web</a>
+    </div>
+    <div class="divider"></div>
+    <div class="footer-bottom">
+      <a href="#">Administrar cookies</a>
+      <a href="#">Información legal</a>
+      <a href="#">Eliminación del servicio</a>
+      <a href="#">RSC</a>
+      <a href="#">Declaración de accesibilidad</a>
+      <a href="#">Contactar</a>
+    </div>
+    <div class="copyright">© Nintendo. 2026</div>
+  </footer>
+
+  <script src="./js/carrito.js"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-$host = 'localhost';
+$host = '127.0.0.1';
 $port = 3307;
 $user = 'root';
 $password = '';
@@ -83,10 +83,11 @@ try {
                 $password = $input['password'] ?? '';
                 $rol = $input['rol'] ?? 'user';
                 $estado = $input['estado'] ?? 'activo';
+                $fecha_registro = $input['fecha_registro'] ?? date('Y-m-d');
                 $avatar = $input['avatar'] ?? '';
                 
-                $stmt = $pdo->prepare('UPDATE usuarios SET nombre=?, email=?, password=?, rol=?, estado=?, avatar=? WHERE id=?');
-                $stmt->execute([$nombre, $email, $password, $rol, $estado, $avatar, $id]);
+                $stmt = $pdo->prepare('UPDATE usuarios SET nombre=?, email=?, password=?, rol=?, estado=?, fecha_registro=?, avatar=? WHERE id=?');
+                $stmt->execute([$nombre, $email, $password, $rol, $estado, $fecha_registro, $avatar, $id]);
                 sendResponse(["message" => "Usuario actualizado"]);
             } elseif ($method === 'DELETE' && $id) {
                 $stmt = $pdo->prepare('DELETE FROM usuarios WHERE id = ?');
@@ -110,6 +111,17 @@ try {
                 $stmt = $pdo->prepare('INSERT INTO juegos (juego, plataforma, fecha, imagen, esNuevaConsola, precio) VALUES (?, ?, ?, ?, ?, ?)');
                 $stmt->execute([$juego, $plataforma, $fecha, $imagen, $esNuevaConsola, $precio]);
                 sendResponse(["id" => $pdo->lastInsertId(), "message" => "Juego añadido"], 201);
+            } elseif ($method === 'PUT' && $id) {
+                $juego = $input['juego'] ?? '';
+                $plataforma = $input['plataforma'] ?? '';
+                $fecha = $input['fecha'] ?? '';
+                $imagen = $input['imagen'] ?? '';
+                $esNuevaConsola = isset($input['esNuevaConsola']) && $input['esNuevaConsola'] ? 1 : 0;
+                $precio = $input['precio'] ?? null;
+                
+                $stmt = $pdo->prepare('UPDATE juegos SET juego=?, plataforma=?, fecha=?, imagen=?, esNuevaConsola=?, precio=? WHERE id=?');
+                $stmt->execute([$juego, $plataforma, $fecha, $imagen, $esNuevaConsola, $precio, $id]);
+                sendResponse(["message" => "Juego actualizado"]);
             } elseif ($method === 'DELETE' && $id) {
                 $stmt = $pdo->prepare('DELETE FROM juegos WHERE id = ?');
                 $stmt->execute([$id]);
@@ -130,6 +142,15 @@ try {
                 $stmt = $pdo->prepare('INSERT INTO aplicaciones (aplicacion, plataforma, fecha, imagen) VALUES (?, ?, ?, ?)');
                 $stmt->execute([$aplicacion, $plataforma, $fecha, $imagen]);
                 sendResponse(["id" => $pdo->lastInsertId()], 201);
+            } elseif ($method === 'PUT' && $id) {
+                $aplicacion = $input['aplicacion'] ?? '';
+                $plataforma = $input['plataforma'] ?? '';
+                $fecha = $input['fecha'] ?? '';
+                $imagen = $input['imagen'] ?? '';
+                
+                $stmt = $pdo->prepare('UPDATE aplicaciones SET aplicacion=?, plataforma=?, fecha=?, imagen=? WHERE id=?');
+                $stmt->execute([$aplicacion, $plataforma, $fecha, $imagen, $id]);
+                sendResponse(["message" => "Aplicación actualizada"]);
             } elseif ($method === 'DELETE' && $id) {
                 $stmt = $pdo->prepare('DELETE FROM aplicaciones WHERE id = ?');
                 $stmt->execute([$id]);
@@ -151,6 +172,16 @@ try {
                 $stmt = $pdo->prepare('INSERT INTO carrousel (url, alt, titulo, boton_texto, link) VALUES (?, ?, ?, ?, ?)');
                 $stmt->execute([$url, $alt, $titulo, $boton_texto, $link]);
                 sendResponse(["id" => $pdo->lastInsertId()], 201);
+            } elseif ($method === 'PUT' && $id) {
+                $url = $input['url'] ?? '';
+                $alt = $input['alt'] ?? '';
+                $titulo = $input['titulo'] ?? '';
+                $boton_texto = $input['boton_texto'] ?? '';
+                $link = $input['link'] ?? '';
+                
+                $stmt = $pdo->prepare('UPDATE carrousel SET url=?, alt=?, titulo=?, boton_texto=?, link=? WHERE id=?');
+                $stmt->execute([$url, $alt, $titulo, $boton_texto, $link, $id]);
+                sendResponse(["message" => "Elemento del carrusel actualizado"]);
             } elseif ($method === 'DELETE' && $id) {
                 $stmt = $pdo->prepare('DELETE FROM carrousel WHERE id = ?');
                 $stmt->execute([$id]);
@@ -170,6 +201,14 @@ try {
                 $stmt = $pdo->prepare('INSERT INTO myNintendoStore (aplicacion, descripcion, imagen) VALUES (?, ?, ?)');
                 $stmt->execute([$aplicacion, $descripcion, $imagen]);
                 sendResponse(["id" => $pdo->lastInsertId()], 201);
+            } elseif ($method === 'PUT' && $id) {
+                $aplicacion = $input['aplicacion'] ?? '';
+                $descripcion = $input['descripcion'] ?? '';
+                $imagen = $input['imagen'] ?? '';
+                
+                $stmt = $pdo->prepare('UPDATE myNintendoStore SET aplicacion=?, descripcion=?, imagen=? WHERE id=?');
+                $stmt->execute([$aplicacion, $descripcion, $imagen, $id]);
+                sendResponse(["message" => "Elemento actualizado"]);
             } elseif ($method === 'DELETE' && $id) {
                 $stmt = $pdo->prepare('DELETE FROM myNintendoStore WHERE id = ?');
                 $stmt->execute([$id]);
@@ -208,6 +247,47 @@ try {
                 $stmt = $pdo->prepare('UPDATE novedades SET principal = ?, secundarias = ?, otrasNoticias = ? WHERE id = 1');
                 $stmt->execute([$principal, $secundarias, $otrasNoticias]);
                 sendResponse(["message" => "Novedades actualizadas vía POST"]);
+            }
+            break;
+
+        case 'noticias':
+            if ($method === 'GET') {
+                $stmt = $pdo->query('SELECT * FROM noticias ORDER BY id DESC');
+                sendResponse($stmt->fetchAll(PDO::FETCH_ASSOC));
+            } elseif ($method === 'POST') {
+                $titulo = $input['titulo'] ?? '';
+                $imagen = $input['imagen'] ?? '';
+                $etiqueta = $input['etiqueta'] ?? '';
+                $fecha = $input['fecha'] ?? '';
+                $link = $input['link'] ?? '#';
+                
+                $stmt = $pdo->prepare('INSERT INTO noticias (titulo, imagen, etiqueta, fecha, link) VALUES (?, ?, ?, ?, ?)');
+                $stmt->execute([$titulo, $imagen, $etiqueta, $fecha, $link]);
+                sendResponse(["id" => $pdo->lastInsertId(), "message" => "Noticia creada"], 201);
+            } elseif ($method === 'PUT' && $id) {
+                $titulo = $input['titulo'] ?? '';
+                $imagen = $input['imagen'] ?? '';
+                $etiqueta = $input['etiqueta'] ?? '';
+                $fecha = $input['fecha'] ?? '';
+                $link = $input['link'] ?? '#';
+                
+                $stmt = $pdo->prepare('UPDATE noticias SET titulo=?, imagen=?, etiqueta=?, fecha=?, link=? WHERE id=?');
+                $stmt->execute([$titulo, $imagen, $etiqueta, $fecha, $link, $id]);
+                sendResponse(["message" => "Noticia actualizada"]);
+            } elseif ($method === 'DELETE' && $id) {
+                $stmt = $pdo->prepare('DELETE FROM noticias WHERE id = ?');
+                $stmt->execute([$id]);
+                sendResponse(["message" => "Noticia eliminada"]);
+            }
+            break;
+
+        case 'stats':
+            if ($id === 'db' && $method === 'GET') {
+                $stmt = $pdo->query("SHOW TABLES");
+                $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                sendResponse(["total" => count($tables)]);
+            } else {
+                sendResponse(["message" => "Recurso no encontrado"], 404);
             }
             break;
 

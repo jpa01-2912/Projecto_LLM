@@ -1,5 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const navLinks = document.querySelectorAll(".nav-links li");
+  // --- SEGURIDAD Y ROLES ---
+  const loggedUserString = localStorage.getItem("loggedUser");
+  if (!loggedUserString) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const loggedUser = JSON.parse(loggedUserString);
+  const userRole = loggedUser.rol;
+
+  // Redirigir si no tiene rango administrativo
+  const adminRoles = ["admin", "content_editor", "game_manager"];
+  if (!adminRoles.includes(userRole)) {
+    alert("No tienes permisos para acceder al panel de administración.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  // Actualizar perfil de usuario en el top-nav
+  const profileImg = document.querySelector(".user-profile img");
+  const profileName = document.querySelector(".user-profile span");
+  if (profileImg) profileImg.src = loggedUser.avatar || "https://ui-avatars.com/api/?name=User&background=E60012&color=fff";
+  if (profileName) profileName.textContent = loggedUser.nombre || "Usuario";
+
+  // --- ELEMENTOS DOM ---
+  const navLinksContainer = document.querySelector(".nav-links");
   const pageTitle = document.getElementById("pageTitle");
   const searchInput = document.getElementById("searchInput");
   const tableHeaderLine = document.getElementById("tableHeaderLine");
@@ -12,9 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const jsonError = document.getElementById("jsonError");
   const statTotalNumber = document.getElementById("statTotalNumber");
   const statDbCount = document.getElementById("statDbCount");
+  const logoutBtn = document.getElementById("logoutBtn");
 
-  let currentEndpoint = "usuarios";
-  let currentData = [];
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("loggedUser");
+      window.location.href = "login.html";
+    });
+  }
 
   const novedadesEditor = document.getElementById("novedadesEditor");
   const principalImagen = document.getElementById("principalImagen");
@@ -25,14 +55,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveNovedadesBtn = document.getElementById("saveNovedadesBtn");
   const novedadesJsonError = document.getElementById("novedadesJsonError");
 
-  // Mapeo de endpoint a ruta API real y estructura ejemplo
+  // --- CONFIGURACIÓN DE ROLES Y ENDPOINTS ---
+  const rolePermissions = {
+    admin: ["usuarios", "juegos", "aplicaciones", "carrousel", "myNintendoStore", "novedades", "noticias"],
+    content_editor: ["carrousel", "myNintendoStore", "novedades", "noticias"],
+    game_manager: ["juegos"]
+  };
+
+  const allowedEndpoints = rolePermissions[userRole] || [];
+
+  // Filtrar el menú lateral según el rol
+  const allNavItems = document.querySelectorAll(".nav-links li");
+  let firstAllowedEndpoint = null;
+
+  allNavItems.forEach(li => {
+    const endpoint = li.dataset.endpoint;
+    if (allowedEndpoints.includes(endpoint)) {
+      li.style.display = "flex";
+      if (!firstAllowedEndpoint) firstAllowedEndpoint = endpoint;
+    } else {
+      li.style.display = "none";
+    }
+  });
+
+  let currentEndpoint = firstAllowedEndpoint || "juegos";
+  let currentData = [];
+
+  // Marcar el primer item permitido como activo
+  const activeNavItem = document.querySelector(`.nav-links li[data-endpoint="${currentEndpoint}"]`);
+  if (activeNavItem) {
+    allNavItems.forEach(l => l.classList.remove("active"));
+    activeNavItem.classList.add("active");
+  }
+
+  // Mapeo de endpoint a ruta API
   const apiMap = {
     usuarios: { url: "/api/usuarios", idField: "id" },
     juegos: { url: "/api/juegos", idField: "id" },
     aplicaciones: { url: "/api/aplicaciones", idField: "id" },
     carrousel: { url: "/api/carrousel", idField: "id" },
     myNintendoStore: { url: "/api/myNintendoStore", idField: "id" },
-    novedades: { url: "/api/novedades", idField: null }, // especial
+    novedades: { url: "/api/novedades", idField: null },
+    noticias: { url: "/api/noticias", idField: "id" },
   };
 
   function fetchData(endpoint) {
@@ -51,8 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch((err) => {
           console.error(err);
-          novedadesJsonError.textContent =
-            "Error al cargar novedades: " + err.message;
+          novedadesJsonError.textContent = "Error al cargar novedades: " + err.message;
           novedadesJsonError.style.display = "block";
         });
     } else {
@@ -101,9 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
           td.innerHTML = `<a href="${valor}" target="_blank" style="color: blue; text-decoration: underline;">${valor}</a>`;
         } else if (
           typeof valor === "string" &&
-          (valor.includes(".jpg") ||
-            valor.includes(".png") ||
-            valor.includes("http"))
+          (valor.includes(".jpg") || valor.includes(".png") || valor.includes("http"))
         ) {
           td.classList.add("img-cell");
           td.innerHTML = `<img src="${valor}" alt="preview" onerror="this.src='./fotos/placeholder.jpg'" style="max-width:80px;">`;
@@ -114,17 +175,47 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         tr.appendChild(td);
       });
+      
       const tdAcciones = document.createElement("td");
+      tdAcciones.style.display = "flex";
+      tdAcciones.style.gap = "5px";
+      
+      const btnEdit = document.createElement("button");
+      btnEdit.className = "primary-btn";
+      btnEdit.style.padding = "5px 10px";
+      btnEdit.style.fontSize = "12px";
+      btnEdit.innerHTML = '<i class="fa-solid fa-edit"></i> Editar';
+      
       const btnDelete = document.createElement("button");
       btnDelete.className = "btn-danger";
+      btnDelete.style.padding = "5px 10px";
+      btnDelete.style.fontSize = "12px";
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar';
-      // Usamos el id real del objeto, si existe
-      const idToDelete = item.id !== undefined ? item.id : idx;
-      btnDelete.onclick = () => deleteItem(idToDelete, isNovedades);
+      
+      const idToModify = item.id !== undefined ? item.id : idx;
+      
+      btnEdit.onclick = () => editItem(item, isNovedades);
+      btnDelete.onclick = () => deleteItem(idToModify, isNovedades);
+      
+      tdAcciones.appendChild(btnEdit);
       tdAcciones.appendChild(btnDelete);
       tr.appendChild(tdAcciones);
       tableBody.appendChild(tr);
     });
+  }
+
+  let editingId = null;
+
+  function editItem(item, isNovedades) {
+    if (isNovedades) {
+      alert("Para editar novedades usa el panel editor abajo.");
+      return;
+    }
+    editingId = item.id;
+    jsonInput.value = JSON.stringify(item, null, 2);
+    jsonError.style.display = "none";
+    document.getElementById("modalTitle").textContent = "Editar Elemento";
+    addModal.classList.add("active");
   }
 
   function deleteItem(idOrIndex, isNovedades) {
@@ -133,12 +224,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!api) return;
 
     let url = `${api.url}/${idOrIndex}`;
-    // Para novedades no se puede eliminar un item individual de secundarias con este método simple,
-    // necesitarías implementar una lógica especial. Por simplicidad, mostramos un alert.
     if (isNovedades) {
-      alert(
-        "Para eliminar una novedad secundaria, usa el editor JSON o modifica el backend.",
-      );
+      alert("Para eliminar una novedad secundaria, usa el editor JSON o modifica el backend.");
       return;
     }
     fetch(url, { method: "DELETE" })
@@ -148,6 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   addNewBtn.addEventListener("click", () => {
+    editingId = null;
+    document.getElementById("modalTitle").textContent = "Añadir Nuevo Elemento";
     jsonInput.value = "";
     jsonError.style.display = "none";
     let placeholderObj = {};
@@ -175,8 +264,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const api = apiMap[currentEndpoint];
     if (!api) return;
-    fetch(api.url, {
-      method: "POST",
+    
+    let url = api.url;
+    let method = "POST";
+    
+    if (editingId !== null) {
+      url = `${api.url}/${editingId}`;
+      method = "PUT";
+    }
+    
+    fetch(url, {
+      method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newObj),
     })
@@ -190,20 +288,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderNovedadesEditor(data) {
     if (!novedadesEditor || !novedadesJsonError) return;
-    const safeData = data || {
-      principal: {},
-      secundarias: [],
-      otrasNoticias: [],
-    };
+    const safeData = data || { principal: {}, secundarias: [], otrasNoticias: [] };
     currentData = safeData;
-    if (principalImagen)
-      principalImagen.value = safeData.principal?.imagen || "";
-    if (principalEtiqueta)
-      principalEtiqueta.value = safeData.principal?.etiqueta || "";
-    if (principalTitulo)
-      principalTitulo.value = safeData.principal?.titulo || "";
-    if (principalDescripcion)
-      principalDescripcion.value = safeData.principal?.descripcion || "";
+    if (principalImagen) principalImagen.value = safeData.principal?.imagen || "";
+    if (principalEtiqueta) principalEtiqueta.value = safeData.principal?.etiqueta || "";
+    if (principalTitulo) principalTitulo.value = safeData.principal?.titulo || "";
+    if (principalDescripcion) principalDescripcion.value = safeData.principal?.descripcion || "";
     renderSecundariasList(safeData.secundarias || []);
     novedadesJsonError.style.display = "none";
   }
@@ -229,15 +319,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="field-grid">
           <div class="field-group">
             <label>Ruta de imagen</label>
-            <input type="text" value="${item.imagen || ""}" data-key="imagen" placeholder="localhost:3000/fotos/ejemplo.jpg o ./fotos/ejemplo.jpg" />
+            <input type="text" value="${item.imagen || ""}" data-key="imagen" placeholder="./fotos/ejemplo.jpg" />
           </div>
           <div class="field-group">
             <label>Tipo de Sección</label>
-            <input type="text" value="${item.etiqueta || ""}" data-key="etiqueta" placeholder="Ej. Juegos, Noticias..." />
+            <input type="text" value="${item.etiqueta || ""}" data-key="etiqueta" placeholder="Ej. Juegos" />
           </div>
           <div class="field-group" style="grid-column: 1 / -1;">
             <label>Título</label>
-            <input type="text" value="${item.titulo || ""}" data-key="titulo" placeholder="Título de la tarjeta" />
+            <input type="text" value="${item.titulo || ""}" data-key="titulo" placeholder="Título" />
           </div>
         </div>
       `;
@@ -263,70 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  function levenshteinDistance(a, b) {
-    const matrix = [];
-    const lenA = a.length;
-    const lenB = b.length;
-    for (let i = 0; i <= lenA; i++) {
-      matrix[i] = [i];
-    }
-    for (let j = 0; j <= lenB; j++) {
-      matrix[0][j] = j;
-    }
-    for (let i = 1; i <= lenA; i++) {
-      for (let j = 1; j <= lenB; j++) {
-        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-        matrix[i][j] = Math.min(
-          matrix[i - 1][j] + 1,
-          matrix[i][j - 1] + 1,
-          matrix[i - 1][j - 1] + cost,
-        );
-      }
-    }
-    return matrix[lenA][lenB];
-  }
-
-  function similarityScore(a, b) {
-    const textA = String(a || "");
-    const textB = String(b || "");
-    if (!textA && !textB) return 1;
-    if (!textA || !textB) return 0;
-    const distance = levenshteinDistance(textA, textB);
-    return 1 - distance / Math.max(textA.length, textB.length);
-  }
-
-  function compareNovedadesSimilarity(oldData, newData) {
-    const report = [];
-    const fields = ["imagen", "etiqueta", "titulo", "descripcion"];
-    fields.forEach((field) => {
-      const oldValue = (oldData.principal && oldData.principal[field]) || "";
-      const newValue = (newData.principal && newData.principal[field]) || "";
-      const score = similarityScore(oldValue, newValue);
-      report.push({
-        section: "principal",
-        field,
-        score: Math.round(score * 100),
-      });
-    });
-    const oldCards = oldData.secundarias || [];
-    const newCards = newData.secundarias || [];
-    for (let i = 0; i < 4; i++) {
-      const oldCard = oldCards[i] || {};
-      const newCard = newCards[i] || {};
-      ["imagen", "etiqueta", "titulo"].forEach((field) => {
-        const oldValue = oldCard[field] || "";
-        const newValue = newCard[field] || "";
-        const score = similarityScore(oldValue, newValue);
-        report.push({
-          section: `secundarias[${i}]`,
-          field,
-          score: Math.round(score * 100),
-        });
-      });
-    }
-    return report;
-  }
-
   function showNovedadesEditor(show) {
     if (!novedadesEditor) return;
     novedadesEditor.classList.toggle("hidden", !show);
@@ -339,12 +365,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function saveNovedades() {
     const payload = getNovedadesPayload();
-    const similarity = compareNovedadesSimilarity(currentData, payload);
-    const warnings = similarity.filter((item) => item.score < 90);
-    console.info("Similitud de novedades:", similarity);
-    if (warnings.length > 0) {
-      console.warn("Campos con similitud menor a 90%:", warnings);
-    }
     fetch("/api/novedades", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -367,19 +387,19 @@ document.addEventListener("DOMContentLoaded", () => {
   saveNovedadesBtn?.addEventListener("click", saveNovedades);
 
   // Cambio de pestaña
-  navLinks.forEach((link) => {
+  const navLinksItems = document.querySelectorAll(".nav-links li");
+  navLinksItems.forEach((link) => {
     link.addEventListener("click", () => {
       if (link.classList.contains("active")) return;
-      navLinks.forEach((l) => l.classList.remove("active"));
+      navLinksItems.forEach((l) => l.classList.remove("active"));
       link.classList.add("active");
       currentEndpoint = link.dataset.endpoint;
-      pageTitle.textContent =
-        "Gestión de " + link.querySelector("span").textContent;
+      pageTitle.textContent = "Gestión de " + link.querySelector("span").textContent;
       fetchData(currentEndpoint);
     });
   });
 
-  // Búsqueda frontend (filtra currentData)
+  // Búsqueda frontend
   searchInput.addEventListener("input", (e) => {
     if (currentEndpoint === "novedades") return;
     const val = e.target.value.toLowerCase();
@@ -397,7 +417,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => addModal.classList.remove("active"));
   });
 
-  // Fetch número de tablas para el Dashboard
+  // Fetch stats iniciales
   fetch("/api/stats/db")
     .then((res) => res.json())
     .then((data) => {
@@ -408,3 +428,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // Cargar datos iniciales
   fetchData(currentEndpoint);
 });
+

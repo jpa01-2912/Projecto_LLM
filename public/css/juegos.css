@@ -1,0 +1,430 @@
+/* ============================= */
+/* ESTILOS ESPECÍFICOS DEL CATÁLOGO DE JUEGOS */
+/* Los estilos base (topbar, sidebar, footer) vienen de style.css */
+/* ============================= */
+
+/* ====== HERO BANNER ====== */
+.catalogo-hero {
+  width: 100%;
+  background: linear-gradient(135deg, #e60012 0%, #b3000e 50%, #8a0000 100%);
+  padding: 60px 60px 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decoración de fondo con patrón sutil */
+.catalogo-hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.catalogo-hero::after {
+  content: "";
+  position: absolute;
+  bottom: -30%;
+  left: 5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.catalogo-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.catalogo-hero-content h1 {
+  font-size: 38px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.catalogo-hero-content p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+/* ====== SECCIÓN CATÁLOGO ====== */
+.catalogo-section {
+  padding: 40px 60px 60px !important;
+  background: white;
+}
+
+.catalogo-section h2 {
+  position: relative;
+  display: inline-block;
+  font-size: 32px;
+  border-left: 6px solid #e60012;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+/* ====== FILTROS ====== */
+.catalogo-filters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-search {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+  max-width: 420px;
+}
+
+.filter-search i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.filter-search input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border: 2px solid #e8e8e8;
+  border-radius: 30px;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.filter-search input:focus {
+  border-color: #e60012;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.08);
+}
+
+.filter-search input::placeholder {
+  color: #b0b0b0;
+}
+
+.filter-selects {
+  display: flex;
+  gap: 12px;
+}
+
+.filter-selects select {
+  padding: 12px 36px 12px 16px;
+  border: 2px solid #e8e8e8;
+  border-radius: 30px;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  min-width: 180px;
+}
+
+.filter-selects select:focus {
+  border-color: #e60012;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.08);
+}
+
+/* ====== CONTADOR DE RESULTADOS ====== */
+.catalogo-results-count {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.catalogo-results-count span {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+/* ====== GRID DE JUEGOS ====== */
+.catalogo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+/* ====== TARJETA DE JUEGO ====== */
+/* Sigue el mismo diseño que las tarjetas de juegos en index.html */
+.catalogo-card {
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.catalogo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Badge de consola (franja roja con logo) */
+.catalogo-badge {
+  background-color: #e60012;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+.catalogo-badge img {
+  height: 12px;
+  width: auto;
+  display: block;
+}
+
+/* Imagen del juego */
+.catalogo-card-imagen {
+  width: 100%;
+  height: 270px;
+  overflow: hidden;
+}
+
+.catalogo-card-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.catalogo-card:hover .catalogo-card-imagen img {
+  transform: scale(1.03);
+}
+
+/* Contenido de la tarjeta */
+.catalogo-card-contenido {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-grow: 1;
+}
+
+.catalogo-card-meta {
+  font-size: 12px;
+  color: #7a7a7a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.catalogo-card-titulo {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.4;
+}
+
+.catalogo-card-precio {
+  font-size: 18px;
+  font-weight: 800;
+  color: #e60012;
+  margin-top: 4px;
+}
+
+/* ====== BOTONES DE LA TARJETA ====== */
+.catalogo-card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px 16px;
+}
+
+.catalogo-btn-cart {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #e60012;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s ease;
+}
+
+.catalogo-btn-cart:hover {
+  background-color: #c4000f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(230, 0, 18, 0.3);
+}
+
+.catalogo-btn-wish {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.catalogo-btn-wish i {
+  font-size: 16px;
+  color: #bbb;
+  transition: all 0.2s ease;
+}
+
+.catalogo-btn-wish:hover {
+  border-color: #e60012;
+  background: #fff5f5;
+}
+
+.catalogo-btn-wish:hover i {
+  color: #e60012;
+  transform: scale(1.15);
+}
+
+.catalogo-btn-wish.active {
+  border-color: #e60012;
+  background: #e60012;
+}
+
+.catalogo-btn-wish.active i {
+  color: white;
+}
+
+/* ====== TOAST NOTIFICATION ====== */
+.catalogo-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #1a1a1a;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.catalogo-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.catalogo-toast i {
+  color: #4caf50;
+  font-size: 16px;
+}
+
+/* ====== MENSAJE SIN RESULTADOS ====== */
+.catalogo-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.catalogo-empty i {
+  font-size: 48px;
+  color: #ddd;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.catalogo-empty p {
+  font-size: 18px;
+  color: #999;
+  font-weight: 500;
+}
+
+.catalogo-empty span {
+  font-size: 14px;
+  color: #bbb;
+  display: block;
+  margin-top: 8px;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 1200px) {
+  .catalogo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .catalogo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .catalogo-hero {
+    padding: 40px 30px;
+  }
+  
+  .catalogo-hero-content h1 {
+    font-size: 28px;
+  }
+  
+  .catalogo-section {
+    padding: 30px 30px 40px !important;
+  }
+  
+  .catalogo-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-search {
+    max-width: 100%;
+  }
+  
+  .filter-selects {
+    flex-wrap: wrap;
+  }
+  
+  .filter-selects select {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 600px) {
+  .catalogo-grid {
+    grid-template-columns: 1fr;
+  }
+}

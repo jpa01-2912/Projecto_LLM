@@ -81,6 +81,17 @@ body {
   margin-bottom: 8px;
 }
 
+/* Avatar circular en la topbar cuando el usuario tiene foto de perfil */
+.topbar-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  display: block;
+}
+
 /* ====== SIDEBAR ====== */
 .contenedor-flex {
   display: flex; /* Layout principal: sidebar a la izquierda, main a la derecha */
@@ -1060,6 +1071,21 @@ body {
   padding: 30px 40px;
   margin-bottom: 20px;
   overflow: visible;
+  text-decoration: none !important; /* Forzamos la eliminación del subrayado */
+  color: white !important;           /* Forzamos que el texto sea blanco */
+  outline: none;
+  border: none;
+}
+
+.servicio-card h3, 
+.servicio-card p {
+  text-decoration: none !important;
+}
+
+.servicio-card:hover {
+  text-decoration: none !important;
+  transform: translateY(-2px); /* Un pequeño efecto de elevación premium */
+  box-shadow: 0 10px 30px rgba(230, 0, 18, 0.3);
 }
 
 .servicio-left img {
@@ -1530,4 +1556,119 @@ footer {
     padding: 6px 10px;
     font-size: 11px;
   }
+}
+
+/* ====== NUEVA CUADRÍCULA DE NOTICIAS (TAB NOTICIAS) ====== */
+.noticias-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.noticia-card-simple {
+  background: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+}
+
+.noticia-card-simple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  background: white;
+}
+
+.noticia-card-simple .card-img {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Proporción estándar de noticias Nintendo */
+  overflow: hidden;
+  background-color: #000; /* Fondo negro para que no se vea vacío si la imagen es distinta */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noticia-card-simple .card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mostrar imagen completa sin recortes */
+  transition: transform 0.5s ease;
+}
+
+.noticia-card-simple:hover .card-img img {
+  transform: scale(1.05);
+}
+
+.noticia-card-simple .card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.noticia-card-simple h3 {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #111;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.noticia-card-simple .card-meta {
+  margin-top: auto;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.noticia-card-simple .card-etiqueta {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.noticias-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.ver-mas-btn-red {
+  background-color: #e60012;
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(230, 0, 18, 0.3);
+  text-decoration: none;
+}
+
+.ver-mas-btn-red:hover {
+  background-color: #c4000f;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(230, 0, 18, 0.4);
+  color: white;
+}
+
+.hidden {
+  display: none !important;
 }

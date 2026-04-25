@@ -267,21 +267,14 @@ document.querySelector(".carousel")?.addEventListener("mouseleave", () => {
 });
 
 // ========== CARGAR NOTICIAS DESDE JSON ==========
-document.addEventListener("DOMContentLoaded", function () {
-  cargarNoticias();
-});
+// ========== CARGAR NOVEDADES (DESTACADAS) ==========
 
-function cargarNoticias() {
+function cargarNovedades() {
   // Cargar las noticias desde la API
   fetch("/api/novedades")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("No se pudo cargar el JSON");
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      console.log("Noticias cargadas:", data); // Para verificar que carga
+      console.log("Novedades cargadas:", data);
 
       // Cargar noticia principal
       const noticiaPrincipal = document.querySelector(".noticia-principal");
@@ -298,47 +291,27 @@ function cargarNoticias() {
         `;
       }
 
-      // Cargar mini noticias
+      // Cargar mini noticias secundarias
       const miniNoticiasGrid = document.querySelector(".mini-noticias-grid");
       if (miniNoticiasGrid) {
-        miniNoticiasGrid.innerHTML = data.secundarias
+        miniNoticiasGrid.innerHTML = (data.secundarias || [])
           .map(
             (noticia) => `
           <article class="mini-noticia">
             <div class="mini-noticia-img">
-              <img src="${noticia.imagen}" alt="${noticia.titulo}">
+              <img src="${noticia.imagen || "./fotos/placeholder.jpg"}" alt="${noticia.titulo || ""}">
             </div>
             <div class="mini-noticia-info">
-              <span class="noticia-etiqueta">${noticia.etiqueta}</span>
-              <h4>${noticia.titulo}</h4>
+              <span class="noticia-etiqueta">${noticia.etiqueta || ""}</span>
+              <h4>${noticia.titulo || ""}</h4>
             </div>
           </article>
-        `,
+        `
           )
           .join("");
       }
-      // Eliminar botón anterior si ya existe
-      const botonExistente = document.querySelector(".ver-mas-container");
-      if (botonExistente) {
-        botonExistente.remove();
-      }
-
-      // Configurar tabs
-      configurarTabs(data);
     })
-    .catch((error) => {
-      console.error("Error al cargar noticias:", error);
-      // Mostrar mensaje de error en el HTML
-      const noticiaPrincipal = document.querySelector(".noticia-principal");
-      if (noticiaPrincipal) {
-        noticiaPrincipal.innerHTML = `
-          <div class="noticia-contenido">
-            <h3>Error al cargar las noticias</h3>
-            <p>No se pudieron cargar las noticias. Intenta recargar la página.</p>
-          </div>
-        `;
-      }
-    });
+    .catch((error) => console.error("Error al cargar novedades:", error));
 }
 
 function configurarTabs(data) {
@@ -477,128 +450,142 @@ function cargarJuegos() {
       console.log("Juegos cargadas desde API:", data);
 
       const juegosContainer = document.getElementById("juegos-container");
-      if (!juegosContainer) {
-        console.error("No se encontró el elemento con id 'juegos-container'");
-        return;
-      }
+      if (!juegosContainer) return;
 
-      // Obtener favoritos del localStorage
-      const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+      // Usar 'wishlist' para consistencia con el catálogo y la página de deseos
+      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
       juegosContainer.innerHTML = data
-
-        .map(
-          (juego) => `
-          <div class="juego-card">
-          ${
-            juego.esNuevaConsola
-              ? `
-              <div class="badge-consola">
-                <img src="./fotos/logos/Nintendo_2.png" alt="Nueva Consola">
+        .map((juego) => {
+          const isInWishlist = wishlist.some(item => item.juego === juego.juego);
+          return `
+            <div class="juego-card">
+            ${
+              juego.esNuevaConsola
+                ? `
+                <div class="badge-consola">
+                  <img src="./fotos/logos/Nintendo_2.png" alt="Nueva Consola">
+                </div>
+                `
+                : ""
+            }
+              <div class="juego-imagen">
+                <img src="${juego.imagen || "./fotos/placeholder.jpg"}" alt="${juego.juego}">
               </div>
-              `
-              : ""
-          }
-            <div class="juego-imagen">
-            
-              <img src="${juego.imagen || "./fotos/placeholder.jpg"}" alt="${juego.juego}">
-            </div>
-            <div class="juego-contenido">
-              <div class="juego-fecha">${juego.plataforma} | ${juego.fecha}</div>
-              <h3 class="juego-titulo">${juego.juego}</h3>
-            </div>
-            <div class="juego-favorito-container">
-                <button class="juego-favorito ${favoritos.includes(juego.juego) ? "activo" : ""}" onclick="toggleFavorito(this, '${juego.juego.replace(/'/g, "\\'")}')">
-                  <i class="${favoritos.includes(juego.juego) ? "fa-solid" : "fa-regular"} fa-heart"></i>
-                </button>
+              <div class="juego-contenido">
+                <div class="juego-fecha">${juego.plataforma} | ${juego.fecha}</div>
+                <h3 class="juego-titulo">${juego.juego}</h3>
               </div>
-          </div>
-        `,
-        )
+              <div class="juego-favorito-container">
+                  <button class="juego-favorito ${isInWishlist ? "activo" : ""}" data-game='${JSON.stringify(juego).replace(/'/g, "&apos;")}'>
+                    <i class="${isInWishlist ? "fa-solid" : "fa-regular"} fa-heart"></i>
+                  </button>
+                </div>
+            </div>
+          `;
+        })
         .join("");
+
+      // Añadir eventos a los botones de favorito
+      juegosContainer.querySelectorAll(".juego-favorito").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const gameData = JSON.parse(btn.dataset.game);
+          toggleFavorito(btn, gameData);
+        });
+      });
     })
     .catch((error) => {
       console.error("Error al cargar juegos:", error);
-      const juegosContainer = document.getElementById("juegos-container");
-      if (juegosContainer) {
-        juegosContainer.innerHTML =
-          '<p style="padding: 20px; color: red;">Error al cargar los juegos</p>';
-      }
     });
+}
+
+// Función para toggle de favorito (ahora usando wishlist y objetos)
+function toggleFavorito(boton, juego) {
+  const icono = boton.querySelector("i");
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  const exists = wishlist.some(item => item.juego === juego.juego);
+
+  if (!exists) {
+    // Añadir
+    icono.classList.remove("fa-regular");
+    icono.classList.add("fa-solid");
+    boton.classList.add("activo");
+    wishlist.push(juego);
+    showToastHome(`${juego.juego} añadido a la lista de deseos`, "fa-heart");
+  } else {
+    // Quitar
+    icono.classList.remove("fa-solid");
+    icono.classList.add("fa-regular");
+    boton.classList.remove("activo");
+    wishlist = wishlist.filter(item => item.juego !== juego.juego);
+    showToastHome(`${juego.juego} eliminado de la lista`, "fa-heart-crack");
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+}
+
+// Toast sutil para el index
+function showToastHome(message, icon = "fa-check") {
+  let toast = document.querySelector(".home-toast");
+  if (toast) toast.remove();
+
+  toast = document.createElement("div");
+  toast.className = "home-toast";
+  toast.style.cssText = `
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #1a1a1a; color: white; padding: 12px 24px; border-radius: 30px;
+    font-size: 14px; font-weight: 600; z-index: 10000; opacity: 0; transition: 0.3s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; align-items: center; gap: 10px;
+  `;
+  toast.innerHTML = `<i class="fa-solid ${icon}" style="color: #e60012;"></i> ${message}`;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "1";
+    toast.style.transform = "translateX(-50%) translateY(0)";
+  }, 10);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateX(-50%) translateY(20px)";
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
 }
 
 // ========== CARGAR APLICACIONES DESDE JSON ==========
 
 function cargarAplicaciones() {
   fetch("/api/aplicaciones")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("No se pudo cargar la API de aplicaciones");
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      console.log("Aplicaciones cargadas:", data);
-
       const appsContainer = document.getElementById("apps-container");
-
-      if (!appsContainer) {
-        console.error("No se encontró el contenedor apps-container");
-        return;
-      }
+      if (!appsContainer) return;
 
       appsContainer.innerHTML = data
-        .map(
-          (app) => `
-        <div class="app-card">
-
-          <div class="app-imagen">
-            <img src="${app.imagen}" alt="${app.aplicacion}">
-          </div>
-
-          <div class="app-info">
-            <div class="app-meta">
-              ${app.plataforma} | ${app.fecha}
+        .map(app => `
+          <div class="app-card">
+            <div class="app-imagen">
+              <img src="${app.imagen}" alt="${app.aplicacion}">
             </div>
-
-            <h3 class="app-titulo">
-              ${app.aplicacion}
-            </h3>
-
+            <div class="app-info">
+              <div class="app-meta">${app.plataforma} | ${app.fecha}</div>
+              <h3 class="app-titulo">${app.aplicacion}</h3>
+            </div>
           </div>
-
-        </div>
-      `,
-        )
-        .join("");
+        `).join("");
     })
-    .catch((error) => {
-      console.error("Error al cargar aplicaciones:", error);
-
-      const appsContainer = document.getElementById("apps-container");
-      if (appsContainer) {
-        appsContainer.innerHTML =
-          '<p style="color:red;padding:20px;">Error al cargar aplicaciones</p>';
-      }
-    });
+    .catch((error) => console.error("Error al cargar aplicaciones:", error));
 }
 
 // ========== CARGAR MY NINTENDO STORE DESDE JSON ==========
 
 function cargarMyNintendoStore() {
   fetch("/api/myNintendoStore")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("No se pudo cargar la API MyNintendoStore");
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      // Buscamos el contenedor en el HTML que definiste
       const storeSection = document.querySelector(".my-nintendo-store-section");
       if (!storeSection) return;
 
-      // Buscamos o creamos el grid
       let storeGrid = storeSection.querySelector(".store-grid");
       if (!storeGrid) {
         storeGrid = document.createElement("div");
@@ -606,59 +593,80 @@ function cargarMyNintendoStore() {
         storeSection.appendChild(storeGrid);
       }
 
-      // IMPORTANTE: Los nombres aquí deben ser item.aplicacion e item.descripcion
       storeGrid.innerHTML = data
-        .map(
-          (item) => `
-        <div class="store-card">
-          <div class="store-imagen">
-            <img src="${item.imagen}" alt="${item.aplicacion}">
+        .map(item => `
+          <div class="store-card">
+            <div class="store-imagen">
+              <img src="${item.imagen}" alt="${item.aplicacion}">
+            </div>
+            <div class="store-info">
+              <div class="store-meta">${item.descripcion}</div>
+              <h3 class="store-titulo">${item.aplicacion}</h3>
+            </div>
           </div>
-          <div class="store-info">
-            <div class="store-meta">${item.descripcion}</div>
-            <h3 class="store-titulo">${item.aplicacion}</h3>
-          </div>
-        </div>
-      `,
-        )
-        .join("");
-
-      // Añadimos el botón si no existe
-      if (!storeSection.querySelector(".store-footer")) {
-        const botonHTML = `
-          <div class="store-footer">
-            <a href="#" class="store-btn-main">Ir a My Nintendo Store</a>
-          </div>`;
-        storeSection.insertAdjacentHTML("beforeend", botonHTML);
-      }
+        `).join("");
     })
     .catch((error) => console.error("Error en Store:", error));
 }
 
-// Función para toggle de favorito y localStorage
-function toggleFavorito(boton, juegoNombre) {
-  const icono = boton.querySelector("i");
-  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+// ========== CARGAR NOTICIAS (GRID DE 8) ==========
 
-  if (icono.classList.contains("fa-regular")) {
-    icono.classList.remove("fa-regular");
-    icono.classList.add("fa-solid");
-    boton.classList.add("activo");
+// ========== CARGAR NOTICIAS (GRID DE 8) ==========
 
-    // Añadir a localStorage
-    if (!favoritos.includes(juegoNombre)) {
-      favoritos.push(juegoNombre);
-    }
-  } else {
-    icono.classList.remove("fa-solid");
-    icono.classList.add("fa-regular");
-    boton.classList.remove("activo");
+function cargarNoticiasGrid() {
+  fetch("/api/noticias")
+    .then((response) => response.json())
+    .then((data) => {
+      const container = document.getElementById("noticias-container");
+      if (!container) return;
 
-    // Remover de localStorage
-    favoritos = favoritos.filter((f) => f !== juegoNombre);
-  }
+      const displayData = data.slice(0, 8);
 
-  localStorage.setItem("favoritos", JSON.stringify(favoritos));
+      container.innerHTML = displayData
+        .map(n => `
+          <div class="noticia-card-simple" onclick="window.location.href='${n.link || '#'}'">
+            <div class="card-img">
+              <img src="${n.imagen || './fotos/placeholder.jpg'}" alt="${n.titulo}" onerror="this.src='./fotos/placeholder.jpg'">
+            </div>
+            <div class="card-body">
+              <div class="card-etiqueta">${n.etiqueta || ''}</div>
+              <h3>${n.titulo}</h3>
+              <div class="card-meta">${n.fecha || ''}</div>
+            </div>
+          </div>
+        `).join("");
+    })
+    .catch((error) => console.error("Error al cargar noticias grid:", error));
+}
+
+// ========== LÓGICA DE PESTAÑAS NOVEDADES ==========
+
+function setupNovedadesTabs() {
+  const tabs = document.querySelectorAll(".novedades-tabs .tab");
+  const viewDestacadas = document.getElementById("view-destacadas");
+  const viewNoticias = document.getElementById("view-noticias");
+
+  if (!tabs.length || !viewDestacadas || !viewNoticias) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      // UI de pestañas
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      // Cambio de vistas
+      const target = tab.dataset.target;
+      if (target === "noticias") {
+        viewDestacadas.classList.add("hidden");
+        viewNoticias.classList.remove("hidden");
+        cargarNoticiasGrid();
+      } else {
+        viewDestacadas.classList.remove("hidden");
+        viewNoticias.classList.add("hidden");
+        cargarNovedades();
+      }
+    });
+  });
 }
 
 // ========== MENÚ DESPLEGABLE ==========
@@ -853,10 +861,11 @@ window.toggleFavorito = toggleFavorito;
 
 // Llamar a la función después de cargar las noticias
 document.addEventListener("DOMContentLoaded", function () {
-  cargarNoticias();
+  cargarNovedades();
   cargarJuegos();
   cargarAplicaciones();
   cargarMyNintendoStore();
+  setupNovedadesTabs();
 
   // === LÓGICA DE USUARIO LOGUEADO LOGUEADO ===
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));

@@ -1,0 +1,200 @@
+// ============================= 
+// CATÁLOGO DE JUEGOS - JavaScript
+// Diseño consistente con index.html
+// ============================= 
+
+const container = document.getElementById("games-container");
+const searchInput = document.getElementById("search");
+const platformFilter = document.getElementById("platform-filter");
+const sortSelect = document.getElementById("sort");
+const resultsCount = document.getElementById("results-count");
+
+let allGames = [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let cart = JSON.parse(localStorage.getItem("carrito")) || [];
+
+// ========== CARGAR JUEGOS ==========
+fetch("/api/juegos")
+  .then(res => res.json())
+  .then(games => {
+    allGames = games;
+    renderGames(games);
+  })
+  .catch(err => {
+    console.error("Error cargando juegos:", err);
+    container.innerHTML = `
+      <div class="catalogo-empty">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <p>Error al cargar los juegos</p>
+        <span>Verifica que el backend esté funcionando correctamente</span>
+      </div>
+    `;
+  });
+
+// ========== RENDERIZAR JUEGOS ==========
+function renderGames(games) {
+  container.innerHTML = "";
+
+  // Actualizar contador de resultados
+  if (resultsCount) {
+    if (games.length === 0) {
+      resultsCount.textContent = "No se encontraron juegos";
+    } else if (games.length === 1) {
+      resultsCount.textContent = "1 juego encontrado";
+    } else {
+      resultsCount.textContent = `${games.length} juegos encontrados`;
+    }
+  }
+
+  if (games.length === 0) {
+    container.innerHTML = `
+      <div class="catalogo-empty">
+        <i class="fa-solid fa-gamepad"></i>
+        <p>No se encontraron juegos</p>
+        <span>Intenta cambiar los filtros de búsqueda</span>
+      </div>
+    `;
+    return;
+  }
+
+  games.forEach(game => {
+    const isInWishlist = wishlist.some(item => item.juego === game.juego);
+    const precio = game.precio ? parseFloat(game.precio) : 0;
+
+    const card = document.createElement("div");
+    card.classList.add("catalogo-card");
+
+    card.innerHTML = `
+      ${game.esNuevaConsola ? `
+        <div class="catalogo-badge">
+          <img src="./fotos/logos/Nintendo_2.png" alt="Nueva Consola">
+        </div>
+      ` : ""}
+      <div class="catalogo-card-imagen">
+        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${game.juego}">
+      </div>
+      <div class="catalogo-card-contenido">
+        <div class="catalogo-card-meta">${game.plataforma} | ${game.fecha}</div>
+        <h3 class="catalogo-card-titulo">${game.juego}</h3>
+        <div class="catalogo-card-precio">${precio.toFixed(2)}€</div>
+      </div>
+      <div class="catalogo-card-actions">
+        <button class="catalogo-btn-cart">
+          <i class="fa-solid fa-cart-shopping"></i> Añadir al carrito
+        </button>
+        <button class="catalogo-btn-wish ${isInWishlist ? "active" : ""}">
+          <i class="${isInWishlist ? "fa-solid" : "fa-regular"} fa-heart"></i>
+        </button>
+      </div>
+    `;
+
+    // Evento: Añadir al carrito
+    card.querySelector(".catalogo-btn-cart").addEventListener("click", () => {
+      addToCart(game);
+    });
+
+    // Evento: Toggle wishlist
+    card.querySelector(".catalogo-btn-wish").addEventListener("click", () => {
+      toggleWishlist(game);
+    });
+
+    container.appendChild(card);
+  });
+}
+
+// ========== WISHLIST ==========
+function toggleWishlist(game) {
+  const exists = wishlist.some(item => item.juego === game.juego);
+
+  if (exists) {
+    wishlist = wishlist.filter(item => item.juego !== game.juego);
+    showToast(`${game.juego} eliminado de la lista de deseos`, "fa-heart-crack");
+  } else {
+    wishlist.push(game);
+    showToast(`${game.juego} añadido a la lista de deseos`, "fa-heart");
+  }
+
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  applyFilters();
+}
+
+// ========== CARRITO ==========
+function addToCart(game) {
+  const exists = cart.some(item => item.juego === game.juego);
+  if (exists) {
+    showToast("Este juego ya está en tu carrito", "fa-circle-info");
+  } else {
+    cart.push(game);
+    localStorage.setItem("carrito", JSON.stringify(cart));
+    showToast(`¡${game.juego} añadido al carrito!`, "fa-cart-shopping");
+  }
+}
+
+// ========== TOAST NOTIFICATION ==========
+function showToast(message, icon = "fa-check") {
+  // Eliminar toast anterior si existe
+  const existingToast = document.querySelector(".catalogo-toast");
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement("div");
+  toast.className = "catalogo-toast";
+  toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
+  document.body.appendChild(toast);
+
+  // Mostrar con animación
+  requestAnimationFrame(() => {
+    toast.classList.add("visible");
+  });
+
+  // Ocultar después de 2.5 segundos
+  setTimeout(() => {
+    toast.classList.remove("visible");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
+// ========== FILTROS ==========
+function applyFilters() {
+  let filtered = [...allGames];
+
+  // Búsqueda por texto
+  const searchValue = searchInput.value.toLowerCase();
+  if (searchValue) {
+    filtered = filtered.filter(game =>
+      game.juego.toLowerCase().includes(searchValue)
+    );
+  }
+
+  // Filtro por plataforma
+  if (platformFilter.value !== "all") {
+    filtered = filtered.filter(game =>
+      game.plataforma === platformFilter.value
+    );
+  }
+
+  // Ordenar
+  if (sortSelect.value === "price-asc") {
+    filtered.sort((a, b) => (a.precio || 0) - (b.precio || 0));
+  }
+
+  if (sortSelect.value === "price-desc") {
+    filtered.sort((a, b) => (b.precio || 0) - (a.precio || 0));
+  }
+
+  if (sortSelect.value === "date-new") {
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.fecha.split("/").reverse().join("-"));
+      const dateB = new Date(b.fecha.split("/").reverse().join("-"));
+      return dateB - dateA;
+    });
+  }
+
+  renderGames(filtered);
+}
+
+// ========== EVENTOS ==========
+searchInput.addEventListener("input", applyFilters);
+platformFilter.addEventListener("change", applyFilters);
+sortSelect.addEventListener("change", applyFilters);

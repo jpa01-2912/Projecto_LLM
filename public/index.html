@@ -13,6 +13,9 @@
     <!-- Hoja de estilos principal -->
     <link rel="stylesheet" href="./css/style.css" />
 
+    <!-- Scripts comunes (Auth, RBAC) -->
+    <script src="./js/common.js"></script>
+
     <!-- Segundo favicon, con tipo explícito PNG -->
     <link rel="icon" type="image/png" href="./fotos/logos/icono.jpg" />
   </head>
@@ -37,7 +40,7 @@
         <!-- Buscador -->
         <div class="action">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <a>Buscar</a>
+          <a href="juegos.html">Buscar</a>
         </div>
 
         <!-- Lista de deseos -->
@@ -164,21 +167,33 @@
         <!-- ============================= -->
         <!-- SECCIÓN NOVEDADES -->
         <!-- ============================= -->
-        <div class="section">
+        <div class="section novedades-section-wrapper">
           <!-- Título de la sección -->
-          <h2>Novedades</h2>
+          <h2 id="novedades-title">Novedades</h2>
 
           <!-- Pestañas de filtrado para noticias -->
           <div class="tabs novedades-tabs">
-            <div class="tab active">Destacadas</div>
-            <div class="tab">Noticias</div>
+            <div class="tab active" data-target="destacadas">Destacadas</div>
+            <div class="tab" data-target="noticias">Noticias</div>
           </div>
 
-          <!-- Noticia principal (contenido dinámico) -->
-          <article class="noticia-principal"></article>
+          <!-- Vista: Destacadas (Contenido dinámico original) -->
+          <div id="view-destacadas">
+            <!-- Noticia principal (contenido dinámico) -->
+            <article class="noticia-principal"></article>
+            <!-- Grid de mini noticias (contenido dinámico) -->
+            <div class="mini-noticias-grid"></div>
+          </div>
 
-          <!-- Grid de mini noticias (contenido dinámico) -->
-          <div class="mini-noticias-grid"></div>
+          <!-- Vista: Noticias (Nueva cuadrícula de 8 noticias) -->
+          <div id="view-noticias" class="hidden">
+            <div class="noticias-grid" id="noticias-container">
+              <!-- Se rellena dinámicamente desde app.js -->
+            </div>
+            <div class="noticias-footer">
+               <button class="ver-mas-btn-red">Ver más <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
         </div>
 
         <!-- ============================= -->
@@ -273,7 +288,7 @@
           <h2>Disponibles en Nintendo Switch 2 y Nintendo Switch</h2>
 
           <!-- Nintendo Switch Online -->
-          <div class="servicio-card">
+          <a href="#" class="servicio-card">
             <div class="servicio-left">
               <img
                 id="Nintendo-online"
@@ -297,10 +312,10 @@
                 de pago Nintendo Switch Online!
               </p>
             </div>
-          </div>
+          </a>
 
           <!-- Control parental -->
-          <div class="servicio-card">
+          <a href="control-parental.html" class="servicio-card">
             <div class="servicio-left">
               <img
                 id="control-parental"
@@ -324,60 +339,39 @@
                 segura y divertida.
               </p>
             </div>
+          </a>
+        </div> <!-- Fin de servicios-switch -->
+        
+        <footer>
+          <div class="footer-logo">
+            <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" />
           </div>
-        </div>
-      </div>
-    </div>
 
-    <footer>
-      <div class="footer-logo">
-        <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" />
-      </div>
+          <div class="footer-links">
+            <a href="control-parental.html">Padres y control parental</a>
+            <a href="ayuda.html">Ayuda</a>
+            <a href="empresa.html">Información de la empresa</a>
+            <a href="empleo.html">Empleo</a>
+            <a href="privacidad.html">Política de privacidad de este sitio web</a>
+          </div>
 
-      <div class="footer-links">
-        <a href="#">Padres y control parental</a>
-        <a href="#">Ayuda</a>
-        <a href="#">Información de la empresa</a>
-        <a href="#">Empleo</a>
-        <a href="#">Política de privacidad de este sitio web</a>
-      </div>
+          <div class="divider"></div>
 
-      <div class="divider"></div>
+          <div class="footer-bottom">
+            <a href="#">Administrar cookies</a>
+            <a href="#">Información legal</a>
+            <a href="#">Eliminación del servicio</a>
+            <a href="#">RSC</a>
+            <a href="#">Declaración de accesibilidad</a>
+            <a href="#">Contactar</a>
+          </div>
 
-      <div class="footer-bottom">
-        <a href="#">Administrar cookies</a>
-        <a href="#">Información legal</a>
-        <a href="#">Eliminación del servicio</a>
-        <a href="#">RSC</a>
-        <a href="#">Declaración de accesibilidad</a>
-        <a href="#">Contactar</a>
-      </div>
+          <div class="copyright">© Nintendo. 2026</div>
+        </footer>
+      </div> <!-- Fin de main -->
+    </div> <!-- Fin de contenedor-flex -->
 
-      <div class="copyright">© Nintendo. 2026</div>
-    </footer>
     <!-- Script principal de JavaScript -->
     <script src="./js/app.js"></script>
-    <script>
-      const authAction = document.getElementById("auth-action");
-
-      function actualizarAuthAction() {
-        const loggedUser = localStorage.getItem("loggedUser");
-        if (!authAction) return;
-
-        if (loggedUser) {
-          authAction.innerHTML = `
-          <i class="fa-solid fa-circle-user"></i>
-          <a href="count.html">Mi cuenta</a>
-        `;
-        } else {
-          authAction.innerHTML = `
-          <i class="fa-solid fa-user"></i>
-          <a href="login.html">Iniciar sesión</a>
-        `;
-        }
-      }
-
-      actualizarAuthAction();
-    </script>
   </body>
 </html>
