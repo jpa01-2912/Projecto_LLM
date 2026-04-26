@@ -1,17 +1,19 @@
+@import url("./variables.css");
+
 /* Configuración General */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-main);
 }
 
 body {
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  color: #333;
+  color: var(--color-text);
 }
 
 /* Header */
@@ -21,7 +23,7 @@ body {
   justify-content: center; /* Centra el título horizontalmente */
   align-items: center;
   height: 55px; /* Altura fija para mayor control */
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
   padding: 0 20px;
 }
 
@@ -32,7 +34,7 @@ body {
 }
 
 .logo-red-box {
-  background-color: #e60012;
+  background-color: var(--rojo-nintendo);
   width: 120px;
   height: 55px;
   display: flex;
@@ -48,7 +50,7 @@ body {
 .header-title {
   font-size: 14px;
   font-weight: bold;
-  color: #333;
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -70,8 +72,8 @@ h1 {
 }
 
 .card {
-  background-color: #f8f8f8;
-  border-radius: 4px;
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-sm);
   padding: 40px;
   width: 90%;
   max-width: 650px;
@@ -114,19 +116,19 @@ h1 {
 }
 
 .btn-red {
-  background-color: #e60012;
+  background-color: var(--rojo-nintendo);
   color: white;
 }
 
 .btn-red:hover {
-  background-color: #b0000e;
+  background-color: var(--rojo-nintendo-hover);
 }
 
 /* Footer */
 .footer {
   background-color: #e2e2e2; /* Gris claro de la imagen */
   padding: 40px 20px;
-  font-family: sans-serif;
+  font-family: var(--font-main);
   border-top: 1px solid #d0d0d0;
 }
 
@@ -157,7 +159,7 @@ h1 {
 }
 
 .link-item a {
-  color: #333;
+  color: var(--color-text);
   text-decoration: none;
 }
 
@@ -194,7 +196,7 @@ h1 {
 
 .language-selector {
   appearance: none; /* Quita el estilo por defecto */
-  background-color: white;
+  background-color: var(--color-surface);
   border: 1px solid #ccc;
   border-radius: 20px;
   padding: 8px 40px 8px 15px;
@@ -209,7 +211,7 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .copyright {

@@ -40,10 +40,10 @@ CREATE TABLE `aplicaciones` (
 --
 
 INSERT INTO `aplicaciones` (`id`, `aplicacion`, `plataforma`, `fecha`, `imagen`) VALUES
-(1, 'Nintendo Store', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/nintendoStoreApp.jpg'),
-(2, 'Nintendo Today!', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/nintendoToday.jpg'),
-(3, 'Nintendo Music', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/nintendoMusic.jpg'),
-(4, 'Fire Emblem Shadows', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/fireEmblem.jpg');
+(1, 'Nintendo Store', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/nintendo-store-app.jpg'),
+(2, 'Nintendo Today!', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/nintendo-today.jpg'),
+(3, 'Nintendo Music', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/nintendo-music.jpg'),
+(4, 'Fire Emblem Shadows', 'Dispositivos inteligentes', '0000-00-00', './fotos/aplicaciones/fire-emblem.jpg');
 
 -- --------------------------------------------------------
 
@@ -65,11 +65,11 @@ CREATE TABLE `carrousel` (
 --
 
 INSERT INTO `carrousel` (`id`, `url`, `alt`, `titulo`, `boton_texto`, `link`) VALUES
-(1, './fotos/Carrousel/MarioTennis.jpg', 'Mario Tennis Aces', 'Disponible 12-02', 'Nuevo tráiler', 'https://www.youtube.com/watch?v=example5'),
+(1, './fotos/Carrousel/mario-tennis.jpg', 'Mario Tennis Aces', 'Disponible 12-02', 'Nuevo tráiler', 'https://www.youtube.com/watch?v=example5'),
 (2, './fotos/Carrousel/nintendo-direct.jpg', 'Nintendo Direct', '¡Ya lo podéis ver!', 'Seguidlo aquí', 'https://www.youtube.com/watch?v=example5'),
-(3, './fotos/Carrousel/TomodachiLive.jpg', 'Tomodachi Life', NULL, NULL, NULL),
-(4, './fotos/Carrousel/Pokopia.jpg', 'Pokopia', '¡Se lanza el 05-03!', 'Reservas disponibles', 'https://www.youtube.com/watch?v=example5'),
-(5, './fotos/Carrousel/animalcrossing.jpg', 'Cuarto juego', 'Disfruta como nunca la vida insular', '¡Ya disponible!', 'https://www.youtube.com/watch?v=example4');
+(3, './fotos/Carrousel/tomodachi-live.jpg', 'Tomodachi Life', NULL, NULL, NULL),
+(4, './fotos/Carrousel/pokopia.jpg', 'Pokopia', '¡Se lanza el 05-03!', 'Reservas disponibles', 'https://www.youtube.com/watch?v=example5'),
+(5, './fotos/Carrousel/animal-crossing.jpg', 'Cuarto juego', 'Disfruta como nunca la vida insular', '¡Ya disponible!', 'https://www.youtube.com/watch?v=example4');
 
 -- --------------------------------------------------------
 
@@ -92,10 +92,10 @@ CREATE TABLE `juegos` (
 --
 
 INSERT INTO `juegos` (`id`, `juego`, `plataforma`, `fecha`, `imagen`, `esNuevaConsola`, `precio`) VALUES
-(1, 'RESIDENT EVIL Requiem', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/ResidentEvilRequiem.jpg', 1, 69.80),
-(2, 'DRAGON QUEST VII Reimagined', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/DragonQuest.jpg', 1, 59.60),
-(3, 'Monster Hunter Stories 3: Twisted Reflection', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/MonsterHunte.jpg', 1, 50.60),
-(4, 'Mario Kart World', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/MarioKartWorld.jpg', 1, 49.90);
+(1, 'RESIDENT EVIL Requiem', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/resident-evil-requiem.jpg', 1, 69.80),
+(2, 'DRAGON QUEST VII Reimagined', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/dragon-quest.jpg', 1, 59.60),
+(3, 'Monster Hunter Stories 3: Twisted Reflection', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/monster-hunte.jpg', 1, 50.60),
+(4, 'Mario Kart World', 'Nintendo Switch 2', '0000-00-00', './fotos/juegos/mario-kart-world.jpg', 1, 49.90);
 
 -- --------------------------------------------------------
 
@@ -115,10 +115,10 @@ CREATE TABLE `mynintendostore` (
 --
 
 INSERT INTO `mynintendostore` (`id`, `aplicacion`, `descripcion`, `imagen`) VALUES
-(1, 'Pokémon Pokopia', 'Ya disponible', './fotos/MyNintendoStore/Pokopia.jpg'),
-(2, 'Artículos exclusivos de Animal Crossing', 'Ver el catálogo', './fotos/MyNintendoStore/ACNH_COLLECTION_LOGO.jpg'),
-(3, 'Tomodachi Life: Una vida de ensueño', '16-04-2026', './fotos/MyNintendoStore/TomodachiLifeLTD.jpg'),
-(4, 'Camisetas de Super Mario Bros. 40th', 'Ya disponibles', './fotos/MyNintendoStore/SuperMarioBros40thTShirt.jpg');
+(1, 'Pokémon Pokopia', 'Ya disponible', './fotos/MyNintendoStore/pokopia.jpg'),
+(2, 'Artículos exclusivos de Animal Crossing', 'Ver el catálogo', './fotos/MyNintendoStore/acnh-collection-logo.jpg'),
+(3, 'Tomodachi Life: Una vida de ensueño', '16-04-2026', './fotos/MyNintendoStore/tomodachi-life-ltd.jpg'),
+(4, 'Camisetas de Super Mario Bros. 40th', 'Ya disponibles', './fotos/MyNintendoStore/super-mario-bros-40th-t-shirt.jpg');
 
 -- --------------------------------------------------------
 

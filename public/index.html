@@ -5,7 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Título que aparece en la pestaña del navegador -->
-    <title>Clon Nintendo</title>
+    <title>Clon Nintendo | Juegos, noticias y hardware</title>
+    <meta name="description" content="Portada inspirada en Nintendo con juegos, noticias, hardware y servicios para explorar el catalogo y la actualidad de la marca." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#e60012" />
+    <link rel="canonical" href="https://tu-dominio.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Clon Nintendo | Juegos, noticias y hardware" />
+    <meta property="og:description" content="Explora juegos, novedades, hardware y servicios inspirados en Nintendo desde una portada moderna." />
+    <meta property="og:image" content="./fotos/logos/nintendo-logo.png" />
 
     <!-- Favicon principal (pequeño icono que aparece en la pestaña) -->
     <link rel="icon" type="image/x-icon" href="./fotos/favicon/favicon.ico" />
@@ -14,7 +22,7 @@
     <link rel="stylesheet" href="./css/style.css" />
 
     <!-- Scripts comunes (Auth, RBAC) -->
-    <script src="./js/common.js"></script>
+    <script src="./js/common.js" defer></script>
 
     <!-- Segundo favicon, con tipo explícito PNG -->
     <link rel="icon" type="image/png" href="./fotos/logos/icono.jpg" />
@@ -81,7 +89,7 @@
         <!-- Sección Hardware -->
         <div class="side-item" onclick="selectMenu('hardware')">
           <img
-            src="./fotos/logos/iconohardware.png"
+            src="./fotos/logos/icono-hardware.png"
             alt="Hardware"
             id="hardware"
           />
@@ -91,7 +99,7 @@
         <!-- Nintendo Switch Online -->
         <div class="side-item" onclick="selectMenu('online')">
           <img
-            src="./fotos/logos/Nintendo_switch.png"
+            src="./fotos/logos/nintendo-switch.png"
             alt="Switch Online"
             id="N_S"
           />
@@ -101,7 +109,7 @@
         <!-- Nintendo eShop -->
         <div class="side-item" onclick="selectMenu('eshop')">
           <img
-            src="./fotos/logos/iconoBolsa.png"
+            src="./fotos/logos/icono-bolsa.png"
             alt="Nintendo eShop"
             id="eShop"
           />
@@ -111,7 +119,7 @@
         <!-- My Nintendo Store -->
         <div class="side-item" onclick="selectMenu('mynintendo')">
           <img
-            src="./fotos/logos/nintendo_store.png"
+            src="./fotos/logos/nintendo-store.png"
             alt="My Nintendo Store"
             id="M_N_S"
           />
@@ -120,7 +128,7 @@
 
         <!-- Ayuda / Noticias -->
         <div class="side-item">
-          <img src="./fotos/logos/iconoayuda.png" alt="Ayuda" id="ayuda" />
+          <img src="./fotos/logos/icono-ayuda.png" alt="Ayuda" id="ayuda" />
           <span>Ayuda</span>
         </div>
 
@@ -188,7 +196,7 @@
           <!-- Vista: Noticias (Nueva cuadrícula de 8 noticias) -->
           <div id="view-noticias" class="hidden">
             <div class="noticias-grid" id="noticias-container">
-              <!-- Se rellena dinámicamente desde app.js -->
+              <!-- Se rellena dinámicamente desde main.js -->
             </div>
             <div class="noticias-footer">
                <button class="ver-mas-btn-red">Ver más <i class="fa-solid fa-chevron-right"></i></button>
@@ -243,7 +251,7 @@
               <div class="eslogan">
                 <img
                   id="nintendo-switch2-logo"
-                  src="./fotos/logos/nintendoSwitch2logo.png"
+                  src="./fotos/logos/nintendo-switch-2-logo.png"
                   alt="Nintendo Switch OLED"
                 />
                 <p>Todos juntos, cuando queráis y <br />donde queráis</p>
@@ -252,7 +260,7 @@
               <!-- Imagen de la consola -->
               <div class="hardware-image">
                 <img
-                  src="./fotos/Hardware/NintendoSwitch2Consola.jpg"
+                  src="./fotos/Hardware/nintendo-switch-2-consola.jpg"
                   alt="Nintendo Switch 2"
                 />
               </div>
@@ -265,7 +273,7 @@
               <!-- Imagen de la consola -->
               <div class="hardware-image">
                 <img
-                  src="./fotos/Hardware/NintendoSwitchConsola.jpg"
+                  src="./fotos/Hardware/nintendo-switch-consola.jpg"
                   alt="Consola Switch"
                 />
               </div>
@@ -273,7 +281,7 @@
               <!-- Eslogan con logo -->
               <div class="eslogan2">
                 <img
-                  src="./fotos/logos/NintendoConsola.png"
+                  src="./fotos/logos/nintendo-consola.png"
                   alt="Logo Switch"
                 />
                 <p>
@@ -292,7 +300,7 @@
             <div class="servicio-left">
               <img
                 id="Nintendo-online"
-                src="./fotos/logos/Nintendo_Online.png"
+                src="./fotos/logos/nintendo-online.png"
                 alt="Switch Online"
               />
             </div>
@@ -300,7 +308,7 @@
             <div class="servicio-personajes">
               <img
                 id="heroes"
-                src="./fotos/UltimaParteDelMain/mario_y_compania.png"
+                src="./fotos/UltimaParteDelMain/mario-y-compania.png"
                 alt="Mario"
               />
             </div>
@@ -319,7 +327,7 @@
             <div class="servicio-left">
               <img
                 id="control-parental"
-                src="./fotos/logos/Nintend_Control_Parental.png"
+                src="./fotos/logos/nintend-control-parental.png"
                 alt="Control parental"
               />
             </div>
@@ -327,7 +335,7 @@
             <div class="servicio-personajes">
               <img
                 id="villanos"
-                src="./fotos/UltimaParteDelMain/bowser_y_hijo.png"
+                src="./fotos/UltimaParteDelMain/bowser-y-hijo.png"
                 alt="Bowser"
               />
             </div>
@@ -372,6 +380,6 @@
     </div> <!-- Fin de contenedor-flex -->
 
     <!-- Script principal de JavaScript -->
-    <script src="./js/app.js"></script>
+    <script type="module" src="./js/main.js"></script>
   </body>
 </html>

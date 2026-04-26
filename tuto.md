@@ -1,2 +1,0 @@
-Mi locotron'!
-Te explico, abres una terminal, te metes con el comando cd a la carpeta ./legacy/node_backend y ejecutas el comando npm start. Luego abres otra terminal y ejecutas el comando php -S localhost:3000 router.php (Todo esto desde projecto_LLM). Y ya con eso deberia furular.

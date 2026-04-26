@@ -44,7 +44,7 @@ function renderWishlist() {
     card.innerHTML = `
       ${game.esNuevaConsola ? `
         <div class="catalogo-badge">
-          <img src="./fotos/logos/Nintendo_2.png" alt="Nueva Consola">
+          <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
         </div>
       ` : ""}
       <div class="catalogo-card-imagen">

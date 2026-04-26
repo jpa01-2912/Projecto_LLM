@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/informacion.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <script src="./js/common.js"></script>
+    <script src="./js/common.js" defer></script>
 </head>
 <body>
     <div class="topbar">
@@ -32,23 +32,23 @@
                 <a href="juegos.html">Juegos</a>
             </div>
             <div class="side-item" onclick="selectMenu('hardware')">
-                <img src="./fotos/logos/iconohardware.png" alt="Hardware" id="hardware" />
+                <img src="./fotos/logos/icono-hardware.png" alt="Hardware" id="hardware" />
                 <span>Hardware</span>
             </div>
             <div class="side-item" onclick="selectMenu('online')">
-                <img src="./fotos/logos/Nintendo_switch.png" alt="Switch Online" id="N_S" />
+                <img src="./fotos/logos/nintendo-switch.png" alt="Switch Online" id="N_S" />
                 <span>Nintendo Switch Online</span>
             </div>
             <div class="side-item" onclick="selectMenu('eshop')">
-                <img src="./fotos/logos/iconoBolsa.png" alt="Nintendo eShop" id="eShop" />
+                <img src="./fotos/logos/icono-bolsa.png" alt="Nintendo eShop" id="eShop" />
                 <span>Nintendo <br />eShop</span>
             </div>
             <div class="side-item" onclick="selectMenu('mynintendo')">
-                <img src="./fotos/logos/nintendo_store.png" alt="My Nintendo Store" id="M_N_S" />
+                <img src="./fotos/logos/nintendo-store.png" alt="My Nintendo Store" id="M_N_S" />
                 <span>My Nintendo Store</span>
             </div>
             <div class="side-item">
-                <img src="./fotos/logos/iconoayuda.png" alt="Ayuda" id="ayuda" />
+                <img src="./fotos/logos/icono-ayuda.png" alt="Ayuda" id="ayuda" />
                 <span>Ayuda</span>
             </div>
             <div class="side-item" onclick="selectMenu('seguenos')">
@@ -100,6 +100,6 @@
             </footer>
         </div>
     </div>
-    <script src="./js/app.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>

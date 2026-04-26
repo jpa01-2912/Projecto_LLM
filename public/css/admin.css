@@ -1,13 +1,15 @@
+@import url("./variables.css");
+
 :root {
-  --bg-color: #f5f5f5;
-  --sidebar-bg: #ffffff;
-  --card-bg: #ffffff;
+  --bg-color: var(--color-bg);
+  --sidebar-bg: var(--color-surface);
+  --card-bg: var(--color-surface);
   --text-main: #222222;
-  --text-muted: #666666;
-  --primary-color: #e60012; /* Nintendo Red */
-  --primary-hover: #c4000f;
-  --border-color: #dddddd;
-  --danger: #ff4d4d;
+  --text-muted: var(--color-text-soft);
+  --primary-color: var(--rojo-nintendo);
+  --primary-hover: var(--rojo-nintendo-hover);
+  --border-color: var(--color-border-soft);
+  --danger: var(--color-danger);
   --success: #10b981;
 }
 
@@ -15,7 +17,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-display);
 }
 
 body {
