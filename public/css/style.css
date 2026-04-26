@@ -105,8 +105,10 @@ body {
   z-index: 1000; /* Asegura que la barra esté sobre cualquier otro elemento */
   position: fixed;
   top: 71px;
+  left: 0;
   width: 90px;
-  height: 51.9rem;
+  height: calc(100vh - 71px);
+  overflow-y: auto;
   background: #ae000f;
   color: white;
   display: flex;
@@ -192,7 +194,7 @@ body {
 .carousel {
   position: relative;
   width: 100%;
-  height: 580px;
+  height: clamp(400px, 38vw, 620px);
   background-color: #000;
   display: flex;
   justify-content: center;
@@ -1300,265 +1302,6 @@ footer {
   border-radius: 2px;
 }
 
-@media (max-width: 600px) {
-  .footer-links,
-  .footer-bottom {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-/* ====== MEDIA QUERIES PARA ADAPTACIÓN A PANTALLA ====== */
-
-/* Pantallas grandes (mayor a 1600px) */
-@media (min-width: 1600px) {
-  .section {
-    padding: 40px calc((100% - 1400px) / 2);
-  }
-
-  .section .tabs {
-    right: calc((100% - 1400px) / 2);
-  }
-}
-
-/* Pantallas medianas (entre 1024px y 1400px) */
-@media (max-width: 1400px) {
-  .section {
-    padding: 40px 80px;
-  }
-}
-
-/* Pantallas entre 1024px y 1200px */
-@media (max-width: 1200px) {
-  .mini-noticias-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  #juegos-container {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Pantallas entre 900px y 1024px */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 80px;
-    min-width: 80px;
-  }
-
-  .main {
-    width: calc(100% - 80px);
-  }
-
-  .section {
-    padding: 40px 60px;
-  }
-
-  .section .tabs {
-    right: 60px;
-  }
-}
-
-/* Tablets horizontales y pantallas entre 768px y 900px */
-@media (max-width: 900px) {
-  .mini-noticias-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  #juegos-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .section {
-    padding: 30px 40px;
-  }
-
-  .section .tabs {
-    right: 40px;
-  }
-}
-
-/* Tablets verticales (entre 600px y 768px) */
-@media (max-width: 768px) {
-  .contenedor-flex {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    position: relative;
-    top: 0;
-    width: 100%;
-    min-width: 100%;
-    height: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding-bottom: 0;
-    overflow-x: auto;
-  }
-
-  .side-item {
-    min-height: 100px;
-    width: 90px;
-    flex-shrink: 0;
-  }
-
-  .main {
-    width: 100%;
-  }
-
-  .carousel {
-    height: 400px;
-    min-height: 400px;
-  }
-
-  .section {
-    padding: 30px 30px;
-  }
-
-  .section h2 {
-    display: block;
-    margin-bottom: 60px;
-  }
-
-  .section .tabs {
-    position: relative;
-    right: auto;
-    top: auto;
-    margin: -50px 0 30px 0;
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .noticia-principal {
-    flex-direction: column;
-  }
-
-  .noticia-imagen {
-    max-width: 100%;
-  }
-
-  .carousel-caption {
-    left: 20px;
-    right: 20px;
-  }
-
-  .carousel::before,
-  .carousel::after {
-    width: 10%;
-  }
-}
-
-/*
-
-/* Móviles grandes (entre 480px y 600px) */
-@media (max-width: 600px) {
-  .top-actions {
-    gap: 12px;
-  }
-
-  .action i {
-    font-size: 24px;
-  }
-
-  .action a {
-    font-size: 9px;
-  }
-
-  .carousel {
-    height: 350px;
-    min-height: 350px;
-  }
-
-  .main-wrapper {
-    flex: 0 0 60%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .carousel::before,
-  .carousel::after {
-    display: none;
-  }
-
-  .mini-noticias-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #juegos-container {
-    grid-template-columns: 1fr;
-  }
-
-  .section {
-    padding: 25px 20px;
-  }
-
-  .section .tabs {
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .section .tab {
-    flex: 1 1 auto;
-    text-align: center;
-  }
-}
-
-/* Móviles pequeños (menos de 480px) */
-@media (max-width: 480px) {
-  .topbar {
-    padding: 0 15px;
-  }
-
-  .top-actions {
-    gap: 8px;
-  }
-
-  .action i {
-    font-size: 20px;
-    margin-bottom: 4px;
-  }
-
-  .action a {
-    font-size: 8px;
-  }
-
-  .logo img {
-    height: 18px;
-  }
-
-  .carousel {
-    height: 250px;
-    min-height: 250px;
-  }
-
-  .carousel-caption {
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-  }
-
-  .caption-button {
-    padding: 8px 15px;
-    min-width: 100px;
-    font-size: 12px;
-  }
-
-  .indicators {
-    gap: 5px;
-  }
-
-  .bar {
-    width: 30px;
-  }
-
-  .section .tab {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-}
-
-/* ====== NUEVA CUADRÍCULA DE NOTICIAS (TAB NOTICIAS) ====== */
 .noticias-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1671,4 +1414,295 @@ footer {
 
 .hidden {
   display: none !important;
+}
+
+/* ============================================================ */
+/* ====== MEDIA QUERIES - ADAPTACIÓN RESPONSIVE ====== */
+/* (Ordenados de pantalla más grande a más pequeña) */
+/* ============================================================ */
+
+/* Monitores muy grandes (1920px+: Full HD externo, 2K, 4K) */
+@media (min-width: 1920px) {
+  .carousel {
+    height: 580px;
+  }
+
+  .main-wrapper {
+    flex: 0 0 60%;
+  }
+
+  .img-side {
+    flex: 0 0 12%;
+  }
+}
+
+/* Pantallas grandes (1600px - 1919px) */
+@media (min-width: 1600px) {
+  .carousel {
+    height: 880px;
+  }
+
+  .img-main {
+    width: 95%;
+  }
+
+  .caption-button {
+    padding: 16px 40px;
+    font-size: 18px;
+  }
+
+  .carousel-caption {
+    left: 12%;   /* En vez de 40px fijo, usa % para que escale con la pantalla */
+    right: 12%;  /* Así queda más centrado sobre la imagen principal */
+    bottom: 30px;
+  }
+
+  .section {
+    padding: 40px calc((100% - 1400px) / 2);
+  }
+
+  .section .tabs {
+    right: calc((100% - 1400px) / 2);
+  }
+}
+
+/* Pantallas medianas-grandes (1200px - 1400px) */
+@media (max-width: 1400px) {
+  .section {
+    padding: 40px 80px;
+  }
+}
+
+/* Pantallas entre 1024px y 1200px */
+@media (max-width: 1200px) {
+  .mini-noticias-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #juegos-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Pantallas entre 900px y 1024px */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+    min-width: 80px;
+  }
+
+  .main {
+    width: calc(100% - 80px);
+  }
+
+  .section {
+    padding: 40px 60px;
+  }
+
+  .section .tabs {
+    right: 60px;
+  }
+}
+
+/* Tablets horizontales (768px - 900px) */
+@media (max-width: 900px) {
+  .mini-noticias-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #juegos-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section {
+    padding: 30px 40px;
+  }
+
+  .section .tabs {
+    right: 40px;
+  }
+}
+
+/* Tablets verticales (600px - 768px) */
+@media (max-width: 768px) {
+  .contenedor-flex {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    top: 0;
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 0;
+    overflow-x: auto;
+  }
+
+  .side-item {
+    min-height: 100px;
+    width: 90px;
+    flex-shrink: 0;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .carousel {
+    height: 400px;
+    min-height: 400px;
+  }
+
+  .section {
+    padding: 30px 30px;
+  }
+
+  .section h2 {
+    display: block;
+    margin-bottom: 60px;
+  }
+
+  .section .tabs {
+    position: relative;
+    right: auto;
+    top: auto;
+    margin: -50px 0 30px 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .noticia-principal {
+    flex-direction: column;
+  }
+
+  .noticia-imagen {
+    max-width: 100%;
+  }
+
+  .carousel-caption {
+    left: 20px;
+    right: 20px;
+  }
+
+  .carousel::before,
+  .carousel::after {
+    width: 10%;
+  }
+
+  .footer-links,
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* Móviles grandes (480px - 600px) */
+@media (max-width: 600px) {
+  .top-actions {
+    gap: 12px;
+  }
+
+  .action i {
+    font-size: 24px;
+  }
+
+  .action a {
+    font-size: 9px;
+  }
+
+  .carousel {
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .main-wrapper {
+    flex: 0 0 60%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .carousel::before,
+  .carousel::after {
+    display: none;
+  }
+
+  .mini-noticias-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #juegos-container {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 25px 20px;
+  }
+
+  .section .tabs {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .section .tab {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
+
+/* Móviles pequeños (menos de 480px) */
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 15px;
+  }
+
+  .top-actions {
+    gap: 8px;
+  }
+
+  .action i {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .action a {
+    font-size: 8px;
+  }
+
+  .logo img {
+    height: 18px;
+  }
+
+  .carousel {
+    height: 250px;
+    min-height: 250px;
+  }
+
+  .carousel-caption {
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+  }
+
+  .caption-button {
+    padding: 8px 15px;
+    min-width: 100px;
+    font-size: 12px;
+  }
+
+  .indicators {
+    gap: 5px;
+  }
+
+  .bar {
+    width: 30px;
+  }
+
+  .section .tab {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
 }
