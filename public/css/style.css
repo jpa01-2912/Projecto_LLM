@@ -1,3 +1,4 @@
+@import url("./variables.css");
 /* ====== IMPORTACIÓN DE RECURSOS ====== */
 /* Importación de FontAwesome 7 para iconos vectoriales */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
@@ -8,17 +9,12 @@
   margin: 0;
   /* Fuente Roboto con fallbacks para diferentes sistemas operativos */
   font-family:
-    "Roboto",
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
+    var(--font-ui),
+    var(--font-system-stack);
 }
 
 body {
-  background: #f2f2f2;
+  background: var(--color-bg-soft);
   display: flex;
   flex-direction: column; /* Estructura el sitio en bloques verticales (header, contenido, etc.) */
 }
@@ -30,8 +26,8 @@ body {
   left: 0;
   width: 100%;
   height: 71.5px;
-  background: #e60012; /* Color rojo corporativo */
-  color: white;
+  background: var(--rojo-nintendo); /* Color rojo corporativo */
+  color: var(--color-text-inverse);
   display: flex;
   align-items: center;
   justify-content: space-between; /* Distribuye elementos a los extremos */
@@ -109,8 +105,8 @@ body {
   width: 90px;
   height: calc(100vh - 71px);
   overflow-y: auto;
-  background: #ae000f;
-  color: white;
+  background: var(--rojo-nintendo-dark);
+  color: var(--color-text-inverse);
   display: flex;
   flex-direction: column;
   flex-shrink: 0; /* Evita que la sidebar se estreche si el contenido main es muy ancho */
@@ -146,11 +142,11 @@ body {
   text-align: center;
   cursor: pointer;
   border-top: 1px solid rgba(0, 0, 0, 0.25);
-  background-color: #e60012;
+  background-color: var(--rojo-nintendo);
 }
 
 .side-item:hover {
-  background: #c50010; /* Cambio de tono en hover */
+  background: var(--rojo-nintendo-hover-strong); /* Cambio de tono en hover */
 }
 
 /* Unificamos el estilo para span y enlaces dentro de la sidebar */
@@ -158,9 +154,9 @@ body {
 .side-item a {
   font-size: 12.5px;
   margin-top: 6px;
-  color: white; /* Forzamos el color blanco */
+  color: var(--color-text-inverse); /* Forzamos el color blanco */
   text-decoration: none; /* Quitamos el subrayado del enlace */
-  font-family: "Roboto", sans-serif; /* Aseguramos la misma fuente */
+  font-family: var(--font-ui); /* Aseguramos la misma fuente */
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -169,7 +165,7 @@ body {
 /* Evitamos que el enlace cambie de color si ya ha sido visitado */
 .side-item a:visited,
 .side-item a:active {
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .sidebar .side-item:last-child {
@@ -186,7 +182,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background: #f2f2f2;
+  background: var(--color-bg-soft);
   min-height: calc(100vh - 70px);
 }
 
@@ -195,7 +191,7 @@ body {
   position: relative;
   width: 100%;
   height: clamp(400px, 38vw, 620px);
-  background-color: #000;
+  background-color: var(--color-black);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,7 +259,7 @@ body {
 }
 
 .caption-text {
-  color: white;
+  color: var(--color-text-inverse);
   font-size: 1.1rem;
   font-weight: bold;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
@@ -272,8 +268,8 @@ body {
 }
 
 .caption-button {
-  background-color: white;
-  color: black;
+  background-color: var(--color-surface);
+  color: var(--color-black);
   padding: 10px 20px;
   border-radius: 6px;
   text-decoration: none;
@@ -324,7 +320,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-text-inverse);
   font-size: 3rem;
   cursor: pointer;
   z-index: 10;
@@ -399,9 +395,9 @@ body {
 .progress-bar {
   height: 100%;
   width: 0%;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   transition: width 0.1s linear;
-  box-shadow: 0 0 10px rgba(230, 0, 18, 0.5);
+  box-shadow: var(--shadow-soft);
 }
 
 .bar {
@@ -427,7 +423,7 @@ body {
   left: 0;
   height: 100%;
   width: 0%;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   animation: carga 1.5s linear forwards;
 }
 
@@ -439,7 +435,7 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   animation: descarga 1.5s linear forwards;
 }
 
@@ -469,7 +465,7 @@ body {
 
 .caption-button:hover {
   transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-hover);
 }
 
 .bar:hover {
@@ -485,7 +481,7 @@ body {
 .section {
   width: 100%;
   padding: 40px 160px;
-  background: white;
+  background: var(--color-surface);
   position: relative;
 }
 
@@ -504,7 +500,7 @@ body {
   position: relative;
   display: inline-block;
   font-size: 32px;
-  border-left: 6px solid #e60012; /* Línea vertical roja distintiva */
+  border-left: 6px solid var(--rojo-nintendo); /* Línea vertical roja distintiva */
   padding-left: 20px;
   margin-bottom: 30px;
   font-weight: 700;
@@ -519,14 +515,14 @@ body {
   margin-right: 100px;
   width: auto;
   display: flex;
-  background-color: #f0f0f0;
+  background-color: var(--color-surface-subtle);
   border-radius: 25px;
 }
 
 .section .tab {
   padding: 8px 20px;
   border-radius: 25px;
-  background: #f0f0f0;
+  background: var(--color-surface-subtle);
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
@@ -534,8 +530,8 @@ body {
 }
 
 .section .tab.active {
-  background: #e60012;
-  color: white;
+  background: var(--rojo-nintendo);
+  color: var(--color-text-inverse);
 }
 
 /* Noticia principal (Destacada) */
@@ -553,7 +549,7 @@ body {
   border-radius: 18px;
   overflow: hidden;
   min-height: 380px;
-  background: #000;
+  background: var(--color-black);
 }
 
 .noticia-imagen img {
@@ -563,19 +559,19 @@ body {
 }
 
 .noticia-contenido {
-  background: #ffffff;
+  background: var(--color-surface);
   padding: 34px 32px;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 18px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-float);
 }
 
 .noticia-etiqueta {
   display: inline-block;
-  color: #e60012;
+  color: var(--rojo-nintendo);
   font-size: 12px;
   font-weight: 800;
   margin-bottom: 14px;
@@ -587,30 +583,30 @@ body {
   font-size: 34px;
   line-height: 1.1;
   margin-bottom: 16px;
-  color: #111111;
+  color: var(--color-text-strong);
 }
 
 .noticia-contenido p {
   font-size: 16px;
   line-height: 1.7;
-  color: #4a4a4a;
+  color: var(--color-text-alt);
   max-width: 520px;
 }
 
 .mini-noticia {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-float);
 }
 
 .mini-noticia-img {
   width: 100%;
   aspect-ratio: 1.8 / 1;
   overflow: hidden;
-  background: #ddd;
+  background: var(--color-border-soft);
 }
 
 .mini-noticia-info {
@@ -624,7 +620,7 @@ body {
   font-size: 17px;
   font-weight: 800;
   line-height: 1.3;
-  color: #111;
+  color: var(--color-text-strong);
   margin-bottom: 0;
 }
 
@@ -640,7 +636,7 @@ body {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.4px;
-  color: #7a7a7a;
+  color: var(--color-text-subtle);
 }
 
 .noticia-contenido h3 {
@@ -648,14 +644,14 @@ body {
   font-weight: 750;
   margin-bottom: 7px;
   line-height: 1.3;
-  color: #1a1a1a;
+  color: var(--color-black-soft);
   max-width: 650px;
 }
 
 .noticia-contenido p {
   font-size: 17px;
   line-height: 1.6;
-  color: #4a4a4a;
+  color: var(--color-text-alt);
   max-width: 650px;
 }
 
@@ -670,7 +666,7 @@ body {
 .mini-noticia {
   display: flex;
   flex-direction: column;
-  background-color: #f2f2f2;
+  background-color: var(--color-bg-soft);
   border-radius: 6px;
   overflow: hidden;
   height: 100%;
@@ -680,7 +676,7 @@ body {
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
-  background: #ddd;
+  background: var(--color-border-soft);
 }
 
 .mini-noticia-img img {
@@ -700,7 +696,7 @@ body {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.4;
-  color: #111;
+  color: var(--color-text-strong);
   margin-bottom: 13px;
 }
 
@@ -712,7 +708,7 @@ body {
 }
 
 .noticia-consola {
-  color: #7a7a7a;
+  color: var(--color-text-subtle);
   font-size: 12px;
   letter-spacing: 0.5px;
 }
@@ -720,7 +716,7 @@ body {
 .noticia-fecha {
   font-size: 12px;
   font-weight: 600;
-  color: #000;
+  color: var(--color-black);
 }
 
 .ver-mas-container {
@@ -731,7 +727,7 @@ body {
 
 .ver-mas-btn {
   background-color: #ff3b30;
-  color: white;
+  color: var(--color-text-inverse);
   padding: 14px 32px;
   border-radius: 30px;
   font-size: 16px;
@@ -760,14 +756,14 @@ body {
 }
 
 .juego-card {
-  background-color: #f0f0f0;
+  background-color: var(--color-surface-subtle);
   display: flex;
   flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
   /*
    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-sm);
   */
 }
 
@@ -785,7 +781,7 @@ body {
 
 /* La franja roja */
 .badge-consola {
-  background-color: #e60012;
+  background-color: var(--rojo-nintendo);
   display: flex;
   align-items: center; /* Centra vertical */
   justify-content: center; /* Centra horizontal */
@@ -809,14 +805,14 @@ body {
 
 .juego-fecha {
   font-size: 12px;
-  color: #7a7a7a;
+  color: var(--color-text-subtle);
   letter-spacing: 0.5px;
 }
 
 .juego-titulo {
   font-size: 16px;
   font-weight: 700;
-  color: #111;
+  color: var(--color-text-strong);
   line-height: 1.4;
 }
 
@@ -826,7 +822,7 @@ body {
   display: flex;
   justify-content: flex-end;
   padding: 12px 16px 16px 16px;
-  border-top: 1px dashed #e0e0e0;
+  border-top: 1px dashed var(--color-border);
 }
 
 .juego-favorito {
@@ -842,11 +838,11 @@ body {
 }
 
 .juego-favorito.activo i {
-  color: #e60012;
+  color: var(--rojo-nintendo);
 }
 
 .juego-favorito:hover i {
-  color: #e60012;
+  color: var(--rojo-nintendo);
   transform: scale(1.1);
 }
 
@@ -859,7 +855,7 @@ body {
 }
 
 .app-card {
-  background: #f2f2f2;
+  background: var(--color-bg-soft);
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.2s;
@@ -877,7 +873,7 @@ body {
 
 .app-meta {
   font-size: 12px;
-  color: #777;
+  color: var(--color-text-subtle);
   margin-bottom: 5px;
 }
 
@@ -888,8 +884,8 @@ body {
 
 /* ====== MY NINTENDO STORE  ====== */
 .my-nintendo-store-section {
-  background-color: #e60012;
-  color: white;
+  background-color: var(--rojo-nintendo);
+  color: var(--color-text-inverse);
   padding: 20px;
   margin-top: 40px;
   text-align: center;
@@ -900,7 +896,7 @@ body {
   font-size: 28px;
   margin-bottom: 40px;
   font-weight: bold;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .store-grid {
@@ -912,7 +908,7 @@ body {
 }
 
 .store-card {
-  background: #f5f6f7;
+  background: var(--color-surface-alt);
   border-radius: 4px;
   overflow: hidden;
   transition: transform 0.2s;
@@ -931,21 +927,21 @@ body {
 
 .store-meta {
   font-size: 12px;
-  color: #777;
+  color: var(--color-text-subtle);
   margin-bottom: 5px;
 }
 
 .store-titulo {
   font-size: 16px;
   font-weight: bold;
-  color: black;
+  color: var(--color-black);
 }
 
 .store-btn-main {
   display: inline-block;
   padding: 15px 35px;
   border: 2px solid white;
-  color: white;
+  color: var(--color-text-inverse);
   text-decoration: none;
   font-weight: bold;
   border-radius: 4px;
@@ -1005,8 +1001,8 @@ body {
 }
 
 .hardware-container-switch2 {
-  background-color: #e60012;
-  color: #1a1a1a;
+  background-color: var(--rojo-nintendo);
+  color: var(--color-black-soft);
   text-align: center;
 }
 
@@ -1032,7 +1028,7 @@ body {
   height: auto;
   margin-bottom: 20px;
   object-fit: contain;
-  background-color: #e60012;
+  background-color: var(--rojo-nintendo);
   padding: 20px;
 }
 
@@ -1065,7 +1061,7 @@ body {
 }
 
 .servicio-card {
-  background: #e60012;
+  background: var(--rojo-nintendo);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -1087,7 +1083,7 @@ body {
 .servicio-card:hover {
   text-decoration: none !important;
   transform: translateY(-2px); /* Un pequeño efecto de elevación premium */
-  box-shadow: 0 10px 30px rgba(230, 0, 18, 0.3);
+  box-shadow: var(--shadow-accent);
 }
 
 .servicio-left img {
@@ -1122,7 +1118,7 @@ body {
   margin-left: auto;
   max-width: 420px;
 
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .servicio-right h3 {
@@ -1139,8 +1135,8 @@ body {
 /* FOOTER ESTILO NINTENDO */
 /* ============================= */
 footer {
-  background-color: #e60012; /* Rojo característico de Nintendo */
-  color: white;
+  background-color: var(--rojo-nintendo); /* Rojo característico de Nintendo */
+  color: var(--color-text-inverse);
   padding: 30px 20px 20px;
   text-align: center;
   width: 100%;
@@ -1170,14 +1166,14 @@ footer {
 }
 
 .footer-links a {
-  color: white;
+  color: var(--color-text-inverse);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
 }
 
 .footer-links a:hover {
-  border-bottom-color: white;
+  border-bottom-color: var(--color-text-inverse);
 }
 
 .footer-bottom {
@@ -1190,14 +1186,14 @@ footer {
 }
 
 .footer-bottom a {
-  color: white;
+  color: var(--color-text-inverse);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
 }
 
 .footer-bottom a:hover {
-  border-bottom-color: white;
+  border-bottom-color: var(--color-text-inverse);
 }
 
 .copyright {
@@ -1219,11 +1215,11 @@ footer {
 /* DROPDOWN PANEL */
 .dropdown-panel {
   width: 380px;
-  background: white;
-  border-right: 1px solid #e0e0e0;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
   padding: 25px 0;
   overflow-y: auto;
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-panel);
   animation: slideIn 0.3s ease;
   display: none;
   position: fixed;
@@ -1252,9 +1248,9 @@ footer {
 .dropdown-title {
   font-size: 24px;
   font-weight: 700;
-  color: #000000;
+  color: var(--color-black);
   padding: 0 25px 20px 25px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-surface-subtle);
   margin: 0;
 }
 
@@ -1266,7 +1262,7 @@ footer {
 /* ITEMS DEL DROPDOWN */
 .dropdown-item {
   padding: 12px 25px;
-  color: #444;
+  color: var(--color-text);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 14px;
@@ -1275,16 +1271,16 @@ footer {
 }
 
 .dropdown-item:hover {
-  background-color: #f8f8f8;
-  color: #e60012;
-  border-left-color: #e60012;
+  background-color: var(--color-surface-muted);
+  color: var(--rojo-nintendo);
+  border-left-color: var(--rojo-nintendo);
   padding-left: 30px;
 }
 
 /* SEPARADORES */
 .divider {
   height: 1px;
-  background: #eeeeee;
+  background: var(--color-border-light);
   margin: 8px 25px;
 }
 
@@ -1294,11 +1290,11 @@ footer {
 }
 
 .dropdown-panel::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-bg);
 }
 
 .dropdown-panel::-webkit-scrollbar-thumb {
-  background: #e60012;
+  background: var(--rojo-nintendo);
   border-radius: 2px;
 }
 
@@ -1310,7 +1306,7 @@ footer {
 }
 
 .noticia-card-simple {
-  background: #f0f0f0;
+  background: var(--color-surface-subtle);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -1322,15 +1318,15 @@ footer {
 
 .noticia-card-simple:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  background: white;
+  box-shadow: var(--shadow-hover-lg);
+  background: var(--color-surface);
 }
 
 .noticia-card-simple .card-img {
   width: 100%;
   aspect-ratio: 16 / 9; /* Proporción estándar de noticias Nintendo */
   overflow: hidden;
-  background-color: #000; /* Fondo negro para que no se vea vacío si la imagen es distinta */
+  background-color: var(--color-black); /* Fondo negro para que no se vea vacío si la imagen es distinta */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1359,7 +1355,7 @@ footer {
   font-size: 16px;
   font-weight: 700;
   line-height: 1.4;
-  color: #111;
+  color: var(--color-text-strong);
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -1371,13 +1367,13 @@ footer {
 .noticia-card-simple .card-meta {
   margin-top: auto;
   font-size: 12px;
-  color: #666;
+  color: var(--color-text-soft);
   font-weight: 500;
 }
 
 .noticia-card-simple .card-etiqueta {
   font-size: 11px;
-  color: #888;
+  color: var(--color-text-muted);
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -1389,8 +1385,8 @@ footer {
 }
 
 .ver-mas-btn-red {
-  background-color: #e60012;
-  color: white;
+  background-color: var(--rojo-nintendo);
+  color: var(--color-text-inverse);
   border: none;
   padding: 12px 40px;
   border-radius: 30px;
@@ -1401,15 +1397,15 @@ footer {
   align-items: center;
   gap: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(230, 0, 18, 0.3);
+  box-shadow: var(--shadow-accent);
   text-decoration: none;
 }
 
 .ver-mas-btn-red:hover {
-  background-color: #c4000f;
+  background-color: var(--rojo-nintendo-hover);
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(230, 0, 18, 0.4);
-  color: white;
+  box-shadow: var(--shadow-accent-hover);
+  color: var(--color-text-inverse);
 }
 
 .hidden {
@@ -1620,7 +1616,7 @@ footer {
 
   .main-wrapper {
     flex: 0 0 60%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-overlay-strong);
     border-radius: 12px;
     overflow: hidden;
   }

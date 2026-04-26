@@ -117,7 +117,7 @@ h1 {
 
 .btn-red {
   background-color: var(--rojo-nintendo);
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .btn-red:hover {
@@ -170,7 +170,7 @@ h1 {
 /* El círculo oscuro con el icono */
 .dot {
   background-color: #484848;
-  color: white;
+  color: var(--color-text-inverse);
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -201,7 +201,7 @@ h1 {
   border-radius: 20px;
   padding: 8px 40px 8px 15px;
   font-size: 14px;
-  color: #444;
+  color: var(--color-text);
   cursor: pointer;
 }
 
@@ -216,7 +216,7 @@ h1 {
 
 .copyright {
   font-size: 11px;
-  color: #666;
+  color: var(--color-text-soft);
   margin-top: 5px;
 }
 

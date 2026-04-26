@@ -99,9 +99,15 @@ export async function initGames() {
     const data = await fetchJuegosData();
     const wishlist = getWishlist();
 
-    juegosContainer.innerHTML = data
+    // Seleccionar 4 juegos aleatorios
+    const shuffled = [...data].sort(() => Math.random() - 0.5);
+    const randomGames = shuffled.slice(0, 4);
+
+    juegosContainer.innerHTML = randomGames
       .map((juego) => {
-        const isInWishlist = wishlist.some((item) => item.juego === juego.juego);
+        const isInWishlist = wishlist.some(
+          (item) => item.juego === juego.juego,
+        );
         return `
           <div class="juego-card">
             ${
