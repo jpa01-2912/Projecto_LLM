@@ -10,8 +10,11 @@ const sortSelect = document.getElementById("sort");
 const resultsCount = document.getElementById("results-count");
 
 let allGames = [];
+let filteredGames = [];
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 let cart = JSON.parse(localStorage.getItem("carrito")) || [];
+let currentPage = 1;
+const GAMES_PER_PAGE = 8;
 
 // ========== CARGAR JUEGOS ==========
 fetch("/api/juegos")
@@ -31,22 +34,32 @@ fetch("/api/juegos")
     `;
   });
 
-// ========== RENDERIZAR JUEGOS ==========
+// ========== RENDERIZAR JUEGOS (con paginación) ==========
 function renderGames(games) {
+  filteredGames = games;
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
   container.innerHTML = "";
+
+  // Eliminar paginación anterior si existe
+  const existingPagination = document.getElementById("pagination");
+  if (existingPagination) existingPagination.remove();
 
   // Actualizar contador de resultados
   if (resultsCount) {
-    if (games.length === 0) {
+    if (filteredGames.length === 0) {
       resultsCount.textContent = "No se encontraron juegos";
-    } else if (games.length === 1) {
+    } else if (filteredGames.length === 1) {
       resultsCount.textContent = "1 juego encontrado";
     } else {
-      resultsCount.textContent = `${games.length} juegos encontrados`;
+      resultsCount.textContent = `${filteredGames.length} juegos encontrados`;
     }
   }
 
-  if (games.length === 0) {
+  if (filteredGames.length === 0) {
     container.innerHTML = `
       <div class="catalogo-empty">
         <i class="fa-solid fa-gamepad"></i>
@@ -57,7 +70,13 @@ function renderGames(games) {
     return;
   }
 
-  games.forEach(game => {
+  // Calcular juegos de la página actual
+  const totalPages = Math.ceil(filteredGames.length / GAMES_PER_PAGE);
+  const start = (currentPage - 1) * GAMES_PER_PAGE;
+  const pageGames = filteredGames.slice(start, start + GAMES_PER_PAGE);
+
+  // Renderizar cards de la página actual
+  pageGames.forEach(game => {
     const isInWishlist = wishlist.some(item => item.juego === game.juego);
     const precio = game.precio ? parseFloat(game.precio) : 0;
 
@@ -100,6 +119,56 @@ function renderGames(games) {
 
     container.appendChild(card);
   });
+
+  // Renderizar paginación
+  renderPagination(totalPages);
+}
+
+// ========== PAGINACIÓN ==========
+function renderPagination(totalPages) {
+  if (totalPages <= 1) return;
+
+  const nav = document.createElement("div");
+  nav.id = "pagination";
+
+  // Botón anterior
+  const btnPrev = document.createElement("button");
+  btnPrev.innerHTML = `<i class="fa-solid fa-chevron-left"></i>`;
+  btnPrev.className = "pagination-btn";
+  btnPrev.disabled = currentPage === 1;
+  btnPrev.addEventListener("click", () => {
+    currentPage--;
+    renderPage();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  nav.appendChild(btnPrev);
+
+  // Números de página
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    btn.className = `pagination-btn${i === currentPage ? " active" : ""}`;
+    btn.addEventListener("click", () => {
+      currentPage = i;
+      renderPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    nav.appendChild(btn);
+  }
+
+  // Botón siguiente
+  const btnNext = document.createElement("button");
+  btnNext.innerHTML = `<i class="fa-solid fa-chevron-right"></i>`;
+  btnNext.className = "pagination-btn";
+  btnNext.disabled = currentPage === totalPages;
+  btnNext.addEventListener("click", () => {
+    currentPage++;
+    renderPage();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  nav.appendChild(btnNext);
+
+  container.insertAdjacentElement("afterend", nav);
 }
 
 // ========== WISHLIST ==========
@@ -132,23 +201,18 @@ function addToCart(game) {
 
 // ========== TOAST NOTIFICATION ==========
 function showToast(message, icon = "fa-check") {
-  // Eliminar toast anterior si existe
   const existingToast = document.querySelector(".catalogo-toast");
-  if (existingToast) {
-    existingToast.remove();
-  }
+  if (existingToast) existingToast.remove();
 
   const toast = document.createElement("div");
   toast.className = "catalogo-toast";
   toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
   document.body.appendChild(toast);
 
-  // Mostrar con animación
   requestAnimationFrame(() => {
     toast.classList.add("visible");
   });
 
-  // Ocultar después de 2.5 segundos
   setTimeout(() => {
     toast.classList.remove("visible");
     setTimeout(() => toast.remove(), 300);
