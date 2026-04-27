@@ -1,9 +1,8 @@
 // ============================= 
 // LISTA DE DESEOS - JavaScript
-// Diseño consistente con index.html
 // ============================= 
 
-const container = document.getElementById("wishlist-container");
+const container    = document.getElementById("wishlist-container");
 const resultsCount = document.getElementById("results-count");
 
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -13,7 +12,6 @@ renderWishlist();
 function renderWishlist() {
   container.innerHTML = "";
 
-  // Actualizar contador
   if (resultsCount) {
     if (wishlist.length === 0) {
       resultsCount.textContent = "No tienes juegos en tu lista de deseos";
@@ -36,23 +34,27 @@ function renderWishlist() {
   }
 
   wishlist.forEach(game => {
-    const precio = game.precio ? parseFloat(game.precio) : 0;
+    // Compatibilidad con nombre antiguo (juego) y nuevo (titulo)
+    const titulo   = game.titulo   || game.juego || "Sin título";
+    const fecha    = game.fecha    || game.fecha_lanzamiento || "";
+    const esNueva  = game.esNuevaConsola || game.es_nueva_consola;
+    const precio   = game.precio ? parseFloat(game.precio) : 0;
 
     const card = document.createElement("div");
     card.classList.add("catalogo-card");
 
     card.innerHTML = `
-      ${game.esNuevaConsola ? `
+      ${esNueva ? `
         <div class="catalogo-badge">
           <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
         </div>
       ` : ""}
       <div class="catalogo-card-imagen">
-        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${game.juego}">
+        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${titulo}">
       </div>
       <div class="catalogo-card-contenido">
-        <div class="catalogo-card-meta">${game.plataforma} | ${game.fecha || ""}</div>
-        <h3 class="catalogo-card-titulo">${game.juego}</h3>
+        <div class="catalogo-card-meta">${game.plataforma || ""} | ${fecha}</div>
+        <h3 class="catalogo-card-titulo">${titulo}</h3>
         <div class="catalogo-card-precio">${precio.toFixed(2)}€</div>
       </div>
       <div class="catalogo-card-actions">
@@ -65,41 +67,39 @@ function renderWishlist() {
       </div>
     `;
 
-    // Evento: Añadir al carrito
     card.querySelector(".catalogo-btn-cart").addEventListener("click", () => {
       addToCartFromWishlist(game);
     });
 
-    // Evento: Eliminar de wishlist
     card.querySelector(".catalogo-btn-remove").addEventListener("click", () => {
-      removeFromWishlist(game.juego);
+      removeFromWishlist(titulo);
     });
 
     container.appendChild(card);
   });
 }
 
-function removeFromWishlist(nombreJuego) {
-  wishlist = wishlist.filter(game => game.juego !== nombreJuego);
+function removeFromWishlist(titulo) {
+  wishlist = wishlist.filter(game => (game.titulo || game.juego) !== titulo);
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  showToast(`Juego eliminado de la lista de deseos`, "fa-heart-crack");
+  showToast("Juego eliminado de la lista de deseos", "fa-heart-crack");
   renderWishlist();
 }
 
 function addToCartFromWishlist(game) {
   let cart = JSON.parse(localStorage.getItem("carrito")) || [];
-  const exists = cart.some(item => item.juego === game.juego);
+  const titulo = game.titulo || game.juego;
+  const exists = cart.some(item => (item.titulo || item.juego) === titulo);
 
   if (exists) {
     showToast("Este juego ya está en tu carrito", "fa-circle-info");
   } else {
     cart.push(game);
     localStorage.setItem("carrito", JSON.stringify(cart));
-    showToast(`¡${game.juego} añadido al carrito!`, "fa-cart-shopping");
+    showToast(`¡${titulo} añadido al carrito!`, "fa-cart-shopping");
   }
 }
 
-// ========== TOAST NOTIFICATION ==========
 function showToast(message, icon = "fa-check") {
   const existingToast = document.querySelector(".catalogo-toast");
   if (existingToast) existingToast.remove();

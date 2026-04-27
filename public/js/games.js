@@ -51,20 +51,22 @@ function showToastHome(message, icon = "fa-check") {
 function toggleFavorito(button, juego) {
   const icon = button.querySelector("i");
   let wishlist = getWishlist();
-  const exists = wishlist.some((item) => item.juego === juego.juego);
+  // Usar titulo (nuevo nombre) o juego (compatibilidad)
+  const titulo = juego.titulo || juego.juego;
+  const exists = wishlist.some((item) => (item.titulo || item.juego) === titulo);
 
   if (!exists) {
     icon?.classList.remove("fa-regular");
     icon?.classList.add("fa-solid");
     button.classList.add("activo");
     wishlist.push(juego);
-    showToastHome(`${juego.juego} anadido a la lista de deseos`, "fa-heart");
+    showToastHome(`${titulo} añadido a la lista de deseos`, "fa-heart");
   } else {
     icon?.classList.remove("fa-solid");
     icon?.classList.add("fa-regular");
     button.classList.remove("activo");
-    wishlist = wishlist.filter((item) => item.juego !== juego.juego);
-    showToastHome(`${juego.juego} eliminado de la lista`, "fa-heart-crack");
+    wishlist = wishlist.filter((item) => (item.titulo || item.juego) !== titulo);
+    showToastHome(`${titulo} eliminado de la lista`, "fa-heart-crack");
   }
 
   saveWishlist(wishlist);
@@ -82,7 +84,6 @@ function bindWishlistButtons(container) {
 function setupGameTabs() {
   const tabs = document.querySelectorAll(".juegos-tabs .tab");
   if (!tabs.length) return;
-
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       tabs.forEach((item) => item.classList.remove("active"));
@@ -99,32 +100,32 @@ export async function initGames() {
     const data = await fetchJuegosData();
     const wishlist = getWishlist();
 
-    // Seleccionar 4 juegos aleatorios
     const shuffled = [...data].sort(() => Math.random() - 0.5);
     const randomGames = shuffled.slice(0, 4);
 
     juegosContainer.innerHTML = randomGames
       .map((juego) => {
+        // Compatibilidad con nombre antiguo (juego) y nuevo (titulo)
+        const titulo = juego.titulo || juego.juego;
+        const fecha  = juego.fecha  || juego.fecha_lanzamiento || "";
+        const esNueva = juego.esNuevaConsola || juego.es_nueva_consola;
         const isInWishlist = wishlist.some(
-          (item) => item.juego === juego.juego,
+          (item) => (item.titulo || item.juego) === titulo
         );
+
         return `
           <div class="juego-card">
-            ${
-              juego.esNuevaConsola
-                ? `
-                  <div class="badge-consola">
-                    <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
-                  </div>
-                `
-                : ""
-            }
+            ${esNueva ? `
+              <div class="badge-consola">
+                <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
+              </div>
+            ` : ""}
             <div class="juego-imagen">
-              <img src="${normalizeAssetPath(juego.imagen)}" alt="${juego.juego}">
+              <img src="${normalizeAssetPath(juego.imagen)}" alt="${titulo}">
             </div>
             <div class="juego-contenido">
-              <div class="juego-fecha">${juego.plataforma} | ${juego.fecha}</div>
-              <h3 class="juego-titulo">${juego.juego}</h3>
+              <div class="juego-fecha">${juego.plataforma || ""} | ${fecha}</div>
+              <h3 class="juego-titulo">${titulo}</h3>
             </div>
             <div class="juego-favorito-container">
               <button class="juego-favorito ${isInWishlist ? "activo" : ""}" data-game='${JSON.stringify(juego).replace(/'/g, "&apos;")}'>

@@ -1,22 +1,20 @@
 // ============================= 
 // CARRITO DE COMPRAS - JavaScript
-// Diseño consistente con index.html
 // ============================= 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const cartList = document.getElementById("cart-list");
-  const subtotalElem = document.getElementById("subtotal-price");
-  const taxesElem = document.getElementById("taxes-price");
-  const totalElem = document.getElementById("total-price");
-  const btnCheckout = document.getElementById("btn-checkout");
-  const countLabel = document.getElementById("cart-count-label");
+  const cartList      = document.getElementById("cart-list");
+  const subtotalElem  = document.getElementById("subtotal-price");
+  const taxesElem     = document.getElementById("taxes-price");
+  const totalElem     = document.getElementById("total-price");
+  const btnCheckout   = document.getElementById("btn-checkout");
+  const countLabel    = document.getElementById("cart-count-label");
 
   let cart = JSON.parse(localStorage.getItem("carrito")) || [];
 
   function renderCart() {
     cartList.innerHTML = "";
 
-    // Actualizar contador de artículos
     if (countLabel) {
       if (cart.length === 0) {
         countLabel.textContent = "0 artículos";
@@ -46,16 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let subtotal = 0;
 
     cart.forEach((game, index) => {
-      const precio = parseFloat(game.precio) || 0;
+      // Compatibilidad con nombre antiguo (juego) y nuevo (titulo)
+      const titulo  = game.titulo  || game.juego || "Sin título";
+      const plataforma = game.plataforma || "";
+      const precio  = parseFloat(game.precio) || 0;
       subtotal += precio;
 
       const div = document.createElement("div");
       div.classList.add("cart-item");
       div.innerHTML = `
-        <img src="${game.imagen}" alt="${game.juego}" onerror="this.src='./fotos/placeholder.jpg'">
+        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${titulo}" onerror="this.src='./fotos/placeholder.jpg'">
         <div class="item-details">
-          <h3>${game.juego}</h3>
-          <span class="item-platform">${game.plataforma}</span>
+          <h3>${titulo}</h3>
+          <span class="item-platform">${plataforma}</span>
         </div>
         <div class="item-actions">
           <div class="item-price">${precio.toFixed(2)}€</div>
@@ -65,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Evento eliminar (sin onclick inline)
       div.querySelector(".remove-btn").addEventListener("click", () => {
         removeFromCart(index);
       });
@@ -78,23 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateSummary(subtotal) {
     const taxRate = 0.21;
-    const taxes = subtotal * taxRate;
-    const total = subtotal + taxes;
-
+    const taxes   = subtotal * taxRate;
+    const total   = subtotal + taxes;
     subtotalElem.textContent = subtotal.toFixed(2) + "€";
-    taxesElem.textContent = taxes.toFixed(2) + "€";
-    totalElem.textContent = total.toFixed(2) + "€";
+    taxesElem.textContent    = taxes.toFixed(2)    + "€";
+    totalElem.textContent    = total.toFixed(2)    + "€";
   }
 
   function removeFromCart(index) {
-    const gameName = cart[index]?.juego || "Juego";
+    const game = cart[index];
+    const titulo = game?.titulo || game?.juego || "Juego";
     cart.splice(index, 1);
     localStorage.setItem("carrito", JSON.stringify(cart));
-    showToast(`${gameName} eliminado del carrito`, "fa-trash");
+    showToast(`${titulo} eliminado del carrito`, "fa-trash");
     renderCart();
   }
 
-  // Checkout
   btnCheckout.addEventListener("click", () => {
     if (cart.length === 0) return;
 
@@ -111,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1500);
   });
 
-  // Toast notification
   function showToast(message, icon = "fa-check") {
     const existingToast = document.querySelector(".cart-toast");
     if (existingToast) existingToast.remove();
@@ -129,6 +127,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2500);
   }
 
-  // Inicializar
   renderCart();
 });

@@ -77,24 +77,24 @@ function renderPage() {
 
   // Renderizar cards de la página actual
   pageGames.forEach(game => {
-    const isInWishlist = wishlist.some(item => item.juego === game.juego);
+    const isInWishlist = wishlist.some(item => item.titulo === game.titulo);
     const precio = game.precio ? parseFloat(game.precio) : 0;
 
     const card = document.createElement("div");
     card.classList.add("catalogo-card");
 
     card.innerHTML = `
-      ${game.esNuevaConsola ? `
+      ${game.es_nueva_consola ? `
         <div class="catalogo-badge">
           <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
         </div>
       ` : ""}
       <div class="catalogo-card-imagen">
-        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${game.juego}">
+        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${game.titulo}">
       </div>
       <div class="catalogo-card-contenido">
-        <div class="catalogo-card-meta">${game.plataforma} | ${game.fecha}</div>
-        <h3 class="catalogo-card-titulo">${game.juego}</h3>
+        <div class="catalogo-card-meta">${game.plataforma} | ${game.fecha_lanzamiento || game.fecha}</div>
+        <h3 class="catalogo-card-titulo">${game.titulo}</h3>
         <div class="catalogo-card-precio">${precio.toFixed(2)}€</div>
       </div>
       <div class="catalogo-card-actions">
@@ -173,14 +173,14 @@ function renderPagination(totalPages) {
 
 // ========== WISHLIST ==========
 function toggleWishlist(game) {
-  const exists = wishlist.some(item => item.juego === game.juego);
+  const exists = wishlist.some(item => item.titulo === game.titulo);
 
   if (exists) {
-    wishlist = wishlist.filter(item => item.juego !== game.juego);
-    showToast(`${game.juego} eliminado de la lista de deseos`, "fa-heart-crack");
+    wishlist = wishlist.filter(item => item.titulo !== game.titulo);
+    showToast(`${game.titulo} eliminado de la lista de deseos`, "fa-heart-crack");
   } else {
     wishlist.push(game);
-    showToast(`${game.juego} añadido a la lista de deseos`, "fa-heart");
+    showToast(`${game.titulo} añadido a la lista de deseos`, "fa-heart");
   }
 
   localStorage.setItem("wishlist", JSON.stringify(wishlist));
@@ -189,13 +189,13 @@ function toggleWishlist(game) {
 
 // ========== CARRITO ==========
 function addToCart(game) {
-  const exists = cart.some(item => item.juego === game.juego);
+  const exists = cart.some(item => item.titulo === game.titulo);
   if (exists) {
     showToast("Este juego ya está en tu carrito", "fa-circle-info");
   } else {
     cart.push(game);
     localStorage.setItem("carrito", JSON.stringify(cart));
-    showToast(`¡${game.juego} añadido al carrito!`, "fa-cart-shopping");
+    showToast(`¡${game.titulo} añadido al carrito!`, "fa-cart-shopping");
   }
 }
 
@@ -227,7 +227,7 @@ function applyFilters() {
   const searchValue = searchInput.value.toLowerCase();
   if (searchValue) {
     filtered = filtered.filter(game =>
-      game.juego.toLowerCase().includes(searchValue)
+      game.titulo.toLowerCase().includes(searchValue)
     );
   }
 
