@@ -276,36 +276,22 @@ try {
 
         case 'novedades':
             if ($method === 'GET') {
-                $stmt = $pdo->query('SELECT principal, secundarias, otrasNoticias FROM novedades WHERE id = 1');
-                $row = $stmt->fetch();
-                if (!$row) {
-                    sendResponse(['principal' => new stdClass(), 'secundarias' => [], 'otrasNoticias' => []]);
-                }
+                $principal = $pdo->query('
+                    SELECT id, imagen, etiqueta, titulo, descripcion 
+                    FROM novedades_principal 
+                    LIMIT 1
+                ')->fetch();
+
+                $secundarias = $pdo->query('
+                    SELECT id, imagen, etiqueta, titulo 
+                    FROM novedades_secundarias 
+                    ORDER BY orden ASC
+                ')->fetchAll();
 
                 sendResponse([
-                    'principal' => json_decode($row['principal'] ?: '{}', true) ?: new stdClass(),
-                    'secundarias' => json_decode($row['secundarias'] ?: '[]', true) ?: [],
-                    'otrasNoticias' => json_decode($row['otrasNoticias'] ?: '[]', true) ?: [],
+                    'principal'     => $principal ?: new stdClass(),
+                    'secundarias'   => $secundarias ?: [],
                 ]);
-            } elseif ($method === 'PUT') {
-                $principal = isset($input['principal']) ? json_encode($input['principal']) : '{}';
-                $secundarias = isset($input['secundarias']) ? json_encode($input['secundarias']) : '[]';
-                $otrasNoticias = isset($input['otrasNoticias']) ? json_encode($input['otrasNoticias']) : '[]';
-
-                $stmt = $pdo->prepare('UPDATE novedades SET principal = ?, secundarias = ?, otrasNoticias = ? WHERE id = 1');
-                $stmt->execute([$principal, $secundarias, $otrasNoticias]);
-                sendResponse(['message' => 'Novedades actualizadas']);
-            } elseif ($method === 'POST') {
-                $stmt = $pdo->query('SELECT principal, secundarias, otrasNoticias FROM novedades WHERE id = 1');
-                $row = $stmt->fetch();
-
-                $principal = isset($input['principal']) ? json_encode($input['principal']) : $row['principal'];
-                $secundarias = isset($input['secundarias']) ? json_encode($input['secundarias']) : $row['secundarias'];
-                $otrasNoticias = isset($input['otrasNoticias']) ? json_encode($input['otrasNoticias']) : $row['otrasNoticias'];
-
-                $stmt = $pdo->prepare('UPDATE novedades SET principal = ?, secundarias = ?, otrasNoticias = ? WHERE id = 1');
-                $stmt->execute([$principal, $secundarias, $otrasNoticias]);
-                sendResponse(['message' => 'Novedades actualizadas via POST']);
             }
             break;
 
