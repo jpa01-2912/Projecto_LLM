@@ -2,27 +2,39 @@
 // CARRITO DE COMPRAS - JavaScript
 // ============================= 
 
-document.addEventListener('DOMContentLoaded', () => {
-  const cartList      = document.getElementById("cart-list");
-  const subtotalElem  = document.getElementById("subtotal-price");
-  const taxesElem     = document.getElementById("taxes-price");
-  const totalElem     = document.getElementById("total-price");
-  const btnCheckout   = document.getElementById("btn-checkout");
-  const countLabel    = document.getElementById("cart-count-label");
+document.addEventListener('DOMContentLoaded', async () => {
+  const cartList     = document.getElementById("cart-list");
+  const subtotalElem = document.getElementById("subtotal-price");
+  const taxesElem    = document.getElementById("taxes-price");
+  const totalElem    = document.getElementById("total-price");
+  const btnCheckout  = document.getElementById("btn-checkout");
+  const countLabel   = document.getElementById("cart-count-label");
 
-  let cart = JSON.parse(localStorage.getItem("carrito")) || [];
+  const loggedUser = JSON.parse(localStorage.getItem("loggedUser")) || null;
+  let cart = [];
 
+  // ========== CARGAR CARRITO ==========
+  if (loggedUser) {
+    try {
+      const res = await fetch(`/api/carrito?usuario_id=${loggedUser.id}`);
+      cart = await res.json();
+    } catch (err) {
+      console.error("Error cargando carrito:", err);
+    }
+  } else {
+    cart = JSON.parse(localStorage.getItem("carrito")) || [];
+  }
+
+  renderCart();
+
+  // ========== RENDERIZAR ==========
   function renderCart() {
     cartList.innerHTML = "";
 
     if (countLabel) {
-      if (cart.length === 0) {
-        countLabel.textContent = "0 artículos";
-      } else if (cart.length === 1) {
-        countLabel.textContent = "1 artículo";
-      } else {
-        countLabel.textContent = `${cart.length} artículos`;
-      }
+      if (cart.length === 0)      countLabel.textContent = "0 artículos";
+      else if (cart.length === 1) countLabel.textContent = "1 artículo";
+      else                        countLabel.textContent = `${cart.length} artículos`;
     }
 
     if (cart.length === 0) {
@@ -40,42 +52,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnCheckout.disabled = false;
-
     let subtotal = 0;
 
-    cart.forEach((game, index) => {
-      // Compatibilidad con nombre antiguo (juego) y nuevo (titulo)
-      const titulo  = game.titulo  || game.juego || "Sin título";
-      const plataforma = game.plataforma || "";
-      const precio  = parseFloat(game.precio) || 0;
-      subtotal += precio;
+    cart.forEach((item, index) => {
+      const titulo     = item.titulo    || item.juego    || "Sin título";
+      const plataforma = item.plataforma || "";
+      const precio     = parseFloat(item.precio) || 0;
+      const cantidad   = item.cantidad || 1;
+      subtotal += precio * cantidad;
 
       const div = document.createElement("div");
       div.classList.add("cart-item");
       div.innerHTML = `
-        <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${titulo}" onerror="this.src='./fotos/placeholder.jpg'">
+        <img src="${item.imagen || "./fotos/placeholder.jpg"}" alt="${titulo}" onerror="this.src='./fotos/placeholder.jpg'">
         <div class="item-details">
           <h3>${titulo}</h3>
           <span class="item-platform">${plataforma}</span>
+          ${cantidad > 1 ? `<span class="item-qty">x${cantidad}</span>` : ""}
         </div>
         <div class="item-actions">
-          <div class="item-price">${precio.toFixed(2)}€</div>
+          <div class="item-price">${(precio * cantidad).toFixed(2)}€</div>
           <button class="remove-btn" data-index="${index}">
             <i class="fa-solid fa-trash"></i> Eliminar
           </button>
         </div>
       `;
 
-      div.querySelector(".remove-btn").addEventListener("click", () => {
-        removeFromCart(index);
-      });
-
+      div.querySelector(".remove-btn").addEventListener("click", () => removeFromCart(index));
       cartList.appendChild(div);
     });
 
     updateSummary(subtotal);
   }
 
+  // ========== ELIMINAR ITEM ==========
+  async function removeFromCart(index) {
+    const item   = cart[index];
+    const titulo = item?.titulo || item?.juego || "Juego";
+
+    if (loggedUser) {
+      try {
+        await fetch(`/api/carrito/${item.id}`, { method: "DELETE" });
+      } catch (err) { console.error(err); }
+    } else {
+      const localCart = JSON.parse(localStorage.getItem("carrito")) || [];
+      localCart.splice(index, 1);
+      localStorage.setItem("carrito", JSON.stringify(localCart));
+    }
+
+    cart.splice(index, 1);
+    showToast(`${titulo} eliminado del carrito`, "fa-trash");
+    renderCart();
+  }
+
+  // ========== RESUMEN ==========
   function updateSummary(subtotal) {
     const taxRate = 0.21;
     const taxes   = subtotal * taxRate;
@@ -85,34 +115,34 @@ document.addEventListener('DOMContentLoaded', () => {
     totalElem.textContent    = total.toFixed(2)    + "€";
   }
 
-  function removeFromCart(index) {
-    const game = cart[index];
-    const titulo = game?.titulo || game?.juego || "Juego";
-    cart.splice(index, 1);
-    localStorage.setItem("carrito", JSON.stringify(cart));
-    showToast(`${titulo} eliminado del carrito`, "fa-trash");
-    renderCart();
-  }
-
-  btnCheckout.addEventListener("click", () => {
+  // ========== FINALIZAR COMPRA ==========
+  btnCheckout.addEventListener("click", async () => {
     if (cart.length === 0) return;
 
-    const originalHTML = btnCheckout.innerHTML;
+    const originalHTML    = btnCheckout.innerHTML;
     btnCheckout.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
-    btnCheckout.disabled = true;
+    btnCheckout.disabled  = true;
+
+    if (loggedUser) {
+      try {
+        await fetch(`/api/carrito?usuario_id=${loggedUser.id}`, { method: "DELETE" });
+      } catch (err) { console.error(err); }
+    } else {
+      localStorage.removeItem("carrito");
+    }
 
     setTimeout(() => {
       cart = [];
-      localStorage.setItem("carrito", JSON.stringify(cart));
       renderCart();
       showToast("¡Compra realizada con éxito! Gracias por confiar en Nintendo.", "fa-check-circle");
       btnCheckout.innerHTML = originalHTML;
     }, 1500);
   });
 
+  // ========== TOAST ==========
   function showToast(message, icon = "fa-check") {
-    const existingToast = document.querySelector(".cart-toast");
-    if (existingToast) existingToast.remove();
+    const existing = document.querySelector(".cart-toast");
+    if (existing) existing.remove();
 
     const toast = document.createElement("div");
     toast.className = "cart-toast";
@@ -120,12 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(toast);
 
     requestAnimationFrame(() => toast.classList.add("visible"));
-
     setTimeout(() => {
       toast.classList.remove("visible");
       setTimeout(() => toast.remove(), 300);
     }, 2500);
   }
-
-  renderCart();
 });

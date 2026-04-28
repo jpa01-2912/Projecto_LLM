@@ -40,7 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-header {
@@ -590,8 +590,8 @@ tbody tr:hover {
   background: #eee;
   border: none;
   color: var(--color-text-soft);
-  width: 36px;
-  height: 36px;
+  width: 90px;
+  height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -623,7 +623,7 @@ textarea {
   border-radius: 12px;
   padding: 20px;
   color: var(--text-main);
-  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-family: "Fira Code", "Cascadia Code", monospace;
   font-size: 0.9rem;
   resize: vertical;
   transition: 0.3s;
@@ -650,4 +650,355 @@ textarea:focus {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+/* ============================================================
+   PANEL DE GESTIÓN DE USUARIOS
+   ============================================================ */
+.usuario-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.usuario-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.usuario-form label {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.usuario-form input,
+.usuario-form select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: 0.3s;
+}
+
+.usuario-form input:focus,
+.usuario-form select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.1);
+}
+
+.toggle-password-btn:hover {
+  opacity: 0.7;
+}
+
+/* Badges para rol y estado */
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+/* Badges - Roles */
+.badge-admin {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.badge-content_editor {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.badge-game_manager {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.badge-user {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+/* Badges - Estado */
+.badge-activo {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.badge-inactivo {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.badge-bloqueado {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* ============================================================
+   EDITOR DE NOVEDADES MEJORADO
+   ============================================================ */
+.novedades-item {
+  background-color: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+  transition: 0.3s;
+}
+
+.novedades-item:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(230, 0, 18, 0.1);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-header span {
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.item-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-reorder {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.btn-reorder:hover:not(:disabled) {
+  background-color: #4f46e5;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-reorder:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-delete-secundaria {
+  background-color: var(--color-danger-soft);
+  color: var(--danger);
+  border: 1px solid var(--color-danger-border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.3s;
+}
+
+.btn-delete-secundaria:hover {
+  background-color: var(--danger);
+  color: white;
+}
+
+/* Preview de imagen pequeña */
+.image-preview-small {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  border: 2px dashed #e2e8f0;
+  background-size: cover;
+  background-position: center;
+  background-color: #f0f4f8;
+  transition: 0.3s;
+}
+
+.image-preview-small:has(+ input:focus) {
+  border-color: var(--primary-color);
+}
+
+/* Principal preview */
+#principalImagenPreview {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #e2e8f0;
+  margin-top: 12px;
+  display: none;
+}
+
+/* Editor de etiquetas */
+.novedades-section select {
+  width: 100%;
+  background-color: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  color: var(--text-main);
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.novedades-section select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.1);
+}
+
+/* Mejoras visuales generales */
+.novedades-item input,
+.novedades-section input,
+.novedades-section select {
+  background-color: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.novedades-item input:focus,
+.novedades-section input:focus,
+.novedades-section select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.1);
+}
+
+/* Botón de añadir secundaria */
+.secondary-btn {
+  background-color: transparent;
+  color: var(--text-main);
+  border: 2px solid var(--border-color);
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s all;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.secondary-btn:hover {
+  background-color: #f8fafc;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .usuario-form {
+    grid-template-columns: 1fr;
+  }
+
+  .item-controls {
+    flex-wrap: wrap;
+  }
+
+  .btn-reorder {
+    width: 32px;
+    height: 32px;
+  }
+
+  .novedades-item {
+    padding: 12px;
+  }
+}
+
+/* ============================================================
+   ESTILOS PARA FORMULARIOS ESPECIALIZADOS
+   ============================================================ */
+.form-container {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(230, 0, 18, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Badge adicional para éxito */
+.badge-success {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.badge-muted {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.badge-info {
+  background-color: #dbeafe;
+  color: #2563eb;
 }

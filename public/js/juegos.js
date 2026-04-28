@@ -1,29 +1,33 @@
 // ============================= 
 // CATÁLOGO DE JUEGOS - JavaScript
-// Diseño consistente con index.html
 // ============================= 
 
-const container = document.getElementById("games-container");
-const searchInput = document.getElementById("search");
+const container      = document.getElementById("games-container");
+const searchInput    = document.getElementById("search");
 const platformFilter = document.getElementById("platform-filter");
-const sortSelect = document.getElementById("sort");
-const resultsCount = document.getElementById("results-count");
+const sortSelect     = document.getElementById("sort");
+const resultsCount   = document.getElementById("results-count");
 
-let allGames = [];
+let allGames      = [];
 let filteredGames = [];
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-let cart = JSON.parse(localStorage.getItem("carrito")) || [];
-let currentPage = 1;
+let wishlistIds   = new Set(); // IDs de juegos en favoritos
+let cartIds       = new Set(); // IDs de juegos en carrito
+let currentPage   = 1;
 const GAMES_PER_PAGE = 8;
 
-// ========== CARGAR JUEGOS ==========
-fetch("/api/juegos")
-  .then(res => res.json())
-  .then(games => {
+// Usuario logueado (null si no hay sesión)
+const loggedUser = JSON.parse(localStorage.getItem("loggedUser")) || null;
+
+// ========== INICIALIZACIÓN ==========
+async function init() {
+  await loadUserData();
+
+  try {
+    const res   = await fetch("/api/juegos");
+    const games = await res.json();
     allGames = games;
     renderGames(games);
-  })
-  .catch(err => {
+  } catch (err) {
     console.error("Error cargando juegos:", err);
     container.innerHTML = `
       <div class="catalogo-empty">
@@ -32,31 +36,49 @@ fetch("/api/juegos")
         <span>Verifica que el backend esté funcionando correctamente</span>
       </div>
     `;
-  });
+  }
+}
 
-// ========== RENDERIZAR JUEGOS (con paginación) ==========
+// ========== CARGAR DATOS DEL USUARIO ==========
+async function loadUserData() {
+  if (loggedUser) {
+    try {
+      const [resFav, resCart] = await Promise.all([
+        fetch(`/api/favoritos?usuario_id=${loggedUser.id}`),
+        fetch(`/api/carrito?usuario_id=${loggedUser.id}`),
+      ]);
+      const favoritos = await resFav.json();
+      const carrito   = await resCart.json();
+      wishlistIds = new Set(favoritos.map(f => f.juego_id));
+      cartIds     = new Set(carrito.map(c => c.juego_id));
+    } catch (err) {
+      console.warn("Error cargando datos del usuario:", err);
+    }
+  } else {
+    const localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const localCart     = JSON.parse(localStorage.getItem("carrito"))  || [];
+    wishlistIds = new Set(localWishlist.map(g => g.id));
+    cartIds     = new Set(localCart.map(g => g.id));
+  }
+}
+
+// ========== RENDERIZAR JUEGOS ==========
 function renderGames(games) {
   filteredGames = games;
-  currentPage = 1;
+  currentPage   = 1;
   renderPage();
 }
 
 function renderPage() {
   container.innerHTML = "";
 
-  // Eliminar paginación anterior si existe
   const existingPagination = document.getElementById("pagination");
   if (existingPagination) existingPagination.remove();
 
-  // Actualizar contador de resultados
   if (resultsCount) {
-    if (filteredGames.length === 0) {
-      resultsCount.textContent = "No se encontraron juegos";
-    } else if (filteredGames.length === 1) {
-      resultsCount.textContent = "1 juego encontrado";
-    } else {
-      resultsCount.textContent = `${filteredGames.length} juegos encontrados`;
-    }
+    if (filteredGames.length === 0)      resultsCount.textContent = "No se encontraron juegos";
+    else if (filteredGames.length === 1) resultsCount.textContent = "1 juego encontrado";
+    else                                 resultsCount.textContent = `${filteredGames.length} juegos encontrados`;
   }
 
   if (filteredGames.length === 0) {
@@ -70,15 +92,14 @@ function renderPage() {
     return;
   }
 
-  // Calcular juegos de la página actual
   const totalPages = Math.ceil(filteredGames.length / GAMES_PER_PAGE);
-  const start = (currentPage - 1) * GAMES_PER_PAGE;
-  const pageGames = filteredGames.slice(start, start + GAMES_PER_PAGE);
+  const start      = (currentPage - 1) * GAMES_PER_PAGE;
+  const pageGames  = filteredGames.slice(start, start + GAMES_PER_PAGE);
 
-  // Renderizar cards de la página actual
   pageGames.forEach(game => {
-    const isInWishlist = wishlist.some(item => item.titulo === game.titulo);
-    const precio = game.precio ? parseFloat(game.precio) : 0;
+    const isInWishlist = wishlistIds.has(game.id);
+    const isInCart     = cartIds.has(game.id);
+    const precio       = game.precio ? parseFloat(game.precio) : 0;
 
     const card = document.createElement("div");
     card.classList.add("catalogo-card");
@@ -98,8 +119,9 @@ function renderPage() {
         <div class="catalogo-card-precio">${precio.toFixed(2)}€</div>
       </div>
       <div class="catalogo-card-actions">
-        <button class="catalogo-btn-cart">
-          <i class="fa-solid fa-cart-shopping"></i> Añadir al carrito
+        <button class="catalogo-btn-cart ${isInCart ? "in-cart" : ""}">
+          <i class="fa-solid fa-cart-shopping"></i>
+          ${isInCart ? "En el carrito" : "Añadir al carrito"}
         </button>
         <button class="catalogo-btn-wish ${isInWishlist ? "active" : ""}">
           <i class="${isInWishlist ? "fa-solid" : "fa-regular"} fa-heart"></i>
@@ -107,20 +129,17 @@ function renderPage() {
       </div>
     `;
 
-    // Evento: Añadir al carrito
-    card.querySelector(".catalogo-btn-cart").addEventListener("click", () => {
-      addToCart(game);
+    card.querySelector(".catalogo-btn-cart").addEventListener("click", (e) => {
+      if (!cartIds.has(game.id)) addToCart(game, e.currentTarget);
     });
 
-    // Evento: Toggle wishlist
-    card.querySelector(".catalogo-btn-wish").addEventListener("click", () => {
-      toggleWishlist(game);
+    card.querySelector(".catalogo-btn-wish").addEventListener("click", (e) => {
+      toggleWishlist(game, e.currentTarget);
     });
 
     container.appendChild(card);
   });
 
-  // Renderizar paginación
   renderPagination(totalPages);
 }
 
@@ -131,75 +150,108 @@ function renderPagination(totalPages) {
   const nav = document.createElement("div");
   nav.id = "pagination";
 
-  // Botón anterior
   const btnPrev = document.createElement("button");
   btnPrev.innerHTML = `<i class="fa-solid fa-chevron-left"></i>`;
   btnPrev.className = "pagination-btn";
-  btnPrev.disabled = currentPage === 1;
-  btnPrev.addEventListener("click", () => {
-    currentPage--;
-    renderPage();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  btnPrev.disabled  = currentPage === 1;
+  btnPrev.addEventListener("click", () => { currentPage--; renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); });
   nav.appendChild(btnPrev);
 
-  // Números de página
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement("button");
     btn.textContent = i;
-    btn.className = `pagination-btn${i === currentPage ? " active" : ""}`;
-    btn.addEventListener("click", () => {
-      currentPage = i;
-      renderPage();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    btn.className   = `pagination-btn${i === currentPage ? " active" : ""}`;
+    btn.addEventListener("click", () => { currentPage = i; renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); });
     nav.appendChild(btn);
   }
 
-  // Botón siguiente
   const btnNext = document.createElement("button");
   btnNext.innerHTML = `<i class="fa-solid fa-chevron-right"></i>`;
   btnNext.className = "pagination-btn";
-  btnNext.disabled = currentPage === totalPages;
-  btnNext.addEventListener("click", () => {
-    currentPage++;
-    renderPage();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  btnNext.disabled  = currentPage === totalPages;
+  btnNext.addEventListener("click", () => { currentPage++; renderPage(); window.scrollTo({ top: 0, behavior: "smooth" }); });
   nav.appendChild(btnNext);
 
   container.insertAdjacentElement("afterend", nav);
 }
 
 // ========== WISHLIST ==========
-function toggleWishlist(game) {
-  const exists = wishlist.some(item => item.titulo === game.titulo);
+async function toggleWishlist(game, btn) {
+  const isInWishlist = wishlistIds.has(game.id);
 
-  if (exists) {
-    wishlist = wishlist.filter(item => item.titulo !== game.titulo);
-    showToast(`${game.titulo} eliminado de la lista de deseos`, "fa-heart-crack");
+  if (loggedUser) {
+    if (isInWishlist) {
+      try {
+        const res  = await fetch(`/api/favoritos?usuario_id=${loggedUser.id}`);
+        const favs = await res.json();
+        const fav  = favs.find(f => f.juego_id === game.id);
+        if (fav) {
+          await fetch(`/api/favoritos/${fav.id}`, { method: "DELETE" });
+          wishlistIds.delete(game.id);
+          showToast(`${game.titulo} eliminado de favoritos`, "fa-heart-crack");
+        }
+      } catch (err) { console.error(err); }
+    } else {
+      try {
+        await fetch("/api/favoritos", {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify({ usuario_id: loggedUser.id, juego_id: game.id }),
+        });
+        wishlistIds.add(game.id);
+        showToast(`${game.titulo} añadido a favoritos`, "fa-heart");
+      } catch (err) { console.error(err); }
+    }
   } else {
-    wishlist.push(game);
-    showToast(`${game.titulo} añadido a la lista de deseos`, "fa-heart");
+    let localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    if (isInWishlist) {
+      localWishlist = localWishlist.filter(g => g.id !== game.id);
+      wishlistIds.delete(game.id);
+      showToast(`${game.titulo} eliminado de favoritos`, "fa-heart-crack");
+    } else {
+      localWishlist.push(game);
+      wishlistIds.add(game.id);
+      showToast(`${game.titulo} añadido a favoritos`, "fa-heart");
+    }
+    localStorage.setItem("wishlist", JSON.stringify(localWishlist));
   }
 
-  localStorage.setItem("wishlist", JSON.stringify(wishlist));
-  applyFilters();
+  const icon = btn.querySelector("i");
+  const nowIn = wishlistIds.has(game.id);
+  btn.classList.toggle("active", nowIn);
+  icon.className = nowIn ? "fa-solid fa-heart" : "fa-regular fa-heart";
 }
 
 // ========== CARRITO ==========
-function addToCart(game) {
-  const exists = cart.some(item => item.titulo === game.titulo);
-  if (exists) {
-    showToast("Este juego ya está en tu carrito", "fa-circle-info");
+async function addToCart(game, btn) {
+  if (loggedUser) {
+    try {
+      await fetch("/api/carrito", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ usuario_id: loggedUser.id, juego_id: game.id, cantidad: 1 }),
+      });
+      cartIds.add(game.id);
+      showToast(`¡${game.titulo} añadido al carrito!`, "fa-cart-shopping");
+    } catch (err) { console.error(err); }
   } else {
-    cart.push(game);
-    localStorage.setItem("carrito", JSON.stringify(cart));
-    showToast(`¡${game.titulo} añadido al carrito!`, "fa-cart-shopping");
+    let localCart = JSON.parse(localStorage.getItem("carrito")) || [];
+    if (!localCart.some(g => g.id === game.id)) {
+      localCart.push(game);
+      localStorage.setItem("carrito", JSON.stringify(localCart));
+      cartIds.add(game.id);
+      showToast(`¡${game.titulo} añadido al carrito!`, "fa-cart-shopping");
+    } else {
+      showToast("Este juego ya está en tu carrito", "fa-circle-info");
+      return;
+    }
   }
+
+  btn.classList.add("in-cart");
+  btn.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> En el carrito`;
 }
 
-// ========== TOAST NOTIFICATION ==========
+// ========== TOAST ==========
 function showToast(message, icon = "fa-check") {
   const existingToast = document.querySelector(".catalogo-toast");
   if (existingToast) existingToast.remove();
@@ -209,10 +261,7 @@ function showToast(message, icon = "fa-check") {
   toast.innerHTML = `<i class="fa-solid ${icon}"></i> ${message}`;
   document.body.appendChild(toast);
 
-  requestAnimationFrame(() => {
-    toast.classList.add("visible");
-  });
-
+  requestAnimationFrame(() => toast.classList.add("visible"));
   setTimeout(() => {
     toast.classList.remove("visible");
     setTimeout(() => toast.remove(), 300);
@@ -223,42 +272,25 @@ function showToast(message, icon = "fa-check") {
 function applyFilters() {
   let filtered = [...allGames];
 
-  // Búsqueda por texto
   const searchValue = searchInput.value.toLowerCase();
-  if (searchValue) {
-    filtered = filtered.filter(game =>
-      game.titulo.toLowerCase().includes(searchValue)
-    );
-  }
+  if (searchValue) filtered = filtered.filter(g => g.titulo.toLowerCase().includes(searchValue));
 
-  // Filtro por plataforma
-  if (platformFilter.value !== "all") {
-    filtered = filtered.filter(game =>
-      game.plataforma === platformFilter.value
-    );
-  }
+  if (platformFilter.value !== "all") filtered = filtered.filter(g => g.plataforma === platformFilter.value);
 
-  // Ordenar
-  if (sortSelect.value === "price-asc") {
-    filtered.sort((a, b) => (a.precio || 0) - (b.precio || 0));
-  }
-
-  if (sortSelect.value === "price-desc") {
-    filtered.sort((a, b) => (b.precio || 0) - (a.precio || 0));
-  }
-
+  if (sortSelect.value === "price-asc")  filtered.sort((a, b) => (a.precio || 0) - (b.precio || 0));
+  if (sortSelect.value === "price-desc") filtered.sort((a, b) => (b.precio || 0) - (a.precio || 0));
   if (sortSelect.value === "date-new") {
     filtered.sort((a, b) => {
-      const dateA = new Date(a.fecha.split("/").reverse().join("-"));
-      const dateB = new Date(b.fecha.split("/").reverse().join("-"));
-      return dateB - dateA;
+      const toDate = d => d ? new Date(d.includes("/") ? d.split("/").reverse().join("-") : d) : new Date(0);
+      return toDate(b.fecha_lanzamiento || b.fecha) - toDate(a.fecha_lanzamiento || a.fecha);
     });
   }
 
   renderGames(filtered);
 }
 
-// ========== EVENTOS ==========
 searchInput.addEventListener("input", applyFilters);
 platformFilter.addEventListener("change", applyFilters);
 sortSelect.addEventListener("change", applyFilters);
+
+init();

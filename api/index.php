@@ -207,6 +207,16 @@ try {
             break;
 
         // ============================================================
+        // ETIQUETAS — nuevo endpoint de solo lectura para el admin
+        // ============================================================
+        case 'etiquetas':
+            if ($method === 'GET') {
+                $stmt = $pdo->query('SELECT * FROM etiquetas ORDER BY id');
+                sendResponse($stmt->fetchAll());
+            }
+            break;
+
+        // ============================================================
         // APLICACIONES — columnas renombradas + JOIN con plataformas
         // nombre (antes: aplicacion), plataforma_id FK, fecha_lanzamiento (antes: fecha)
         // ============================================================
