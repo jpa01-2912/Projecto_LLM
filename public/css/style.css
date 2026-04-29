@@ -1109,7 +1109,7 @@ body {
 }
 
 #villanos {
-  height: 142px;
+  height: 139px;
 }
 
 /* texto derecha */
@@ -1202,7 +1202,7 @@ footer {
   margin-top: 15px;
 }
 
-.divider {
+footer .divider {
   width: 100%;
   max-width: 1200px;
   margin: 15px auto;

@@ -1,102 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Empleo - Nintendo</title>
     <link rel="icon" type="image/x-icon" href="./fotos/favicon/favicon.ico" />
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/informacion.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/informacion.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="./js/common.js" defer></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="topbar">
-        <div class="logo">
-            <a href="index.html"><img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo"></a>
+      <div class="logo">
+        <a href="index.html"
+          ><img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo"
+        /></a>
+      </div>
+      <div class="top-actions">
+        <div class="action">
+          <i class="fa-solid fa-magnifying-glass"></i
+          ><a href="juegos.html">Buscar</a>
         </div>
-        <div class="top-actions">
-            <div class="action"><i class="fa-solid fa-magnifying-glass"></i><a href="juegos.html">Buscar</a></div>
-            <div class="action"><i class="fa-regular fa-heart"></i><a href="wishlist.html">Lista deseos</a></div>
-            <div class="action"><i class="fa-solid fa-cart-shopping"></i><a href="carrito.html">Carrito</a></div>
-            <div id="auth-action" class="action"><i class="fa-solid fa-user"></i><a href="login.html">Mi cuenta</a></div>
+        <div class="action">
+          <i class="fa-regular fa-heart"></i
+          ><a href="wishlist.html">Lista deseos</a>
         </div>
+        <div class="action">
+          <i class="fa-solid fa-cart-shopping"></i
+          ><a href="carrito.html">Carrito</a>
+        </div>
+        <div id="auth-action" class="action"></div>
+      </div>
     </div>
 
     <div class="contenedor-flex">
-        <!-- BARRA LATERAL (SIDEBAR) -->
-        <div class="sidebar">
-            <div class="side-item" onclick="selectMenu('juegos')">
-                <i class="fa-solid fa-star"></i>
-                <a href="juegos.html">Juegos</a>
-            </div>
-            <div class="side-item" onclick="selectMenu('hardware')">
-                <img src="./fotos/logos/icono-hardware.png" alt="Hardware" id="hardware" />
-                <span>Hardware</span>
-            </div>
-            <div class="side-item" onclick="selectMenu('online')">
-                <img src="./fotos/logos/nintendo-switch.png" alt="Switch Online" id="N_S" />
-                <span>Nintendo Switch Online</span>
-            </div>
-            <div class="side-item" onclick="selectMenu('eshop')">
-                <img src="./fotos/logos/icono-bolsa.png" alt="Nintendo eShop" id="eShop" />
-                <span>Nintendo <br />eShop</span>
-            </div>
-            <div class="side-item" onclick="selectMenu('mynintendo')">
-                <img src="./fotos/logos/nintendo-store.png" alt="My Nintendo Store" id="M_N_S" />
-                <span>My Nintendo Store</span>
-            </div>
-            <div class="side-item">
-                <img src="./fotos/logos/icono-ayuda.png" alt="Ayuda" id="ayuda" />
-                <span>Ayuda</span>
-            </div>
-            <div class="side-item" onclick="selectMenu('seguenos')">
-                <i class="fa-solid fa-users"></i>
-                <span>Síguenos</span>
-            </div>
-            <div class="side-item" onclick="selectMenu('mas')">⋯</div>
+      <!-- BARRA LATERAL (SIDEBAR) -->
+      <div class="sidebar">
+        <div class="side-item" onclick="selectMenu('juegos')">
+          <i class="fa-solid fa-star"></i>
+          <a href="juegos.html">Juegos</a>
         </div>
-
-        <div class="main">
-            <header class="info-hero jobs-hero">
-                <div class="hero-content">
-                    <h1>Trabaja con nosotros</h1>
-                    <p>Únete a un equipo apasionado que está redefiniendo el futuro del entretenimiento.</p>
-                    <a href="#" class="btn-primary">Ver ofertas actuales</a>
-                </div>
-            </header>
-
-            <section class="info-section">
-                <h2>¿Por qué trabajar en Nintendo?</h2>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <i class="fa-solid fa-lightbulb card-icon"></i>
-                        <h3>Creatividad sin límites</h3>
-                        <p>Fomentamos un ambiente donde las ideas más locas pueden convertirse en el próximo gran éxito mundial.</p>
-                    </div>
-                    <div class="info-card">
-                        <i class="fa-solid fa-users-viewfinder card-icon"></i>
-                        <h3>Diversidad y Talento</h3>
-                        <p>Creemos que la diversidad de pensamiento y cultura es lo que nos permite crear experiencias para todo el mundo.</p>
-                    </div>
-                </div>
-            </section>
-
-            <footer>
-                <div class="footer-logo"><img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo"></div>
-                <div class="footer-links">
-                    <a href="control-parental.html">Padres y control parental</a>
-                    <a href="ayuda.html">Ayuda</a>
-                    <a href="empresa.html">Información de la empresa</a>
-                    <a href="empleo.html">Empleo</a>
-                    <a href="privacidad.html">Política de privacidad de este sitio web</a>
-                </div>
-                <div class="divider"></div>
-                <div class="copyright">© Nintendo. 2026</div>
-            </footer>
+        <div class="side-item" onclick="selectMenu('hardware')">
+          <img
+            src="./fotos/logos/icono-hardware.png"
+            alt="Hardware"
+            id="hardware"
+          />
+          <span>Hardware</span>
         </div>
+        <div class="side-item" onclick="selectMenu('online')">
+          <img
+            src="./fotos/logos/nintendo-switch.png"
+            alt="Switch Online"
+            id="N_S"
+          />
+          <span>Nintendo Switch Online</span>
+        </div>
+        <div class="side-item" onclick="selectMenu('eshop')">
+          <img
+            src="./fotos/logos/icono-bolsa.png"
+            alt="Nintendo eShop"
+            id="eShop"
+          />
+          <span>Nintendo <br />eShop</span>
+        </div>
+        <div class="side-item" onclick="selectMenu('mynintendo')">
+          <img
+            src="./fotos/logos/nintendo-store.png"
+            alt="My Nintendo Store"
+            id="M_N_S"
+          />
+          <span>My Nintendo Store</span>
+        </div>
+        <div class="side-item">
+          <img src="./fotos/logos/icono-ayuda.png" alt="Ayuda" id="ayuda" />
+          <span>Ayuda</span>
+        </div>
+        <div class="side-item" onclick="selectMenu('seguenos')">
+          <i class="fa-solid fa-users"></i>
+          <span>Síguenos</span>
+        </div>
+        <div class="side-item" onclick="selectMenu('mas')">⋯</div>
+      </div>
+
+      <div class="main">
+        <header class="info-hero jobs-hero">
+          <div class="hero-content">
+            <h1>Trabaja con nosotros</h1>
+            <p>
+              Únete a un equipo apasionado que está redefiniendo el futuro del
+              entretenimiento.
+            </p>
+            <a href="https://www.infojobs.net/" class="btn-primary"
+              >Ver ofertas actuales</a
+            >
+          </div>
+        </header>
+
+        <section class="info-section">
+          <h2>¿Por qué trabajar en Nintendo?</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <i class="fa-solid fa-lightbulb card-icon"></i>
+              <h3>Creatividad sin límites</h3>
+              <p>
+                Fomentamos un ambiente donde las ideas más locas pueden
+                convertirse en el próximo gran éxito mundial.
+              </p>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-users-viewfinder card-icon"></i>
+              <h3>Diversidad y Talento</h3>
+              <p>
+                Creemos que la diversidad de pensamiento y cultura es lo que nos
+                permite crear experiencias para todo el mundo.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="footer-logo">
+            <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" />
+          </div>
+          <div class="footer-links">
+            <a href="control-parental.html">Padres y control parental</a>
+            <a href="ayuda.html">Ayuda</a>
+            <a href="empresa.html">Información de la empresa</a>
+            <a href="empleo.html">Empleo</a>
+            <a href="privacidad.html"
+              >Política de privacidad de este sitio web</a
+            >
+          </div>
+          <div class="divider"></div>
+          <div class="copyright">© Nintendo. 2026</div>
+        </footer>
+      </div>
     </div>
     <script type="module" src="./js/main.js"></script>
-</body>
+  </body>
 </html>

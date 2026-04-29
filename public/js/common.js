@@ -48,7 +48,7 @@ function actualizarAuthAction() {
         adminLinkAction.id = "admin-link-action";
         adminLinkAction.dataset.requiresServerRoleCheck = "true";
         adminLinkAction.innerHTML = `
-          <i class="fa-solid fa-lock-open"></i>
+           <i class="fa-solid fa-shield-halved"></i>
           <a href="admin.html">Admin</a>
         `;
         topActions.insertBefore(adminLinkAction, authAction);

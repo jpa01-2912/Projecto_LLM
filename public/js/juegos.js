@@ -105,7 +105,7 @@ function renderPage() {
     card.classList.add("catalogo-card");
 
     card.innerHTML = `
-      ${game.es_nueva_consola ? `
+      ${(game.es_nueva_consola == 1 || game.esNuevaConsola == 1) ? `
         <div class="catalogo-badge">
           <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
         </div>

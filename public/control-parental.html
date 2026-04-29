@@ -1,142 +1,196 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Control Parental - Nintendo</title>
     <link rel="icon" type="image/x-icon" href="./fotos/favicon/favicon.ico" />
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/informacion.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/informacion.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./js/common.js" defer></script>
+  </head>
+  <body>
     <!-- Topbar (consistente) -->
     <div class="topbar">
-        <div class="top-left">
-            <a href="index.html" class="logo">
-                <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo">
-            </a>
+      <div class="logo">
+        <a href="index.html" aria-label="logo">
+          <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" />
+        </a>
+      </div>
+      <div class="top-actions">
+        <div class="action">
+          <i class="fa-solid fa-magnifying-glass"></i><a href="#">Buscar</a>
         </div>
-        <div class="top-actions">
-            <div class="action"><i class="fa-solid fa-magnifying-glass"></i><a href="#">Buscar</a></div>
-            <div class="action"><i class="fa-solid fa-heart"></i><a href="wishlist.html">Lista deseos</a></div>
-            <div class="action"><i class="fa-solid fa-cart-shopping"></i><a href="carrito.html">Carrito</a></div>
-            <div class="action"><i class="fa-solid fa-user"></i><a href="login.html">Mi cuenta</a></div>
+        <div class="action">
+          <i class="fa-solid fa-heart"></i
+          ><a href="wishlist.html">Lista deseos</a>
         </div>
+        <div class="action">
+          <i class="fa-solid fa-cart-shopping"></i
+          ><a href="carrito.html">Carrito</a>
+        </div>
+        <div id="auth-action" class="action"></div>
+      </div>
     </div>
 
     <div class="contenedor-flex">
-        <!-- Sidebar (consistente) -->
-        <div class="sidebar">
-            <!-- Sección Juegos -->
-            <div class="side-item" onclick="selectMenu('juegos')">
-                <i class="fa-solid fa-star"></i>
-                <a href="juegos.html">Juegos</a>
-            </div>
-
-            <!-- Sección Hardware -->
-            <div class="side-item" onclick="selectMenu('hardware')">
-                <img src="./fotos/logos/icono-hardware.png" alt="Hardware" id="hardware" />
-                <span>Hardware</span>
-            </div>
-
-            <!-- Nintendo Switch Online -->
-            <div class="side-item" onclick="selectMenu('online')">
-                <img src="./fotos/logos/nintendo-switch.png" alt="Switch Online" id="N_S" />
-                <span>Nintendo Switch Online</span>
-            </div>
-
-            <!-- Nintendo eShop -->
-            <div class="side-item" onclick="selectMenu('eshop')">
-                <img src="./fotos/logos/icono-bolsa.png" alt="Nintendo eShop" id="eShop" />
-                <span>Nintendo <br />eShop</span>
-            </div>
-
-            <!-- My Nintendo Store -->
-            <div class="side-item" onclick="selectMenu('mynintendo')">
-                <img src="./fotos/logos/nintendo-store.png" alt="My Nintendo Store" id="M_N_S" />
-                <span>My Nintendo Store</span>
-            </div>
-
-            <!-- Ayuda / Noticias -->
-            <div class="side-item">
-                <img src="./fotos/logos/icono-ayuda.png" alt="Ayuda" id="ayuda" />
-                <span>Ayuda</span>
-            </div>
-
-            <!-- Redes sociales -->
-            <div class="side-item" onclick="selectMenu('seguenos')">
-                <i class="fa-solid fa-users"></i>
-                <span>Síguenos</span>
-            </div>
-
-            <!-- Botón más opciones (⋯) -->
-            <div class="side-item" onclick="selectMenu('mas')">⋯</div>
+      <!-- Sidebar (consistente) -->
+      <div class="sidebar">
+        <!-- Sección Juegos -->
+        <div class="side-item" onclick="selectMenu('juegos')">
+          <i class="fa-solid fa-star"></i>
+          <a href="juegos.html">Juegos</a>
         </div>
 
-        <!-- Contenido principal -->
-        <div class="main">
-            <header class="info-hero parental-hero">
-                <div class="hero-content">
-                    <h1>Padres y control parental</h1>
-                    <p>Información útil para que tus hijos disfruten de una experiencia de juego segura y divertida.</p>
-                </div>
-                <div class="hero-image">
-                    <img src="./fotos/UltimaParteDelMain/bowser-y-hijo.png" alt="Bowser y Bowsy">
-                </div>
-            </header>
-
-            <section class="info-section">
-                <div class="info-grid">
-                    <div class="info-card">
-                        <i class="fa-solid fa-shield-halved card-icon"></i>
-                        <h3>Seguridad ante todo</h3>
-                        <p>Aprende a configurar límites de tiempo y restricciones de contenido para que los más pequeños jueguen bajo supervisión.</p>
-                    </div>
-                    <div class="info-card">
-                        <i class="fa-solid fa-mobile-screen-button card-icon"></i>
-                        <h3>App Control Parental</h3>
-                        <p>Descarga la aplicación oficial para dispositivos inteligentes y gestiona la consola desde cualquier lugar.</p>
-                    </div>
-                    <div class="info-card">
-                        <i class="fa-solid fa-coins card-icon"></i>
-                        <h3>Gestión de gastos</h3>
-                        <p>Configura las opciones de compra en la Nintendo eShop para evitar cargos inesperados y gestionar el presupuesto familiar.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="info-content-block">
-                <div class="text-block">
-                    <h2>¿Cómo funciona el Control Parental?</h2>
-                    <p>Nintendo Switch ofrece diversas herramientas para que los padres puedan decidir qué contenido es adecuado para sus hijos. Puedes establecer límites diarios de tiempo de juego, restringir el uso de funciones de comunicación en línea y filtrar juegos por su clasificación por edades.</p>
-                    <a href="#" class="btn-primary">Guía detallada paso a paso</a>
-                </div>
-            </section>
-
-            <footer>
-                <div class="footer-logo">
-                    <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo">
-                </div>
-                <div class="footer-links">
-                    <a href="control-parental.html">Padres y control parental</a>
-                    <a href="ayuda.html">Ayuda</a>
-                    <a href="empresa.html">Información de la empresa</a>
-                    <a href="empleo.html">Empleo</a>
-                    <a href="privacidad.html">Política de privacidad de este sitio web</a>
-                </div>
-                <div class="divider"></div>
-                <div class="footer-bottom">
-                    <a href="#">Información legal</a>
-                    <a href="#">Contactar</a>
-                </div>
-                <div class="copyright">© Nintendo. 2026</div>
-            </footer>
+        <!-- Sección Hardware -->
+        <div class="side-item" onclick="selectMenu('hardware')">
+          <img
+            src="./fotos/logos/icono-hardware.png"
+            alt="Hardware"
+            id="hardware"
+          />
+          <span>Hardware</span>
         </div>
+
+        <!-- Nintendo Switch Online -->
+        <div class="side-item" onclick="selectMenu('online')">
+          <img
+            src="./fotos/logos/nintendo-switch.png"
+            alt="Switch Online"
+            id="N_S"
+          />
+          <span>Nintendo Switch Online</span>
+        </div>
+
+        <!-- Nintendo eShop -->
+        <div class="side-item" onclick="selectMenu('eshop')">
+          <img
+            src="./fotos/logos/icono-bolsa.png"
+            alt="Nintendo eShop"
+            id="eShop"
+          />
+          <span>Nintendo <br />eShop</span>
+        </div>
+
+        <!-- My Nintendo Store -->
+        <div class="side-item" onclick="selectMenu('mynintendo')">
+          <img
+            src="./fotos/logos/nintendo-store.png"
+            alt="My Nintendo Store"
+            id="M_N_S"
+          />
+          <span>My Nintendo Store</span>
+        </div>
+
+        <!-- Ayuda / Noticias -->
+        <div class="side-item">
+          <img src="./fotos/logos/icono-ayuda.png" alt="Ayuda" id="ayuda" />
+          <span>Ayuda</span>
+        </div>
+
+        <!-- Redes sociales -->
+        <div class="side-item" onclick="selectMenu('seguenos')">
+          <i class="fa-solid fa-users"></i>
+          <span>Síguenos</span>
+        </div>
+
+        <!-- Botón más opciones (⋯) -->
+        <div class="side-item" onclick="selectMenu('mas')">⋯</div>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="main">
+        <header class="info-hero parental-hero">
+          <div class="hero-content">
+            <h1>Padres y control parental</h1>
+            <p>
+              Información útil para que tus hijos disfruten de una experiencia
+              de juego segura y divertida.
+            </p>
+          </div>
+          <div class="hero-image">
+            <img
+              src="./fotos/control-parental/bowser-y-bowsy.jpg"
+              alt="Bowser y Bowsy"
+            />
+          </div>
+        </header>
+
+        <section class="info-section">
+          <div class="info-grid">
+            <div class="info-card">
+              <i class="fa-solid fa-shield-halved card-icon"></i>
+              <h3>Seguridad ante todo</h3>
+              <p>
+                Aprende a configurar límites de tiempo y restricciones de
+                contenido para que los más pequeños jueguen bajo supervisión.
+              </p>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-mobile-screen-button card-icon"></i>
+              <h3>App Control Parental</h3>
+              <p>
+                Descarga la aplicación oficial para dispositivos inteligentes y
+                gestiona la consola desde cualquier lugar.
+              </p>
+            </div>
+            <div class="info-card">
+              <i class="fa-solid fa-coins card-icon"></i>
+              <h3>Gestión de gastos</h3>
+              <p>
+                Configura las opciones de compra en la Nintendo eShop para
+                evitar cargos inesperados y gestionar el presupuesto familiar.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="info-content-block">
+          <div class="text-block">
+            <h2>¿Cómo funciona el Control Parental?</h2>
+            <p>
+              Nintendo Switch ofrece diversas herramientas para que los padres
+              puedan decidir qué contenido es adecuado para sus hijos. Puedes
+              establecer límites diarios de tiempo de juego, restringir el uso
+              de funciones de comunicación en línea y filtrar juegos por su
+              clasificación por edades.
+            </p>
+            <a href="#" class="btn-primary">Guía detallada paso a paso</a>
+          </div>
+        </section>
+
+        <footer>
+          <div class="footer-logo">
+            <img src="./fotos/logos/nintendo-logo.png" alt="Nintendo Logo" />
+          </div>
+          <div class="footer-links">
+            <a href="control-parental.html">Padres y control parental</a>
+            <a href="ayuda.html">Ayuda</a>
+            <a href="empresa.html">Información de la empresa</a>
+            <a href="empleo.html">Empleo</a>
+            <a href="privacidad.html"
+              >Política de privacidad de este sitio web</a
+            >
+          </div>
+          <div class="divider"></div>
+          <div class="footer-bottom">
+            <a href="#">Información legal</a>
+            <a href="#">Contactar</a>
+          </div>
+          <div class="copyright">© Nintendo. 2026</div>
+        </footer>
+      </div>
     </div>
 
     <script src="./js/common.js" defer></script>
     <script type="module" src="./js/main.js"></script>
-</body>
+  </body>
 </html>
