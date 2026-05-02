@@ -310,7 +310,7 @@ try {
         case 'myNintendoStore':
             if ($method === 'GET') {
                 // Alias nombre → aplicacion para compatibilidad con el frontend existente
-                $stmt = $pdo->query('SELECT id, nombre AS aplicacion, descripcion, imagen FROM mynintendostore');
+                $stmt = $pdo->query('SELECT id, nombre, descripcion, imagen FROM mynintendostore');
                 sendResponse($stmt->fetchAll());
 
             } elseif ($method === 'POST') {

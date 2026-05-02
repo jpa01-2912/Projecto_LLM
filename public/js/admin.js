@@ -50,12 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const novedadesEditor = document.getElementById("novedadesEditor");
-  const principalImagen = document.getElementById("principalImagen");
-  const principalEtiqueta = document.getElementById("principalEtiqueta");
-  const principalTitulo = document.getElementById("principalTitulo");
-  const principalDescripcion = document.getElementById("principalDescripcion");
-  const secundariasList = document.getElementById("secundariasList");
-  const saveNovedadesBtn = document.getElementById("saveNovedadesBtn");
   const novedadesJsonError = document.getElementById("novedadesJsonError");
 
   // --- CONFIGURACIÓN DE ROLES Y ENDPOINTS ---
@@ -210,18 +204,16 @@ document.addEventListener("DOMContentLoaded", () => {
           tableHeaderLine.innerHTML = "<th>Error cargando datos</th>";
         });
     } else if (endpoint === "novedades") {
-      showNovedadesEditor(true);
+      showNovedadesEditor(false);
       fetch(api.url)
         .then((res) => res.json())
         .then((data) => {
           currentData = data;
-          renderNovedadesEditor(data);
+          renderNovedadesPanel(data);
         })
         .catch((err) => {
           console.error(err);
-          novedadesJsonError.textContent =
-            "Error al cargar novedades: " + err.message;
-          novedadesJsonError.style.display = "block";
+          tableHeaderLine.innerHTML = "<th>Error cargando datos</th>";
         });
     } else {
       // Tabla genérica para otros endpoints
@@ -583,6 +575,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.getElementById("modalBody").insertBefore(form, jsonInput);
+    if (juego?.imagen) {
+      const preview = document.getElementById("juegoImagenPreview");
+      preview.style.backgroundImage = `url('${juego.imagen}')`;
+    }
 
     // Populate plataformas
     const selectPlataforma = document.getElementById("juegoPlataforma");
@@ -729,6 +725,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.getElementById("modalBody").insertBefore(form, jsonInput);
+    if (app?.imagen) {
+      const preview = document.getElementById("aplicacionImagenPreview");
+      preview.style.backgroundImage = `url('${app.imagen}')`;
+    }
 
     // Populate plataformas
     const selectPlataforma = document.getElementById("aplicacionPlataforma");
@@ -878,6 +878,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.getElementById("modalBody").insertBefore(form, jsonInput);
+    if (item?.url_imagen || item?.url) {
+      const preview = document.getElementById("carrouselImagenPreview");
+      preview.style.backgroundImage = `url('${item.url_imagen || item.url}')`;
+    }
 
     // Preview de imagen
     document
@@ -1001,7 +1005,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.getElementById("modalBody").insertBefore(form, jsonInput);
-
+    if (item?.imagen) {
+      const preview = document.getElementById("tiendaImagenPreview");
+      preview.style.backgroundImage = `url('${item.imagen}')`;
+    }
     // Preview de imagen
     document.getElementById("tiendaImagen").addEventListener("input", (e) => {
       const preview = document.getElementById("tiendaImagenPreview");
@@ -1154,6 +1161,10 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     document.getElementById("modalBody").insertBefore(form, jsonInput);
+    if (noticia?.imagen) {
+      const preview = document.getElementById("noticiaImagenPreview");
+      preview.style.backgroundImage = `url('${noticia.imagen}')`;
+    }
 
     // Populate etiquetas
     const selectEtiqueta = document.getElementById("noticiaEtiqueta");
@@ -1302,7 +1313,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (currentEndpoint === "noticias") {
       openNoticiaModal(null);
     } else if (currentEndpoint === "novedades") {
-      alert("Usa el editor de novedades para guardar el objeto completo.");
+      openNovedadSecundariaModal(null);
       return;
     } else {
       editingId = null;
@@ -1615,7 +1626,7 @@ document.addEventListener("DOMContentLoaded", () => {
           jsonError.textContent = "Error: " + err.message;
         });
     } else if (currentEndpoint === "novedades") {
-      alert("Usa el editor de novedades para guardar.");
+      saveNovedadFromModal();
       return;
     } else {
       // Tabla genérica JSON
@@ -1656,183 +1667,314 @@ document.addEventListener("DOMContentLoaded", () => {
   // ============================================================
   // EDITOR VISUAL DE NOVEDADES
   // ============================================================
-  function renderNovedadesEditor(data) {
-    if (!novedadesEditor) return;
-    const safeData = data || {
-      principal: {},
-      secundarias: [],
-      otrasNoticias: [],
-    };
-    currentData = safeData;
+  // ============================================================
+  // PANEL DE NOVEDADES — igual que las otras secciones
+  // ============================================================
+  let editingNovedadType = null;   // 'principal' | 'secundaria'
+  let editingSecundariaId = null;  // id de la fila en novedades_secundarias
 
-    if (principalImagen) {
-      principalImagen.value = safeData.principal?.imagen || "";
-      principalImagen.addEventListener("input", updatePrincipalPreview);
-    }
+  function renderNovedadesPanel(data) {
+    tableHeaderLine.innerHTML = "";
+    tableBody.innerHTML = "";
 
-    if (principalEtiqueta) {
-      // Llenar select de etiquetas
-      principalEtiqueta.innerHTML =
-        "<option value=''>Seleccionar etiqueta...</option>";
-      currentEtiquetas.forEach((tag) => {
-        const option = document.createElement("option");
-        option.value = tag.nombre;
-        option.textContent = tag.nombre;
-        if (tag.nombre === safeData.principal?.etiqueta) option.selected = true;
-        principalEtiqueta.appendChild(option);
-      });
-    }
+    const principal = data?.principal || {};
+    const secundarias = data?.secundarias || [];
 
-    if (principalTitulo)
-      principalTitulo.value = safeData.principal?.titulo || "";
-    if (principalDescripcion)
-      principalDescripcion.value = safeData.principal?.descripcion || "";
+    statTotalNumber.textContent = 1 + secundarias.length;
 
-    renderSecundariasList(safeData.secundarias || []);
-    if (novedadesJsonError) novedadesJsonError.style.display = "none";
-
-    // Render preview principal
-    updatePrincipalPreview();
-  }
-
-  function updatePrincipalPreview() {
-    const preview = document.getElementById("principalImagenPreview");
-    if (preview && principalImagen && principalImagen.value.trim()) {
-      preview.style.backgroundImage = `url('${principalImagen.value.trim()}')`;
-      preview.style.display = "block";
-    } else if (preview) {
-      preview.style.display = "none";
-    }
-  }
-
-  function renderSecundariasList(items) {
-    if (!secundariasList) return;
-    const cards = [...items];
-    secundariasList.innerHTML = "";
-
-    cards.forEach((item, index) => {
-      const card = document.createElement("div");
-      card.className = "novedades-item";
-      card.innerHTML = `
-        <div class="item-header">
-          <span>Tarjeta ${index + 1}</span>
-          <div class="item-controls">
-            <button type="button" class="btn-reorder btn-up" title="Mover arriba" ${index === 0 ? "disabled" : ""}>
-              <i class="fa-solid fa-arrow-up"></i>
-            </button>
-            <button type="button" class="btn-reorder btn-down" title="Mover abajo" ${index === cards.length - 1 ? "disabled" : ""}>
-              <i class="fa-solid fa-arrow-down"></i>
-            </button>
-            <button type="button" class="btn-danger btn-delete-secundaria" title="Eliminar">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </div>
-        <div class="field-grid">
-          <div class="field-group">
-            <label>Ruta de imagen</label>
-            <input type="text" data-key="imagen" placeholder="./fotos/ejemplo.jpg" value="${item.imagen || ""}">
-            <div class="image-preview-small" style="margin-top: 8px; width: 100px; height: 60px; border-radius: 8px; background-size: cover; background-position: center; border: 1px solid #ddd;"></div>
-          </div>
-          <div class="field-group">
-            <label>Tipo de Sección</label>
-            <select data-key="etiqueta">
-              <option value="">Seleccionar etiqueta...</option>
-            </select>
-          </div>
-          <div class="field-group" style="grid-column: 1 / -1;">
-            <label>Título</label>
-            <input type="text" data-key="titulo" placeholder="Título" value="${item.titulo || ""}">
-          </div>
-        </div>
-      `;
-
-      // Populate select
-      const select = card.querySelector("select[data-key='etiqueta']");
-      currentEtiquetas.forEach((tag) => {
-        const option = document.createElement("option");
-        option.value = tag.nombre;
-        option.textContent = tag.nombre;
-        if (tag.nombre === item.etiqueta) option.selected = true;
-        select.appendChild(option);
-      });
-
-      // Event listeners
-      const inputs = card.querySelectorAll("input, select");
-      inputs.forEach((input) => {
-        input.addEventListener("input", () => {
-          currentData.secundarias[index][input.dataset.key] = input.value;
-          if (input.dataset.key === "imagen") {
-            const preview = card.querySelector(".image-preview-small");
-            if (input.value.trim()) {
-              preview.style.backgroundImage = `url('${input.value.trim()}')`;
-            } else {
-              preview.style.backgroundImage = "none";
-            }
-          }
-        });
-      });
-
-      // Botones de reordenamiento
-      card.querySelector(".btn-up").addEventListener("click", () => {
-        if (index > 0) {
-          [currentData.secundarias[index], currentData.secundarias[index - 1]] =
-            [
-              currentData.secundarias[index - 1],
-              currentData.secundarias[index],
-            ];
-          renderSecundariasList(currentData.secundarias);
-        }
-      });
-
-      card.querySelector(".btn-down").addEventListener("click", () => {
-        if (index < currentData.secundarias.length - 1) {
-          [currentData.secundarias[index], currentData.secundarias[index + 1]] =
-            [
-              currentData.secundarias[index + 1],
-              currentData.secundarias[index],
-            ];
-          renderSecundariasList(currentData.secundarias);
-        }
-      });
-
-      // Botón eliminar
-      card
-        .querySelector(".btn-delete-secundaria")
-        .addEventListener("click", () => {
-          if (confirm("¿Eliminar esta tarjeta?")) {
-            currentData.secundarias.splice(index, 1);
-            renderSecundariasList(currentData.secundarias);
-          }
-        });
-
-      secundariasList.appendChild(card);
+    // ---- TABLA PRINCIPAL ----
+    const headers = ["", "Imagen", "Etiqueta", "Título", "Descripción", "Acciones"];
+    headers.forEach((h) => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      tableHeaderLine.appendChild(th);
     });
 
-    // Botón añadir secundaria
-    const btnAddSecundaria = document.createElement("button");
-    btnAddSecundaria.type = "button";
-    btnAddSecundaria.className = "secondary-btn";
-    btnAddSecundaria.style.marginTop = "16px";
-    btnAddSecundaria.innerHTML =
-      '<i class="fa-solid fa-plus"></i> Añadir Tarjeta Secundaria';
-    btnAddSecundaria.addEventListener("click", () => {
-      currentData.secundarias.push({ imagen: "", etiqueta: "", titulo: "" });
-      renderSecundariasList(currentData.secundarias);
+    // Fila principal
+    const trP = document.createElement("tr");
+
+    const tdTipo = document.createElement("td");
+    tdTipo.innerHTML = '<span class="badge badge-success">Principal</span>';
+    trP.appendChild(tdTipo);
+
+    const tdImg = document.createElement("td");
+    tdImg.classList.add("img-cell");
+    tdImg.innerHTML = `<img src="${principal.imagen || ""}" style="width:70px;height:50px;object-fit:cover;border-radius:4px;" onerror="this.src='./fotos/placeholder.jpg'">`;
+    trP.appendChild(tdImg);
+
+    const tdEtq = document.createElement("td");
+    tdEtq.innerHTML = `<span class="badge badge-info">${principal.etiqueta || "N/A"}</span>`;
+    trP.appendChild(tdEtq);
+
+    const tdTit = document.createElement("td");
+    const tit = principal.titulo || "N/A";
+    tdTit.textContent = tit.length > 50 ? tit.substring(0, 50) + "..." : tit;
+    trP.appendChild(tdTit);
+
+    const tdDesc = document.createElement("td");
+    const desc = principal.descripcion || "";
+    tdDesc.textContent = desc.length > 60 ? desc.substring(0, 60) + "..." : desc;
+    trP.appendChild(tdDesc);
+
+    const tdAccP = document.createElement("td");
+    tdAccP.style.display = "flex";
+    tdAccP.style.gap = "5px";
+    const btnEditP = document.createElement("button");
+    btnEditP.className = "primary-btn";
+    btnEditP.style.cssText = "padding:5px 10px;font-size:12px;";
+    btnEditP.innerHTML = '<i class="fa-solid fa-edit"></i> Editar';
+    btnEditP.onclick = () => openNovedadPrincipalModal(principal);
+    tdAccP.appendChild(btnEditP);
+    trP.appendChild(tdAccP);
+    tableBody.appendChild(trP);
+
+    // ---- FILAS SECUNDARIAS ----
+    secundarias.forEach((s, index) => {
+      const tr = document.createElement("tr");
+
+      const tdTipoS = document.createElement("td");
+      tdTipoS.innerHTML = `<span class="badge badge-muted">Sec. ${index + 1}</span>`;
+      tr.appendChild(tdTipoS);
+
+      const tdImgS = document.createElement("td");
+      tdImgS.classList.add("img-cell");
+      tdImgS.innerHTML = `<img src="${s.imagen || ""}" style="width:70px;height:50px;object-fit:cover;border-radius:4px;" onerror="this.src='./fotos/placeholder.jpg'">`;
+      tr.appendChild(tdImgS);
+
+      const tdEtqS = document.createElement("td");
+      tdEtqS.innerHTML = `<span class="badge badge-info">${s.etiqueta || "N/A"}</span>`;
+      tr.appendChild(tdEtqS);
+
+      const tdTitS = document.createElement("td");
+      const titS = s.titulo || "N/A";
+      tdTitS.textContent = titS.length > 50 ? titS.substring(0, 50) + "..." : titS;
+      tr.appendChild(tdTitS);
+
+      const tdDescS = document.createElement("td");
+      tdDescS.textContent = "";
+      tr.appendChild(tdDescS);
+
+      const tdAccS = document.createElement("td");
+      tdAccS.style.display = "flex";
+      tdAccS.style.gap = "5px";
+
+      const btnEditS = document.createElement("button");
+      btnEditS.className = "primary-btn";
+      btnEditS.style.cssText = "padding:5px 10px;font-size:12px;";
+      btnEditS.innerHTML = '<i class="fa-solid fa-edit"></i> Editar';
+      btnEditS.onclick = () => openNovedadSecundariaModal(s, index);
+
+      const btnDelS = document.createElement("button");
+      btnDelS.className = "btn-danger";
+      btnDelS.style.cssText = "padding:5px 10px;font-size:12px;";
+      btnDelS.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar';
+      btnDelS.onclick = () => deleteSecundaria(index);
+
+      tdAccS.appendChild(btnEditS);
+      tdAccS.appendChild(btnDelS);
+      tr.appendChild(tdAccS);
+      tableBody.appendChild(tr);
     });
-    secundariasList.appendChild(btnAddSecundaria);
   }
 
-  function getNovedadesPayload() {
-    return {
-      principal: {
-        imagen: principalImagen?.value.trim() || "",
-        etiqueta: principalEtiqueta?.value.trim() || "",
-        titulo: principalTitulo?.value.trim() || "",
-        descripcion: principalDescripcion?.value.trim() || "",
-      },
-      secundarias: currentData.secundarias || [],
+  function openNovedadPrincipalModal(principal) {
+    editingNovedadType = "principal";
+    editingSecundariaId = null;
+    document.getElementById("modalTitle").textContent = "Editar Novedad Principal";
+
+    jsonInput.style.display = "none";
+    const existing = document.getElementById("novedadFormContainer");
+    if (existing) existing.remove();
+
+    const form = document.createElement("div");
+    form.id = "novedadFormContainer";
+    form.className = "form-container";
+    form.innerHTML = `
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="novedadImagen">Imagen (URL)</label>
+          <input type="text" id="novedadImagen" value="${principal?.imagen || ""}" placeholder="./fotos/Novedades/ejemplo.jpg">
+          <div id="novedadImagenPreview" style="margin-top:10px;width:150px;height:100px;border-radius:6px;background-size:cover;background-position:center;border:2px solid #ddd;display:${principal?.imagen ? "block" : "none"};"></div>
+        </div>
+        <div class="form-group">
+          <label for="novedadEtiqueta">Etiqueta</label>
+          <select id="novedadEtiqueta">
+            <option value="">Seleccionar etiqueta...</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="novedadTitulo">Título</label>
+          <input type="text" id="novedadTitulo" value="${principal?.titulo || ""}" placeholder="Título de la novedad">
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="novedadDescripcion">Descripción</label>
+          <textarea id="novedadDescripcion" rows="4" placeholder="Descripción breve">${principal?.descripcion || ""}</textarea>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("modalBody").insertBefore(form, jsonInput);
+
+    if (principal?.imagen) {
+      document.getElementById("novedadImagenPreview").style.backgroundImage = `url('${principal.imagen}')`;
+    }
+
+    const selectEtq = document.getElementById("novedadEtiqueta");
+    currentEtiquetas.forEach((tag) => {
+      const opt = document.createElement("option");
+      opt.value = tag.nombre;
+      opt.textContent = tag.nombre;
+      if (tag.nombre === principal?.etiqueta) opt.selected = true;
+      selectEtq.appendChild(opt);
+    });
+
+    document.getElementById("novedadImagen").addEventListener("input", (e) => {
+      const preview = document.getElementById("novedadImagenPreview");
+      const url = e.target.value.trim();
+      preview.style.backgroundImage = url ? `url('${url}')` : "none";
+      preview.style.display = url ? "block" : "none";
+    });
+
+    jsonError.style.display = "none";
+    addModal.classList.add("active");
+  }
+
+  function openNovedadSecundariaModal(secundaria = null, index = null) {
+    editingNovedadType = "secundaria";
+    editingSecundariaId = index;
+    document.getElementById("modalTitle").textContent = secundaria
+      ? `Editar Novedad Secundaria ${index + 1}`
+      : "Añadir Novedad Secundaria";
+
+    jsonInput.style.display = "none";
+    const existing = document.getElementById("novedadFormContainer");
+    if (existing) existing.remove();
+
+    const form = document.createElement("div");
+    form.id = "novedadFormContainer";
+    form.className = "form-container";
+    form.innerHTML = `
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="novedadImagen">Imagen (URL)</label>
+          <input type="text" id="novedadImagen" value="${secundaria?.imagen || ""}" placeholder="./fotos/Novedades/ejemplo.jpg">
+          <div id="novedadImagenPreview" style="margin-top:10px;width:150px;height:100px;border-radius:6px;background-size:cover;background-position:center;border:2px solid #ddd;display:${secundaria?.imagen ? "block" : "none"};"></div>
+        </div>
+        <div class="form-group">
+          <label for="novedadEtiqueta">Etiqueta</label>
+          <select id="novedadEtiqueta">
+            <option value="">Seleccionar etiqueta...</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="novedadTitulo">Título</label>
+          <input type="text" id="novedadTitulo" value="${secundaria?.titulo || ""}" placeholder="Título de la novedad">
+        </div>
+      </div>
+    `;
+
+    document.getElementById("modalBody").insertBefore(form, jsonInput);
+
+    if (secundaria?.imagen) {
+      document.getElementById("novedadImagenPreview").style.backgroundImage = `url('${secundaria.imagen}')`;
+    }
+
+    const selectEtq = document.getElementById("novedadEtiqueta");
+    currentEtiquetas.forEach((tag) => {
+      const opt = document.createElement("option");
+      opt.value = tag.nombre;
+      opt.textContent = tag.nombre;
+      if (tag.nombre === secundaria?.etiqueta) opt.selected = true;
+      selectEtq.appendChild(opt);
+    });
+
+    document.getElementById("novedadImagen").addEventListener("input", (e) => {
+      const preview = document.getElementById("novedadImagenPreview");
+      const url = e.target.value.trim();
+      preview.style.backgroundImage = url ? `url('${url}')` : "none";
+      preview.style.display = url ? "block" : "none";
+    });
+
+    jsonError.style.display = "none";
+    addModal.classList.add("active");
+  }
+
+  function saveNovedadFromModal() {
+    const imagen = document.getElementById("novedadImagen")?.value.trim();
+    const etiqueta = document.getElementById("novedadEtiqueta")?.value.trim();
+    const titulo = document.getElementById("novedadTitulo")?.value.trim();
+    const descripcion = document.getElementById("novedadDescripcion")?.value.trim() || "";
+
+    if (!imagen || !titulo) {
+      jsonError.style.display = "block";
+      jsonError.textContent = "Imagen y título son obligatorios";
+      return;
+    }
+
+    const secundarias = currentData?.secundarias || [];
+
+    if (editingNovedadType === "principal") {
+      const payload = {
+        principal: { imagen, etiqueta, titulo, descripcion },
+        secundarias,
+      };
+      fetch("/api/novedades", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => { if (!res.ok) throw new Error("Error al guardar"); return res.json(); })
+        .then(() => {
+          addModal.classList.remove("active");
+          document.getElementById("novedadFormContainer")?.remove();
+          fetchData("novedades");
+        })
+        .catch((err) => { jsonError.style.display = "block"; jsonError.textContent = err.message; });
+
+    } else if (editingNovedadType === "secundaria") {
+      const item = { imagen, etiqueta, titulo };
+      if (editingSecundariaId !== null) {
+        secundarias[editingSecundariaId] = item;
+      } else {
+        secundarias.push(item);
+      }
+      const payload = {
+        principal: currentData?.principal || {},
+        secundarias,
+      };
+      fetch("/api/novedades", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then((res) => { if (!res.ok) throw new Error("Error al guardar"); return res.json(); })
+        .then(() => {
+          addModal.classList.remove("active");
+          document.getElementById("novedadFormContainer")?.remove();
+          editingNovedadType = null;
+          editingSecundariaId = null;
+          fetchData("novedades");
+        })
+        .catch((err) => { jsonError.style.display = "block"; jsonError.textContent = err.message; });
+    }
+  }
+
+  function deleteSecundaria(index) {
+    if (!confirm("¿Eliminar esta novedad secundaria?")) return;
+    const secundarias = currentData?.secundarias || [];
+    secundarias.splice(index, 1);
+    const payload = {
+      principal: currentData?.principal || {},
+      secundarias,
     };
+    fetch("/api/novedades", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => { if (!res.ok) throw new Error("Error al eliminar"); return res.json(); })
+      .then(() => fetchData("novedades"))
+      .catch((err) => alert("Error: " + err.message));
   }
 
   function showNovedadesEditor(show) {
@@ -1840,35 +1982,7 @@ document.addEventListener("DOMContentLoaded", () => {
     novedadesEditor.classList.toggle("hidden", !show);
     document.getElementById("tableContainer").classList.toggle("hidden", show);
     addNewBtn.style.display = show ? "none" : "inline-flex";
-    if (!show) {
-      if (novedadesJsonError) novedadesJsonError.style.display = "none";
-    }
   }
-
-  function saveNovedades() {
-    const payload = getNovedadesPayload();
-    fetch("/api/novedades", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al guardar novedades");
-        return res.json();
-      })
-      .then(() => {
-        alert("Novedades actualizadas correctamente.");
-        fetchData("novedades");
-      })
-      .catch((err) => {
-        if (novedadesJsonError) {
-          novedadesJsonError.textContent = err.message;
-          novedadesJsonError.style.display = "block";
-        }
-      });
-  }
-
-  saveNovedadesBtn?.addEventListener("click", saveNovedades);
 
   // Cambio de pestaña
   const navLinksItems = document.querySelectorAll(".nav-links li");
@@ -1937,6 +2051,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "carrouselFormContainer",
         "tiendaFormContainer",
         "noticiaFormContainer",
+        "novedadFormContainer",
       ];
       formIds.forEach((id) => {
         const form = document.getElementById(id);
@@ -1958,6 +2073,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "carrouselFormContainer",
         "tiendaFormContainer",
         "noticiaFormContainer",
+        "novedadFormContainer",
       ];
       formIds.forEach((id) => {
         const form = document.getElementById(id);

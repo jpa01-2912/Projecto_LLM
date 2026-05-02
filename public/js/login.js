@@ -20,13 +20,17 @@ form.addEventListener("submit", async function (e) {
 
       localStorage.setItem("loggedUser", JSON.stringify(user));
 
-      // Sincronizar carrito local → BD
       await syncLocalCarritoToBD(user.id);
-
-      // Sincronizar wishlist local → BD
       await syncLocalWishlistToBD(user.id);
 
+      // Si la contraseña no cumple requisitos, redirigir al cambio obligatorio
+      if (user.debe_cambiar_password == 1) {
+        window.location.href = "cambiar-password.html";
+        return;
+      }
+
       window.location.href = "index.html";
+
     } else {
       errorMessage.textContent = "Correo o contraseña incorrectos. Por favor, revisa tus datos.";
     }
@@ -39,35 +43,29 @@ form.addEventListener("submit", async function (e) {
 async function syncLocalCarritoToBD(usuarioId) {
   const localCart = JSON.parse(localStorage.getItem("carrito")) || [];
   if (localCart.length === 0) return;
-
   for (const item of localCart) {
     if (!item.id) continue;
     try {
       await fetch("/api/carrito", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ usuario_id: usuarioId, juego_id: item.id, cantidad: item.cantidad || 1 }),
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario_id: usuarioId, juego_id: item.id, cantidad: item.cantidad || 1 }),
       });
     } catch (err) { console.warn("Error sincronizando carrito:", err); }
   }
-
   localStorage.removeItem("carrito");
 }
 
 async function syncLocalWishlistToBD(usuarioId) {
   const localWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
   if (localWishlist.length === 0) return;
-
   for (const item of localWishlist) {
     if (!item.id) continue;
     try {
       await fetch("/api/favoritos", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ usuario_id: usuarioId, juego_id: item.id }),
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario_id: usuarioId, juego_id: item.id }),
       });
     } catch (err) { console.warn("Error sincronizando wishlist:", err); }
   }
-
   localStorage.removeItem("wishlist");
 }

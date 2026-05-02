@@ -161,78 +161,7 @@
           </div>
         </div>
 
-        <div class="card-container hidden" id="novedadesEditor">
-          <div class="table-wrapper novedades-editor-wrapper">
-            <div class="editor-header">
-              <h2>Editor de Novedades</h2>
-              <p>
-                Controla la noticia principal y las tarjetas de novedades que se
-                muestran en la portada.
-              </p>
-            </div>
-            <div class="novedades-editor-sections">
-              <section class="novedades-section">
-                <div class="section-header">
-                  <h3>Principal</h3>
-                </div>
-                <div class="field-grid">
-                  <div class="field-group">
-                    <label for="principalImagen"
-                      >Ruta de imagen principal</label
-                    >
-                    <input
-                      id="principalImagen"
-                      type="text"
-                      placeholder="localhost:3000/fotos/ejemplo.jpg o ./fotos/ejemplo.jpg"
-                    />
-                  </div>
-                  <div class="field-group">
-                    <label for="principalEtiqueta">Tipo de Sección</label>
-                    <input
-                      id="principalEtiqueta"
-                      type="text"
-                      placeholder="Ej. Noticias, Destacados..."
-                    />
-                  </div>
-                  <div class="field-group">
-                    <label for="principalTitulo">Título</label>
-                    <input
-                      id="principalTitulo"
-                      type="text"
-                      placeholder="Pregunta al desarrollador, volumen 21..."
-                    />
-                  </div>
-                  <div class="field-group">
-                    <label for="principalDescripcion"
-                      >Subtítulo (Descripción)</label
-                    >
-                    <textarea
-                      id="principalDescripcion"
-                      rows="4"
-                      placeholder="Subtítulo o descripción breve de la noticia principal"
-                    ></textarea>
-                  </div>
-                </div>
-              </section>
-
-              <section class="novedades-section">
-                <div class="section-header">
-                  <h3>4 tarjetas debajo de la principal</h3>
-                </div>
-                <div id="secundariasList"></div>
-              </section>
-            </div>
-
-            <div class="editor-actions">
-              <button class="primary-btn" id="saveNovedadesBtn">
-                <i class="fa-solid fa-save"></i> Guardar Novedades
-              </button>
-            </div>
-            <span class="error-msg" id="novedadesJsonError"
-              >JSON no válido.</span
-            >
-          </div>
-        </div>
+        <div class="card-container hidden" id="novedadesEditor"></div>
       </main>
     </div>
 

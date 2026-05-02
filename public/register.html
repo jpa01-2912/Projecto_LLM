@@ -21,6 +21,37 @@
       <input type="email" id="email" placeholder="Correo electrónico" required data-i18n="email_placeholder">
 
       <input type="password" id="password" placeholder="Contraseña" required data-i18n="password_placeholder">
+      <!-- Añadir esto justo DESPUÉS del input de password en register.html -->
+
+      <!-- Botón mostrar/ocultar contraseña -->
+      <button type="button" id="toggle-password" style="
+        background: none; border: none; cursor: pointer;
+        font-size: 18px; margin-top: -5px; align-self: flex-end;
+      ">👁</button>
+
+      <!-- Barra de fortaleza -->
+      <div style="margin-top: 8px;">
+        <div style="height: 5px; background: #eee; border-radius: 3px; overflow: hidden;">
+          <div id="pwd-strength-fill" style="height: 100%; width: 0; border-radius: 3px; transition: width .3s, background .3s;"></div>
+        </div>
+        <span id="pwd-strength-label" style="font-size: 11px; font-weight: 600;"></span>
+      </div>
+
+      <!-- Lista de requisitos -->
+      <ul id="pwd-rules" style="list-style: none; padding: 0; margin: 10px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+        <li id="r-len"     class="pwd-rule">● Mínimo 8 caracteres</li>
+        <li id="r-upper"   class="pwd-rule">● Una mayúscula</li>
+        <li id="r-lower"   class="pwd-rule">● Una minúscula</li>
+        <li id="r-num"     class="pwd-rule">● Un número</li>
+        <li id="r-nospace" class="pwd-rule">● Sin espacios</li>
+      </ul>
+
+      <!-- Estilos para las reglas (añadir en register.css o dentro de style) -->
+      <style>
+        .pwd-rule      { font-size: 12px; color: #999; transition: color .2s; }
+        .pwd-rule.ok   { color: #16a34a; }
+        .pwd-rule.fail { color: #e60012; }
+      </style>
 
       <button type="submit" data-i18n="btn_register">Crear cuenta</button>
 

@@ -1,53 +1,123 @@
+// ===========================
+// REGISTRO - Con validación por Expresiones Regulares
+// ===========================
+
 const registerForm = document.getElementById("register-form");
 const error = document.getElementById("register-error");
+const passwordInput = document.getElementById("password");
 
-registerForm.addEventListener("submit", async function(e){
+// ============================================================
+// EXPRESIONES REGULARES DE VALIDACIÓN
+// ============================================================
+const passwordRules = {
+  len:     { re: /.{8,}/,          label: "r-len",     text: "Mínimo 8 caracteres" },
+  upper:   { re: /[A-Z]/,          label: "r-upper",   text: "Una mayúscula" },
+  lower:   { re: /[a-z]/,          label: "r-lower",   text: "Una minúscula" },
+  num:     { re: /[0-9]/,          label: "r-num",     text: "Un número" },
+  nospace: { re: /^\S+$/,          label: "r-nospace", text: "Sin espacios" },
+};
 
-e.preventDefault();
+// Función principal de validación — devuelve true si cumple TODAS las reglas
+function validarPassword(pwd) {
+  return Object.values(passwordRules).every(rule => rule.re.test(pwd));
+}
 
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+// ============================================================
+// INDICADOR VISUAL EN TIEMPO REAL
+// ============================================================
+passwordInput?.addEventListener("input", () => {
+  const val = passwordInput.value;
+  let passed = 0;
 
-try {
-  // Pedir lista actual para checkear duplicados
-  const res = await fetch("/api/usuarios");
-  const users = await res.json();
-  
-  const existingUser = users.find(u => u.email === email);
+  Object.values(passwordRules).forEach(rule => {
+    const li = document.getElementById(rule.label);
+    if (!li) return;
+    const ok = val.length > 0 && rule.re.test(val);
+    li.className = val.length === 0 ? "pwd-rule" : ok ? "pwd-rule ok" : "pwd-rule fail";
+    if (ok) passed++;
+  });
 
-  if(existingUser){
-    error.textContent = "Este correo ya está registrado en la base de datos";
+  // Barra de fortaleza
+  const fill = document.getElementById("pwd-strength-fill");
+  const label = document.getElementById("pwd-strength-label");
+  if (!fill || !label) return;
+
+  const pct = val.length === 0 ? 0 : Math.round((passed / Object.keys(passwordRules).length) * 100);
+  fill.style.width = pct + "%";
+
+  if (pct === 0)      { fill.style.background = "transparent"; label.textContent = ""; }
+  else if (pct <= 40) { fill.style.background = "#e60012"; label.textContent = "Débil"; label.style.color = "#e60012"; }
+  else if (pct <= 70) { fill.style.background = "#f59e0b"; label.textContent = "Moderada"; label.style.color = "#f59e0b"; }
+  else if (pct < 100) { fill.style.background = "#3b82f6"; label.textContent = "Buena"; label.style.color = "#3b82f6"; }
+  else                { fill.style.background = "#16a34a"; label.textContent = "Fuerte ✓"; label.style.color = "#16a34a"; }
+});
+
+// Toggle mostrar/ocultar contraseña
+document.getElementById("toggle-password")?.addEventListener("click", () => {
+  const type = passwordInput.type === "password" ? "text" : "password";
+  passwordInput.type = type;
+  const icon = document.getElementById("toggle-password");
+  icon.textContent = type === "password" ? "👁" : "🙈";
+});
+
+// ============================================================
+// SUBMIT DEL FORMULARIO
+// ============================================================
+registerForm.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const email    = document.getElementById("email").value.trim();
+  const password = passwordInput.value;
+
+  // Validar email con ER
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRe.test(email)) {
+    error.textContent = "El formato del email no es válido.";
     return;
   }
 
-  // Generar nombre chulo para la BD a partir del email
-  let baseName = email.split("@")[0];
-  let displayName = baseName.charAt(0).toUpperCase() + baseName.slice(1);
+  // Validar contraseña con ER
+  if (!validarPassword(password)) {
+    error.textContent = "La contraseña no cumple todos los requisitos.";
+    return;
+  }
 
-  const newUser = {
-    id: Date.now(), // ID dinámico
-    nombre: displayName,
-    email: email,
-    password: password, // Guardamos contraseña permanentemente en la DB Backend
-    rol: "user",
-    estado: "activo",
-    fecha_registro: new Date().toISOString().split('T')[0],
-    avatar: `https://ui-avatars.com/api/?name=${displayName.charAt(0)}&background=random&color=fff`
-  };
+  try {
+    // Comprobar si el email ya está registrado
+    const res   = await fetch("/api/usuarios");
+    const users = await res.json();
 
-  // Enviar a la base JSON principal usando la API del servidor local
-  await fetch("/api/usuarios", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newUser)
-  });
+    const existingUser = users.find(u => u.email === email);
+    if (existingUser) {
+      error.textContent = "Este correo ya está registrado en la base de datos.";
+      return;
+    }
 
-  alert("¡Cuenta creada y almacenada en la base de datos correctamente!");
-  window.location.href = "login.html";
+    // Generar nombre a partir del email
+    const baseName    = email.split("@")[0];
+    const displayName = baseName.charAt(0).toUpperCase() + baseName.slice(1);
 
-} catch (err) {
-  console.error(err);
-  error.textContent = "Error de conexión con el servidor. Revisa tu backend.";
-}
+    const newUser = {
+      nombre:          displayName,
+      email:           email,
+      password:        password,
+      rol:             "user",
+      estado:          "activo",
+      fecha_registro:  new Date().toISOString().split("T")[0],
+      avatar:          `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName.charAt(0))}&background=E60012&color=fff`,
+    };
 
+    await fetch("/api/usuarios", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(newUser),
+    });
+
+    alert("¡Cuenta creada correctamente!");
+    window.location.href = "login.html";
+
+  } catch (err) {
+    console.error(err);
+    error.textContent = "Error de conexión con el servidor. Revisa tu backend.";
+  }
 });
