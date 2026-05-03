@@ -108,6 +108,17 @@ try {
         // USUARIOS
         // ============================================================
         case 'usuarios':
+            // Función auxiliar para validar contraseñas según reglas establecidas
+            $validarPasswordER = function($pwd) {
+                if (empty($pwd)) return false;
+                $hasLen    = strlen($pwd) >= 8;
+                $hasUpper  = preg_match('/[A-Z]/', $pwd);
+                $hasLower  = preg_match('/[a-z]/', $pwd);
+                $hasNumber = preg_match('/[0-9]/', $pwd);
+                $noSpace   = !preg_match('/\s/', $pwd);
+                return $hasLen && $hasUpper && $hasLower && $hasNumber && $noSpace;
+            };
+
             if ($method === 'GET') {
                 $stmt = $pdo->query('SELECT * FROM usuarios ORDER BY id');
                 sendResponse($stmt->fetchAll());
@@ -121,9 +132,11 @@ try {
                 $fechaRegistro = $input['fecha_registro'] ?? date('Y-m-d');
                 $avatar        = $input['avatar']         ?? '';
 
-                $stmt = $pdo->prepare('INSERT INTO usuarios (nombre, email, password, rol, estado, fecha_registro, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)');
-                $stmt->execute([$nombre, $email, $password, $rol, $estado, $fechaRegistro, $avatar]);
-                sendResponse(['id' => $pdo->lastInsertId(), 'message' => 'Usuario creado'], 201);
+                $debeCambiar = $validarPasswordER($password) ? 0 : 1;
+
+                $stmt = $pdo->prepare('INSERT INTO usuarios (nombre, email, password, rol, estado, fecha_registro, avatar, debe_cambiar_password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+                $stmt->execute([$nombre, $email, $password, $rol, $estado, $fechaRegistro, $avatar, $debeCambiar]);
+                sendResponse(['id' => $pdo->lastInsertId(), 'message' => 'Usuario creado', 'debe_cambiar' => $debeCambiar], 201);
 
             } elseif ($method === 'PUT' && $id) {
                 $nombre        = $input['nombre']         ?? '';
@@ -134,8 +147,22 @@ try {
                 $fechaRegistro = $input['fecha_registro'] ?? date('Y-m-d');
                 $avatar        = $input['avatar']         ?? '';
 
-                $stmt = $pdo->prepare('UPDATE usuarios SET nombre=?, email=?, password=?, rol=?, estado=?, fecha_registro=?, avatar=? WHERE id=?');
-                $stmt->execute([$nombre, $email, $password, $rol, $estado, $fechaRegistro, $avatar, $id]);
+                // Construcción de la consulta
+                $sql = 'UPDATE usuarios SET nombre=?, email=?, password=?, rol=?, estado=?, fecha_registro=?, avatar=?';
+                $params = [$nombre, $email, $password, $rol, $estado, $fechaRegistro, $avatar];
+
+                // Solo validamos y cambiamos el estado si se ha enviado una contraseña no vacía
+                if (!empty($password)) {
+                    $debeCambiar = $validarPasswordER($password) ? 0 : 1;
+                    $sql .= ', debe_cambiar_password = ?';
+                    $params[] = $debeCambiar;
+                }
+
+                $sql .= ' WHERE id = ?';
+                $params[] = $id;
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($params);
                 sendResponse(['message' => 'Usuario actualizado']);
 
             } elseif ($method === 'DELETE' && $id) {
@@ -310,7 +337,7 @@ try {
         case 'myNintendoStore':
             if ($method === 'GET') {
                 // Alias nombre → aplicacion para compatibilidad con el frontend existente
-                $stmt = $pdo->query('SELECT id, nombre, descripcion, imagen FROM mynintendostore');
+                $stmt = $pdo->query('SELECT id, nombre, nombre AS aplicacion, descripcion, imagen FROM mynintendostore');
                 sendResponse($stmt->fetchAll());
 
             } elseif ($method === 'POST') {

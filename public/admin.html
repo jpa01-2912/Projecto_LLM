@@ -189,6 +189,30 @@
       </div>
     </div>
 
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal-card" style="max-width: 450px;">
+        <div class="modal-header">
+          <h2 id="deleteModalTitle">Confirmar eliminación</h2>
+        </div>
+        <div class="modal-body" style="padding: 30px; text-align: center;">
+          <div class="delete-icon-wrapper" style="margin-bottom: 20px;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 48px; color: #e60012;"></i>
+          </div>
+          <p id="deleteModalMessage" style="font-size: 1.1rem; color: #222; font-weight: 600; line-height: 1.5;">
+            ¿Estás seguro de que quieres eliminar este elemento?
+          </p>
+          <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">
+            Esta acción es irreversible y los datos se perderán para siempre.
+          </p>
+        </div>
+        <div class="modal-footer" style="background-color: #f8fafc;">
+          <button class="secondary-btn" id="cancelDeleteBtn">Cancelar</button>
+          <button class="primary-btn" id="confirmDeleteBtn" style="background-color: #e60012;">
+            <i class="fa-solid fa-trash" style="margin-right: 8px;"></i> Eliminar permanentemente
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="./js/admin.js"></script>
   </body>
 </html>

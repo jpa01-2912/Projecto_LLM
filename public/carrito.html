@@ -121,12 +121,24 @@
                 <span>Impuestos (21%)</span>
                 <span id="taxes-price">0.00€</span>
               </div>
+              <div class="summary-line discount-line" id="discount-row" style="display: none;">
+                <span id="discount-label">Descuento</span>
+                <span id="discount-price">-0.00€</span>
+              </div>
               <div class="summary-line total-line">
                 <span>Total</span>
                 <span id="total-price">0.00€</span>
               </div>
-            </div>
+            </div> <!-- Cierre de summary-details -->
 
+            <div class="coupon-section">
+              <div class="coupon-input-group">
+                <input type="text" id="coupon-code" placeholder="¿Tienes un código?">
+                <button id="btn-apply-coupon">Aplicar</button>
+              </div>
+              <div id="coupon-message" class="coupon-message"></div>
+            </div>
+            
             <button class="checkout-btn" id="btn-checkout">
               <i class="fa-solid fa-lock" style="margin-right: 8px;"></i>
               Continuar a la caja
@@ -134,11 +146,11 @@
             <div class="secure-checkout">
               <i class="fa-solid fa-shield-halved"></i> Compra segura garantizada
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </div> <!-- Cierre de cart-summary -->
+        </div> <!-- Cierre de cart-layout -->
+      </div> <!-- Cierre de cart-content -->
+    </div> <!-- Cierre de main -->
+  </div> <!-- Cierre de contenedor-flex -->
 
   <!-- FOOTER -->
   <footer>

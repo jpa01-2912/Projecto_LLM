@@ -1002,3 +1002,27 @@ textarea:focus {
   background-color: #dbeafe;
   color: #2563eb;
 }
+
+/* Estilos para campos en línea (Checkboxes) */
+.form-group-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.form-group-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.form-group-row label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  margin: 0;
+}

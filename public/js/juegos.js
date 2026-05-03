@@ -105,11 +105,9 @@ function renderPage() {
     card.classList.add("catalogo-card");
 
     card.innerHTML = `
-      ${(game.es_nueva_consola == 1 || game.esNuevaConsola == 1) ? `
-        <div class="catalogo-badge">
-          <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
-        </div>
-      ` : ""}
+      <div class="catalogo-badge">
+        <img src="${(game.es_nueva_consola == 1 || game.es_nueva_consola == "1" || game.esNuevaConsola == 1) ? "./fotos/logos/nintendo-2.png" : "./fotos/logos/nintendo-switch.png"}" alt="Consola">
+      </div>
       <div class="catalogo-card-imagen">
         <img src="${game.imagen || "./fotos/placeholder.jpg"}" alt="${game.titulo}">
       </div>

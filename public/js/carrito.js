@@ -10,10 +10,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   const btnCheckout  = document.getElementById("btn-checkout");
   const countLabel   = document.getElementById("cart-count-label");
 
+  // Selectores para Cupones
+  const couponInput   = document.getElementById("coupon-code");
+  const btnApply      = document.getElementById("btn-apply-coupon");
+  const couponMsg     = document.getElementById("coupon-message");
+  const discountRow   = document.getElementById("discount-row");
+  const discountPrice = document.getElementById("discount-price");
+  const discountLabel = document.getElementById("discount-label");
+
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser")) || null;
   let cart = [];
+  let appliedCoupon = null;
 
-  // ========== CARGAR CARRITO ==========
   if (loggedUser) {
     try {
       const res = await fetch(`/api/carrito?usuario_id=${loggedUser.id}`);
@@ -26,6 +34,36 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderCart();
+  // ========== CUPONES ==========
+  btnApply.addEventListener("click", () => {
+    const code = couponInput.value.trim().toLowerCase();
+    
+    if (!code) {
+      appliedCoupon = null;
+      couponMsg.className = "coupon-message";
+      couponMsg.style.display = "none";
+      renderCart();
+      return;
+    }
+
+    if (code === "codigokonami") {
+      appliedCoupon = "codigokonami";
+      showCouponMessage("¡Código KONAMI aplicado! 50% de descuento en el total.", "success");
+    } else if (code === "retro") {
+      appliedCoupon = "retro";
+      showCouponMessage("¡Código RETRO aplicado! 50% en juegos de Nintendo Switch 1.", "success");
+    } else {
+      appliedCoupon = null;
+      showCouponMessage("Código no válido", "error");
+    }
+
+    renderCart();
+  });
+
+  function showCouponMessage(text, type) {
+    couponMsg.textContent = text;
+    couponMsg.className = `coupon-message ${type}`;
+  }
 
   // ========== RENDERIZAR ==========
   function renderCart() {
@@ -107,12 +145,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ========== RESUMEN ==========
   function updateSummary(subtotal) {
+    let discount = 0;
+
+    if (appliedCoupon === "codigokonami") {
+      discount = subtotal * 0.5;
+    } else if (appliedCoupon === "retro") {
+      cart.forEach(item => {
+        const esNueva = item.esNuevaConsola || item.es_nueva_consola;
+        if (!esNueva || esNueva == 0) {
+          discount += (parseFloat(item.precio) * (item.cantidad || 1)) * 0.5;
+        }
+      });
+    }
+
     const taxRate = 0.21;
-    const taxes   = subtotal * taxRate;
-    const total   = subtotal + taxes;
+    const taxes   = (subtotal - discount) * taxRate;
+    const total   = (subtotal - discount) + taxes;
+
     subtotalElem.textContent = subtotal.toFixed(2) + "€";
     taxesElem.textContent    = taxes.toFixed(2)    + "€";
     totalElem.textContent    = total.toFixed(2)    + "€";
+
+    if (discount > 0) {
+      discountRow.style.display = "flex";
+      discountPrice.textContent = `-${discount.toFixed(2)}€`;
+      discountLabel.textContent = `Descuento (${appliedCoupon === "codigokonami" ? "50%" : "Retro"})`;
+    } else {
+      discountRow.style.display = "none";
+    }
   }
 
   // ========== FINALIZAR COMPRA ==========

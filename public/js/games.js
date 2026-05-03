@@ -115,11 +115,9 @@ export async function initGames() {
 
         return `
           <div class="juego-card">
-            ${esNueva ? `
-              <div class="badge-consola">
-                <img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola">
-              </div>
-            ` : ""}
+            <div class="badge-consola">
+              <img src="${esNueva ? "./fotos/logos/nintendo-2.png" : "./fotos/logos/nintendo-switch.png"}" alt="Consola">
+            </div>
             <div class="juego-imagen">
               <img src="${normalizeAssetPath(juego.imagen)}" alt="${titulo}">
             </div>

@@ -402,3 +402,71 @@
     align-items: center;
   }
 }
+
+/* ====== SECCIÓN DE CUPONES ====== */
+.coupon-section {
+  margin-top: 10px;
+  margin-bottom: 24px;
+  padding: 18px;
+  background-color: #f8fafc;
+  border-radius: 14px;
+  border: 1.5px dashed #cbd5e1;
+}
+
+.coupon-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.coupon-input-group input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.coupon-input-group input:focus {
+  border-color: var(--rojo-nintendo);
+}
+
+.coupon-input-group button {
+  background-color: #1a1a2e;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.coupon-input-group button:hover {
+  background-color: #0f172a;
+  transform: translateY(-1px);
+}
+
+.coupon-message {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  display: none;
+}
+
+.coupon-message.success {
+  display: block;
+  color: #16a34a;
+}
+
+.coupon-message.error {
+  display: block;
+  color: #dc2626;
+}
+
+.discount-line {
+  color: #16a34a !important;
+  font-weight: 700;
+}

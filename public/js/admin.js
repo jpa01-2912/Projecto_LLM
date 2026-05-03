@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btnDelete.style.padding = "5px 10px";
       btnDelete.style.fontSize = "12px";
       btnDelete.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar';
-      btnDelete.onclick = () => deleteUsuario(usuario.id);
+      btnDelete.onclick = () => deleteItem(usuario.id, false);
 
       tdAcciones.appendChild(btnEdit);
       tdAcciones.appendChild(btnDelete);
@@ -420,17 +420,6 @@ document.addEventListener("DOMContentLoaded", () => {
     addModal.classList.add("active");
   }
 
-  function deleteUsuario(usuarioId) {
-    if (!confirm("¿Eliminar este usuario permanentemente?")) return;
-
-    fetch(`/api/usuarios/${usuarioId}`, { method: "DELETE" })
-      .then((res) => res.json())
-      .then(() => {
-        alert("Usuario eliminado correctamente");
-        fetchData("usuarios");
-      })
-      .catch((err) => alert("Error al eliminar: " + err.message));
-  }
 
   // ============================================================
   // PANEL DE JUEGOS
@@ -568,8 +557,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <input type="text" id="juegoImagen" value="${juego?.imagen || ""}" placeholder="https://ejemplo.com/imagen.jpg">
           <div id="juegoImagenPreview" style="margin-top: 10px; width: 100px; height: 150px; border-radius: 6px; background-size: cover; background-position: center; border: 2px solid #ddd; display: ${juego?.imagen ? "block" : "none"};"></div>
         </div>
-        <div class="form-group" style="grid-column: 1 / -1;">
-          <label><input type="checkbox" id="juegoNuevaConsola" ${juego?.esNuevaConsola ? "checked" : ""}> Es nueva consola</label>
+        <div class="form-group-row" style="grid-column: 1 / -1;">
+          <input type="checkbox" id="juegoNuevaConsola" ${juego?.esNuevaConsola ? "checked" : ""}>
+          <label for="juegoNuevaConsola">Es nueva consola</label>
         </div>
       </div>
     `;
@@ -1283,21 +1273,61 @@ document.addEventListener("DOMContentLoaded", () => {
     addModal.classList.add("active");
   }
 
-  function deleteItem(idOrIndex, isNovedades) {
-    if (!confirm("¿Eliminar permanentemente?")) return;
-    const api = apiMap[currentEndpoint];
-    if (!api) return;
+  // --- MODAL DE ELIMINACIÓN ---
+  const deleteModal = document.getElementById("deleteModal");
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+  const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+  
+  let itemToDeleteId = null;
+  let isDeletingNovedades = false;
 
-    let url = `${api.url}/${idOrIndex}`;
+  function deleteItem(idOrIndex, isNovedades) {
     if (isNovedades) {
       alert("Para eliminar una novedad secundaria, usa el editor del panel.");
       return;
     }
+    
+    itemToDeleteId = idOrIndex;
+    isDeletingNovedades = isNovedades;
+    
+    // Personalizar mensaje si es necesario
+    const deleteMsg = document.getElementById("deleteModalMessage");
+    if (currentEndpoint === "usuarios") {
+      deleteMsg.textContent = "¿Estás seguro de que deseas eliminar este usuario?";
+    } else {
+      deleteMsg.textContent = "¿Estás seguro de que deseas eliminar este elemento?";
+    }
+
+    deleteModal.classList.add("active");
+  }
+
+  confirmDeleteBtn.addEventListener("click", () => {
+    if (itemToDeleteId === null) return;
+    
+    const api = apiMap[currentEndpoint];
+    if (!api) return;
+
+    let url = `${api.url}/${itemToDeleteId}`;
+    
     fetch(url, { method: "DELETE" })
       .then((res) => res.json())
-      .then(() => fetchData(currentEndpoint))
+      .then(() => {
+        deleteModal.classList.remove("active");
+        itemToDeleteId = null;
+        fetchData(currentEndpoint);
+      })
       .catch((err) => alert("Error al eliminar: " + err.message));
-  }
+  });
+
+  const closeDeleteModal = () => {
+    deleteModal.classList.remove("active");
+    itemToDeleteId = null;
+  };
+
+  cancelDeleteBtn.addEventListener("click", closeDeleteModal);
+  deleteModal.addEventListener("click", (e) => {
+    if (e.target === deleteModal) closeDeleteModal();
+  });
 
   addNewBtn.addEventListener("click", () => {
     if (currentEndpoint === "usuarios") {
