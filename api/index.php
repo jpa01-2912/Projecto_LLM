@@ -41,8 +41,6 @@ function sendError(string $message, int $statusCode = 500): void
     exit;
 }
 
-loadEnv(__DIR__ . '/../.env');
-
 $allowedOrigins = array_values(array_filter([
     'http://localhost',
     'http://127.0.0.1',
@@ -103,7 +101,6 @@ $input    = json_decode(file_get_contents('php://input'), true) ?? [];
 
 try {
     switch ($resource) {
-
         // ============================================================
         // USUARIOS
         // ============================================================
