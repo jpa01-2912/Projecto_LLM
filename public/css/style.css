@@ -53,13 +53,13 @@ body {
 }
 
 .action {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   cursor: pointer;
 }
 
 .action a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-size: 10px;
   margin: 0;
   font-weight: bold;
@@ -67,11 +67,12 @@ body {
   text-decoration: none;
 }
 
-.action:hover a {
+.action:hover a span {
   text-decoration: underline;
 }
 
-.action i {
+.action i,
+.action a i {
   font-size: 28px;
   display: block;
   margin-bottom: 8px;

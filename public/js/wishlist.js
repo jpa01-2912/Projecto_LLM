@@ -44,7 +44,9 @@ function renderWishlist() {
     const card = document.createElement("div");
     card.classList.add("catalogo-card");
     card.innerHTML = `
-      ${esNueva ? `<div class="catalogo-badge"><img src="./fotos/logos/nintendo-2.png" alt="Nueva Consola"></div>` : ""}
+      <div class="catalogo-badge">
+        <img src="${esNueva ? "./fotos/logos/nintendo-2.png" : "./fotos/logos/nintendo-switch.png"}" alt="Consola">
+      </div>
       <div class="catalogo-card-imagen">
         <img src="${item.imagen || "./fotos/placeholder.jpg"}" alt="${titulo}">
       </div>

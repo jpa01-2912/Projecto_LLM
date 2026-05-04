@@ -48,8 +48,10 @@ function actualizarAuthAction() {
         adminLinkAction.id = "admin-link-action";
         adminLinkAction.dataset.requiresServerRoleCheck = "true";
         adminLinkAction.innerHTML = `
-           <i class="fa-solid fa-shield-halved"></i>
-          <a href="admin.html">Admin</a>
+          <a href="admin.html">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Admin</span>
+          </a>
         `;
         topActions.insertBefore(adminLinkAction, authAction);
       }
@@ -59,13 +61,17 @@ function actualizarAuthAction() {
 
     if (user.avatar && user.avatar.trim() !== "") {
       authAction.innerHTML = `
-        <img src="${user.avatar}" alt="Avatar" class="topbar-avatar">
-        <a href="count.html">Mi cuenta</a>
+        <a href="count.html">
+          <img src="${user.avatar}" alt="Avatar" class="topbar-avatar">
+          <span>Mi cuenta</span>
+        </a>
       `;
     } else {
       authAction.innerHTML = `
-        <i class="fa-solid fa-circle-user"></i>
-        <a href="count.html">Mi cuenta</a>
+        <a href="count.html">
+          <i class="fa-solid fa-circle-user"></i>
+          <span>Mi cuenta</span>
+        </a>
       `;
     }
   } else {
@@ -77,8 +83,10 @@ function actualizarAuthAction() {
 
 function mostrarLoginLink(container) {
   container.innerHTML = `
-    <i class="fa-solid fa-user"></i>
-    <a href="login.html">Iniciar sesion</a>
+    <a href="login.html">
+      <i class="fa-solid fa-user"></i>
+      <span>Iniciar sesion</span>
+    </a>
   `;
 }
 
