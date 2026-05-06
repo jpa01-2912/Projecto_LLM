@@ -16,8 +16,8 @@ Aplicación web completa con **frontend, backend y base de datos** que simula el
 
 ### Requisitos previos
 
-- **PHP 8.0+** (con extensión PDO y PDO_MySQL)
-- **MySQL** o **MariaDB** (se recomienda XAMPP / WAMP / MAMP)
+- **PHP** (con extensión PDO y PDO_MySQL)
+- **MySQL** (se recomienda XAMPP)
 - Navegador web moderno
 
 ### 1. Clonar el repositorio
@@ -39,20 +39,7 @@ SQL_Imports/tienda.sql
 
 > 💡 En `SQL_Imports/` también encontrarás snapshots de la BD de fechas anteriores por si necesitas una versión específica.
 
-### 3. Configurar la conexión a la base de datos
-
-La API lee las credenciales desde un archivo `.env` en la raíz del proyecto. Créalo copiando el siguiente contenido y ajustando tus datos:
-
-```env
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_NAME=tienda
-DB_USER=root
-DB_PASS=
-APP_ALLOWED_ORIGIN=http://localhost:3000
-```
-
-### 4. Arrancar el servidor
+### 3. Arrancar el servidor
 
 Abre una terminal en la **raíz del proyecto** y ejecuta:
 
@@ -60,7 +47,7 @@ Abre una terminal en la **raíz del proyecto** y ejecuta:
 php -S localhost:3000 router.php
 ```
 
-### 5. Abrir en el navegador
+### 4. Abrir en el navegador
 
 ```
 http://localhost:3000
