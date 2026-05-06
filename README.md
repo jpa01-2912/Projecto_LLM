@@ -222,9 +222,9 @@ Puedes probarlos en la página del carrito:
 
 | Capa | Tecnologías |
 |---|---|
-| **Frontend** | HTML5, CSS3, JavaScript ES6+, Fetch API, localStorage |
-| **Backend** | PHP 8+, PDO |
-| **Base de datos** | MySQL / MariaDB |
+| **Frontend** | HTML5, CSS, JavaScript, Fetch API, localStorage |
+| **Backend** | PHP, PDO |
+| **Base de datos** | MySQL |
 | **Arquitectura** | API RESTful, CORS, i18n custom |
 | **Herramientas** | Git, phpMyAdmin, VS Code, XAMPP |
 
